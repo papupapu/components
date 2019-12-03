@@ -76,7 +76,7 @@ const Gallery = ({
           h: galleryMainElement.current.offsetHeight,
         });
       }
-    }, [usableSize, moveState, loop],
+    }, [usableSize],
   );
 
   const {

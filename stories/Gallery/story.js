@@ -41,10 +41,12 @@ export const main = () => {
     <>
       <dl style={{ marginTop: '400px' }}>
         <dt>TODO</dt>
-        <dt>- responsive</dt>
-        <dt>- initial current prop</dt>
-        <dt>- start commenting the code</dt>
-        <dt>- different media support </dt>
+        <dd>- responsive layout</dd>
+        <dd>- initial current prop</dd>
+        <dd>- start commenting the code</dd>
+        <dd>- solve drag glitches</dd>
+        <dd>- panels lazyloading</dd>
+        <dd>- different media support</dd>
       </dl>
       <Gallery
         ui={ui}
