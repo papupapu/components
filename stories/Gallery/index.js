@@ -190,19 +190,21 @@ const Gallery = ({
       {
         hasButtons && (
           <Button
-            action={prevSlide}
-            text="Prev"
+            action={prevSlide}            
             cssClass={makeCls([classes[`${mainCls}${sliderCls}${buttonCls}`], 'prev'])}
-          />
+          >
+            Prev
+          </Button>
         )
       }
       {
         hasButtons && (
           <Button
             action={nextSlide}
-            text="Next"
             cssClass={makeCls([classes[`${mainCls}${sliderCls}${buttonCls}`], 'next'])}
-          />
+          >
+            Next
+          </Button>
         )
       }
     </div>

@@ -12,25 +12,29 @@ const useStyles = createUseStyles(styles);
 const propTypes = {
   type: PropTypes.string,
   action: PropTypes.func,
-  text: PropTypes.string,
   cssClass: PropTypes.string,
   styleObj: PropTypes.instanceOf(Object),
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func,
+  ]),  
 };
 
 const defaultProps = {
   type: 'button',
   action: () => {},
-  text: '',
   cssClass: '',
   styleObj: {},
+  children: '',
 };
 
 const Button = ({
   type,
   action,
-  text,
   cssClass,
   styleObj,
+  children,
 }) => {
   const classes = useStyles();
   const cls = makeCls([classes[mainCls], cssClass]);
@@ -43,7 +47,7 @@ const Button = ({
       style={style}
       onClick={action}
     >
-      {text}
+      {children}
     </button>
   );
 };
