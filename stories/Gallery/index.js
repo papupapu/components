@@ -209,18 +209,15 @@ const Gallery = ({
       const dir = deltaX > 0 ? 'prev' : 'next';
       const newCoords = deltaX + ((width * moveState.current) * -1);
       if (
-        !loop
-        && dir === 'prev'
-        && moveState.current === 0
-      ) {
-        setMoveState({
-          ...moveState,
-          ...{ dir: '' },
-        });
-      } else if (
-        !loop
-        && dir === 'next'
-        && moveState.current === sliderContents.length - 1
+        (
+          !loop
+          && dir === 'prev'
+          && moveState.current === 0
+        ) || (
+          !loop
+          && dir === 'next'
+          && moveState.current === sliderContents.length - 1
+        )
       ) {
         setMoveState({
           ...moveState,
