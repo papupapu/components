@@ -75,6 +75,12 @@ const Gallery = ({
     }, [usableSize, moveState, loop],
   );
 
+  useEffect(
+    () => {
+      console.log(ui.viewport);
+    }, [ui],
+  );
+
   const {
     width,
     height,
@@ -93,7 +99,7 @@ const Gallery = ({
     width: setSizekMeasureUnit(sliderWidth),
     height: setSizekMeasureUnit(height),
     transform: `translate3d(${setSizekMeasureUnit(moveState.sliderCoords)}, 0, 0)`,
-    transition: mouseDownState.down ? 'none' : null,
+    transition: mouseDownState.down || moveState.dir === 'loop' ? 'none' : null,
   });
 
   const panelClassName = makeCls([classes[`${mainCls}${sliderCls}${panelCls}`]]);
@@ -111,23 +117,76 @@ const Gallery = ({
     loop,
   });
 
-  const prevSlide = () => setMoveState({
-    ...moveState,
-    ...{
-      current: moveState.current - 1,
-      sliderCoords: ((moveState.current - 1) * width) * -1,
-      dir: '',
-    },
-  });
+  const jumpToSlide = (current) => {
+    setMoveState({
+      ...moveState,
+      ...{
+        current,
+        sliderCoords: (current * width) * -1,
+        dir: 'loop',
+      },
+    });
+  };
 
-  const nextSlide = () => setMoveState({
-    ...moveState,
-    ...{
-      current: moveState.current + 1,
-      sliderCoords: ((moveState.current + 1) * width) * -1,
-      dir: '',
-    },
-  });
+  const prevSlide = () => {
+    let current = moveState.current - 1;
+    if (!loop && current >= 0) {
+      setMoveState({
+        ...moveState,
+        ...{
+          current,
+          sliderCoords: (current * width) * -1,
+          dir: '',
+        },
+      });
+    } else if (loop) {
+      setMoveState({
+        ...moveState,
+        ...{
+          current,
+          sliderCoords: (current * width) * -1,
+          dir: '',
+        },
+      });
+      if (current === 0) {
+        current = sliderContents.length - 2;
+        setTimeout(
+          () => jumpToSlide(current),
+          305,
+        );
+      }
+    }
+  };
+
+  const nextSlide = () => {
+    let current = moveState.current + 1;
+    if (!loop && current <= sliderContents.length - 1) {
+      setMoveState({
+        ...moveState,
+        ...{
+          current,
+          sliderCoords: (current * width) * -1,
+          dir: '',
+        },
+      });
+    } else if (loop) {
+      setMoveState({
+        ...moveState,
+        ...{
+          current,
+          sliderCoords: (current * width) * -1,
+          dir: '',
+        },
+      });
+      if (current === sliderContents.length - 1) {
+        current = 1;
+        setTimeout(
+          () => jumpToSlide(current),
+          305,
+        );
+      }
+    }
+  };
 
   const stopMovingSlider = () => {
     if (moveState.dir === 'prev') {
@@ -151,13 +210,33 @@ const Gallery = ({
       const deltaX = e.pageX - mouseDownState.coords;
       const dir = deltaX > 0 ? 'prev' : 'next';
       const newCoords = deltaX + ((width * moveState.current) * -1);
-      setMoveState({
-        ...moveState,
-        ...{
-          sliderCoords: newCoords,
-          dir,
-        },
-      });
+      if (
+        !loop
+        && dir === 'prev'
+        && moveState.current === 0
+      ) {
+        setMoveState({
+          ...moveState,
+          ...{ dir: '' },
+        });
+      } else if (
+        !loop
+        && dir === 'next'
+        && moveState.current === sliderContents.length - 1
+      ) {
+        setMoveState({
+          ...moveState,
+          ...{ dir: '' },
+        });
+      } else {
+        setMoveState({
+          ...moveState,
+          ...{
+            sliderCoords: newCoords,
+            dir,
+          },
+        });
+      }
     }
   };
 
@@ -190,8 +269,12 @@ const Gallery = ({
       {
         hasButtons && (
           <Button
-            action={prevSlide}            
-            cssClass={makeCls([classes[`${mainCls}${sliderCls}${buttonCls}`], 'prev'])}
+            action={prevSlide}
+            cssClass={makeCls([
+              classes[`${mainCls}${sliderCls}${buttonCls}`],
+              'prev',
+              !loop && moveState.current === 0 && 'disabled',
+            ])}
           >
             Prev
           </Button>
@@ -201,7 +284,11 @@ const Gallery = ({
         hasButtons && (
           <Button
             action={nextSlide}
-            cssClass={makeCls([classes[`${mainCls}${sliderCls}${buttonCls}`], 'next'])}
+            cssClass={makeCls([
+              classes[`${mainCls}${sliderCls}${buttonCls}`],
+              'next',
+              !loop && moveState.current === sliderContents.length - 1 && 'disabled',
+            ])}
           >
             Next
           </Button>

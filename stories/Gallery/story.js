@@ -42,28 +42,33 @@ const media = [
 export const main = () => {
   const ui = UI();
   return (
-    <>
-      <Gallery
-        ui={ui}
-        items={media}
-        size={{ w: 600, h: 400 }}
-        loop
-      />
-    </>
+    <Gallery
+      ui={ui}
+      items={media}
+      size={{ w: 600, h: 400 }}
+    />
+  );
+};
+
+export const looping = () => {
+  const ui = UI();
+  return (
+    <Gallery
+      ui={ui}
+      items={media}
+      size={{ w: 600, h: 400 }}
+      loop
+    />
   );
 };
 
 export const justUrls = () => {
   const ui = UI();
   return (
-    <>
-      <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
-        <Gallery
-          ui={ui}
-          items={['http://localhost:8888/Img/d.jpg', img, errorimg]}
-          hasButtons={false}
-        />
-      </div>
-    </>
+    <Gallery
+      ui={ui}
+      items={['http://localhost:8888/Img/d.jpg', img, errorimg]}
+      hasButtons={false}
+    />
   );
 };

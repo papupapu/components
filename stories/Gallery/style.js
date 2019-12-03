@@ -43,5 +43,8 @@ export default {
     '&.next': {
       right: '0',
     },
+    '&.disabled': {
+      opacity: '.3',
+    },
   },
 };
