@@ -39,11 +39,20 @@ const media = [
 export const main = () => {
   const ui = UI();
   return (
-    <Gallery
-      ui={ui}
-      items={media}
-      size={{ w: 600, h: 400 }}
-    />
+    <>
+      <dl style={{ marginTop: '400px' }}>
+        <dt>TODO</dt>
+        <dt>- responsive</dt>
+        <dt>- initial current prop</dt>
+        <dt>- start commenting the code</dt>
+        <dt>- different media support </dt>
+      </dl>
+      <Gallery
+        ui={ui}
+        items={media}
+        size={{ w: 600, h: 400 }}
+      />
+    </>
   );
 };
 

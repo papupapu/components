@@ -27,6 +27,7 @@ export default {
       display: 'block',
       maxWidth: '100%',
       height: 'auto',
+      pointerEvents: 'none',
     },
   },
   [`${mainCls}${sliderCls}${buttonCls}`]: {
