@@ -40,7 +40,7 @@ export default () => {
               && innerHeight >= 768
             )
           ) {
-            device = 'tablet';          
+            device = 'tablet';
           } else if (
             (
               innerWidth < 768

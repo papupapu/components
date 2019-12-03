@@ -32,7 +32,7 @@ export default {
   },
   [`${mainCls}${sliderCls}${buttonCls}`]: {
     position: 'absolute',
-    top: '50%',    
+    top: '50%',
     width: '40px',
     height: '40px',
     background: '#FFF',
