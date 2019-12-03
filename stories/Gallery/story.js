@@ -15,20 +15,26 @@ const errorimg = 'http://localhost:8888/Img/b.jpg';
 const media = [
   {
     type: 'img',
+    uri: 'http://localhost:8888/Img/d.jpg',
+    link: '#',
+    linkTitle: 'suca',
+  },
+  {
+    type: 'img',
     uri: 'http://localhost:8888/Img/a.jpg',
-    link: 'http://www.suca.it/',
+    link: '#',
     linkTitle: 'suca',
   },
   {
     type: 'img',
     uri: 'http://localhost:8888/Img/b.jpg',
-    link: 'http://www.suca.it/',
+    link: '#',
     linkTitle: 'suca',
   },
   {
     type: 'img',
     uri: 'http://localhost:8888/Img/c.jpg',
-    link: 'http://www.suca.it/',
+    link: '#',
     linkTitle: 'suca',
   },
 ];
@@ -41,6 +47,7 @@ export const main = () => {
         ui={ui}
         items={media}
         size={{ w: 600, h: 400 }}
+        loop
       />
     </>
   );
@@ -53,7 +60,7 @@ export const justUrls = () => {
       <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
         <Gallery
           ui={ui}
-          items={[img, errorimg]}
+          items={['http://localhost:8888/Img/d.jpg', img, errorimg]}
           hasButtons={false}
         />
       </div>

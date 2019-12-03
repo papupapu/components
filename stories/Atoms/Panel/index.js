@@ -6,6 +6,11 @@ const propTypes = {
   styleObj: PropTypes.instanceOf(Object),
   link: PropTypes.string,
   linkTitle: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
 };
 
 const defaultProps = {
@@ -13,6 +18,7 @@ const defaultProps = {
   styleObj: {},
   link: '',
   linkTitle: '',
+  children: '',
 };
 
 const Panel = ({
