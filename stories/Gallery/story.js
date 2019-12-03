@@ -9,9 +9,6 @@ export default {
   title: 'Gallery',
 };
 
-const img = 'http://localhost:8888/Img/a.jpg';
-const errorimg = 'http://localhost:8888/Img/b.jpg';
-
 const media = [
   {
     type: 'img',
@@ -62,13 +59,36 @@ export const looping = () => {
   );
 };
 
+export const nobuttons = () => {
+  const ui = UI();
+  return (
+    <Gallery
+      ui={ui}
+      items={media}
+      size={{ w: 600, h: 400 }}
+      hasButtons={false}
+    />
+  );
+};
+
 export const justUrls = () => {
   const ui = UI();
   return (
     <Gallery
       ui={ui}
-      items={['http://localhost:8888/Img/d.jpg', img, errorimg]}
-      hasButtons={false}
+      items={['http://localhost:8888/Img/d.jpg', 'http://localhost:8888/Img/a.jpg', 'http://localhost:8888/Img/b.jpg']}
+      size={{ w: 600, h: 400 }}
+    />
+  );
+};
+
+export const fullscreen = () => {
+  const ui = UI();
+  return (
+    <Gallery
+      ui={ui}
+      items={media}
+      loop
     />
   );
 };

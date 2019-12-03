@@ -45,9 +45,19 @@ const Gallery = ({
   const classes = useStyles();
   const galleryMainElement = useRef(null);
 
+  const initialSliderCoords = () => {
+    if (loop) {
+      if (Object.keys(size).length) {
+        return size.w * -1;
+      }
+      return `-${100 / (items.length + 2)}%`;
+    }
+    return 0;
+  };
+
   const [moveState, setMoveState] = useState({
     current: loop ? 1 : 0,
-    sliderCoords: loop && Object.keys(size).length ? size.w * -1 : 0,
+    sliderCoords: initialSliderCoords(),
     dir: '',
   });
 
@@ -65,20 +75,8 @@ const Gallery = ({
           w: galleryMainElement.current.offsetWidth,
           h: galleryMainElement.current.offsetHeight,
         });
-        setMoveState({
-          ...moveState,
-          ...{
-            sliderCoords: loop ? galleryMainElement.current.offsetWidth * -1 : 0,
-          },
-        });
       }
     }, [usableSize, moveState, loop],
-  );
-
-  useEffect(
-    () => {
-      console.log(ui.viewport);
-    }, [ui],
   );
 
   const {
