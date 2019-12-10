@@ -3,6 +3,31 @@ import React from 'react';
 import Panel from '../Atoms/Panel';
 import Image from '../Atoms/Image';
 
+export const initialSlide = (startAt, loop) => {
+  if (startAt !== 0) {
+    return startAt;
+  }
+  return loop ? 1 : 0;
+};
+
+/**
+ * possibility to expand type of slider specific coords computation
+*/
+export const initialSliderCoords = (loop, size, items) => {
+  if (loop) {
+    if (Object.keys(size).length) {
+      return size.w * -1;
+    }
+    return `-${100 / (items.length + 2)}%`;
+  }
+  return 0;
+};
+
+/**
+ * possibility to expand type of slider specific coords computation
+*/
+export const sliderCoords = (current, width) => (current * width) * -1;
+
 export const getElementsSizes = (size, itemsLength, loop) => {
   const additionalSlidesForLoop = loop ? 2 : 0;
   const width = size && 'w' in size && size.w ? size.w : null;

@@ -4,6 +4,8 @@ import UI from '../Utils/UI';
 
 import Gallery from './index';
 
+import './story.css';
+
 export default {
   title: 'Gallery',
 };
@@ -39,12 +41,11 @@ export const main = () => {
   const ui = UI();
   return (
     <>
-      <dl style={{ marginTop: '400px' }}>
+      <dl style={{ marginTop: '450px' }}>
         <dt>TODO</dt>
-        <dd>- responsive layout</dd>
-        <dd>- initial current prop</dd>
         <dd>- start commenting the code</dd>
-        <dd>- solve drag glitches</dd>
+        <dd>- solve drag glitches - sometimes pointer events none on Panel is no reset to all</dd>
+        <dd>- touch events</dd>
         <dd>- panels lazyloading</dd>
         <dd>- different media support</dd>
       </dl>
@@ -52,8 +53,22 @@ export const main = () => {
         ui={ui}
         items={media}
         size={{ w: 600, h: 400 }}
+        loop
       />
     </>
+  );
+};
+
+export const startAt = () => {
+  const ui = UI();
+  return (
+    <Gallery
+      ui={ui}
+      items={media}
+      size={{ w: 600, h: 400 }}
+      startAt={2}
+      loop
+    />
   );
 };
 
@@ -99,6 +114,20 @@ export const fullscreen = () => {
       ui={ui}
       items={media}
       loop
+      fullscreen
     />
+  );
+};
+
+export const responsive = () => {
+  const ui = UI();
+  return (
+    <div className="responsivecontainer">
+      <Gallery
+        ui={ui}
+        items={media}
+        loop
+      />
+    </div>
   );
 };

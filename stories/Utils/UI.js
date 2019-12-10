@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState, useEffect } from 'react';
 
+import debounce from './debounce';
+
 export default () => {
   const [ui, setUi] = useState({
     device: '',
@@ -12,7 +14,6 @@ export default () => {
   useEffect(
     () => {
       const computeUI = () => {
-        // const { innerWidth, innerHeight } = 'parent' in window ? window.parent : window;
         const { innerWidth, innerHeight } = window;
         const touchscreen = 'ontouchstart' in window
           || navigator.maxTouchPoints > 0
@@ -69,9 +70,10 @@ export default () => {
         });
       };
       computeUI();
-      window.addEventListener('resize', computeUI);
+      const debouncedComputeUI = debounce(() => { computeUI(); }, 300);
+      window.addEventListener('resize', debouncedComputeUI);
       return () => {
-        window.removeEventListener('resize', computeUI);
+        window.removeEventListener('resize', debouncedComputeUI);
       };
     }, [],
   );

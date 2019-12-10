@@ -1,0 +1,19 @@
+.responsivecontainer{
+  position:relative;
+  width: 375px;
+  height: 276px;
+}
+
+@media only screen and (min-width:768px) {
+  .responsivecontainer{
+    width: 400px;
+    height: 295px;
+  }
+}
+
+@media only screen and (min-width:1024px) {
+  .responsivecontainer{
+    width: 600px;
+    height: 441px;
+  }
+}
