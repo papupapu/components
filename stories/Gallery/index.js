@@ -134,6 +134,7 @@ const Gallery = ({
     sliderCoords: helpers.initialSliderCoords(loop, size, items),
     dir: '',
   });
+
   /**
    * set up mouseDown state to keep track of:
    * - the event fired by the user when he clicks and drag the slider
@@ -143,6 +144,7 @@ const Gallery = ({
     down: false,
     coords: 0,
   });
+
   /**
    * effect triggered by viewport size changes.
    * it is going be triggered just after first mount since initially
