@@ -22,13 +22,21 @@ const useStyles = createUseStyles(styles);
 const propTypes = {
   /**
    * user's device infos
+   * {
+   *  device: '',
+   *  viewport: { width: null, height: null },
+   *  touchscreen: null,
+   *  orientation: null,
+   *  mobileOs: null,
+   * }
   */
-  ui: PropTypes.instanceOf(Object),
+  ui: PropTypes.instanceOf(Object).isRequired,
   /**
    * the gallery's contents
-   * the type of the contents will be handled by its panel
+   * contents can be strings (supposedly a collection of img srcs)
+   * or objects
   */
-  items: PropTypes.instanceOf(Array),
+  items: PropTypes.instanceOf(Array).isRequired,
   /**
    * the gallery's panel to show
    * optional
@@ -65,8 +73,6 @@ const propTypes = {
 };
 
 const defaultProps = {
-  ui: {},
-  items: [],
   size: {},
   startAt: 0,
   hasButtons: true,
@@ -128,7 +134,6 @@ const Gallery = ({
     sliderCoords: helpers.initialSliderCoords(loop, size, items),
     dir: '',
   });
-
   /**
    * set up mouseDown state to keep track of:
    * - the event fired by the user when he clicks and drag the slider
@@ -138,7 +143,6 @@ const Gallery = ({
     down: false,
     coords: 0,
   });
-
   /**
    * effect triggered by viewport size changes.
    * it is going be triggered just after first mount since initially
@@ -242,7 +246,6 @@ const Gallery = ({
     width: setSizekMeasureUnit(computedSizes.width),
     height: setSizekMeasureUnit(computedSizes.height),
   });
-
   /**
    * create the gallery slider's css classname and
    * create its inline style object
@@ -300,7 +303,6 @@ const Gallery = ({
       },
     });
   };
-
   /**
    * move the slider to the previous panel
   */
