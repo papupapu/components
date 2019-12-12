@@ -1,8 +1,8 @@
 import React from 'react';
 
 import UI from '../Utils/UI';
-
 import Gallery from './index';
+import Image from '../Atoms/Image';
 
 import './story.css';
 
@@ -51,10 +51,15 @@ export const main = () => {
       </dl>
       <Gallery
         ui={ui}
-        items={media}
         size={{ w: 600, h: 400 }}
         loop
-      />
+      >
+        {
+          media.map(
+            (el) => el.img && <Image key={el.uri} src={el.uri} />,
+          )
+        }
+      </Gallery>
     </>
   );
 };
@@ -64,11 +69,16 @@ export const startAt = () => {
   return (
     <Gallery
       ui={ui}
-      items={media}
       size={{ w: 600, h: 400 }}
       startAt={2}
       loop
-    />
+    >
+      {
+        media.map(
+          (el) => el.img && <Image key={el.uri} src={el.uri} />,
+        )
+      }
+    </Gallery>
   );
 };
 
@@ -77,10 +87,15 @@ export const looping = () => {
   return (
     <Gallery
       ui={ui}
-      items={media}
       size={{ w: 600, h: 400 }}
       loop
-    />
+    >
+      {
+        media.map(
+          (el) => el.img && <Image key={el.uri} src={el.uri} />,
+        )
+      }
+    </Gallery>
   );
 };
 
@@ -89,21 +104,15 @@ export const nobuttons = () => {
   return (
     <Gallery
       ui={ui}
-      items={media}
       size={{ w: 600, h: 400 }}
       hasButtons={false}
-    />
-  );
-};
-
-export const justUrls = () => {
-  const ui = UI();
-  return (
-    <Gallery
-      ui={ui}
-      items={['http://localhost:8888/Img/d.jpg', 'http://localhost:8888/Img/a.jpg', 'http://localhost:8888/Img/b.jpg']}
-      size={{ w: 600, h: 400 }}
-    />
+    >
+      {
+        media.map(
+          (el) => el.img && <Image key={el.uri} src={el.uri} />,
+        )
+      }
+    </Gallery>
   );
 };
 
@@ -112,10 +121,15 @@ export const fullscreen = () => {
   return (
     <Gallery
       ui={ui}
-      items={media}
       loop
       fullscreen
-    />
+    >
+      {
+        media.map(
+          (el) => el.img && <Image key={el.uri} src={el.uri} />,
+        )
+      }
+    </Gallery>
   );
 };
 
@@ -125,9 +139,14 @@ export const responsive = () => {
     <div className="responsivecontainer">
       <Gallery
         ui={ui}
-        items={media}
         loop
-      />
+      >
+        {
+          media.map(
+            (el) => el.img && <Image key={el.uri} src={el.uri} />,
+          )
+        }
+      </Gallery>
     </div>
   );
 };

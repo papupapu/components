@@ -1,8 +1,16 @@
+import { isValidString } from './validvars';
+
 /**
   * @desc compose a DOMElement css className
   *
   * @param {array} clsArray array of strings
   *
-  * @returns {string} DOMElement css className
+  * @returns {string || null} DOMElement css className || null
 */
-export default (clsArray) => clsArray.filter(Boolean).join(' ');
+export default (clsArray) => {
+  const cls = clsArray.filter(Boolean).join(' ');
+  if (isValidString(cls)) {
+    return cls;
+  }
+  return null;
+};

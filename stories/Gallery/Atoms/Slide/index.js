@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 const propTypes = {
   cssClass: PropTypes.string,
   styleObj: PropTypes.instanceOf(Object),
-  link: PropTypes.string,
-  linkTitle: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -16,29 +14,19 @@ const propTypes = {
 const defaultProps = {
   cssClass: '',
   styleObj: {},
-  link: '',
-  linkTitle: '',
   children: '',
 };
 
 const Slide = ({
   cssClass,
   styleObj,
-  link,
-  linkTitle,
   children,
 }) => (
   <div
     className={cssClass}
     style={styleObj}
   >
-    {
-      link ? (
-        <a href={link} title={linkTitle}>
-          {children}
-        </a>
-      ) : children
-    }
+    {children}
   </div>
 );
 Slide.propTypes = propTypes;

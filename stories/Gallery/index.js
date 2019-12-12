@@ -34,10 +34,9 @@ const propTypes = {
   ui: PropTypes.instanceOf(Object).isRequired,
   /**
    * Gallery contents
-   * contents can be strings (supposedly a collection of img srcs)
-   * or objects
+   * collection of React Components or HTMLElements
   */
-  items: PropTypes.instanceOf(Array).isRequired,
+  children: PropTypes.instanceOf(Array).isRequired,
   /**
    * Gallery panel to show
    * optional
@@ -83,7 +82,7 @@ const defaultProps = {
 
 const Gallery = ({
   ui,
-  items,
+  children,
   size,
   startAt,
   hasButtons,
@@ -97,10 +96,6 @@ const Gallery = ({
    * size computation purpouses
    */
   const galleryMainElement = useRef(null);
-
-  /**
-   * STATE AND STATE MANAGEMENT
-  */
 
   /**
    * set up UI state to:
@@ -118,10 +113,10 @@ const Gallery = ({
 
   /**
    * set up the actual sizes that will be applied to all gallery's elements
-   * sizes will be computed using: currentSize state, number of items and loop prop
+   * sizes will be computed using: currentSize state, number of children and loop prop
    */
   const [computedSizes, setComputeSizes] = useState(
-    helpers.getElementsSizes(currentSize, items.length, loop),
+    helpers.getElementsSizes(currentSize, children.length, loop),
   );
 
   /**
@@ -132,7 +127,7 @@ const Gallery = ({
    */
   const [moveState, setMoveState] = useState({
     current: helpers.initialSlide(startAt, loop),
-    sliderCoords: helpers.initialSliderCoords(loop, size, items),
+    sliderCoords: helpers.initialSliderCoords(loop, size, children),
     dir: '',
   });
 
@@ -212,7 +207,7 @@ const Gallery = ({
          * set the new computedSize state
          */
         setComputeSizes(
-          helpers.getElementsSizes(newSize, items.length, loop),
+          helpers.getElementsSizes(newSize, children.length, loop),
         );
 
         /**
@@ -233,12 +228,8 @@ const Gallery = ({
           });
         }
       }
-    }, [fullscreen, size, items.length, loop, ui, uiState, moveState],
+    }, [fullscreen, size, children.length, loop, ui, uiState, moveState],
   );
-
-  /**
-   * CREATE CSS CLASSES & INLINE STYLES (based on state)
-  */
 
   /**
    * create Gallery css classname and
@@ -283,15 +274,11 @@ const Gallery = ({
   */
   const sliderContents = helpers.createSlides({
     domready: ui.device !== '',
-    items,
+    items: children,
     panelClassName,
     panelStyle,
     loop,
   });
-
-  /**
-   * ANIMATE GALLERY
-  */
 
   /**
    * move Slider to a new panel

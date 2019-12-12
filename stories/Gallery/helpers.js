@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { cloneElement, isValidElement } from 'react';
 
-import Slide from '../Atoms/Slide';
-import Image from '../Atoms/Image';
+import Slide from './Atoms/Slide';
 
 /**
   * @desc compute Slide to be shown on mount
@@ -109,47 +108,14 @@ export const getElementsSizes = (size, itemsLength, loop) => {
 };
 
 /**
-  * @desc extract the contents of a single Slide
-  *
-  * @param {object || string} item Slide contents
-  *
-  * @returns {object} Slides contents
-  *
-  * TODO:
-  * - expand (handle contents !== from images)
-  * - possibly extract to improve Gallery flexibility
-*/
-const getSlideData = (item) => {
-  let src = null;
-  let link = null;
-  let linkTitle = null;
-  if (typeof item === 'string') {
-    src = item;
-  } else {
-    src = item.uri;
-    link = 'link' in item && item.link !== '' ? item.link : null;
-    linkTitle = 'linkTitle' in item && item.linkTitle !== '' ? item.linkTitle : null;
-  }
-  return {
-    src,
-    link,
-    linkTitle,
-  };
-};
-
-/**
   * @desc create a single Slide
   *
-  * @param {object || string} item Slide contents
+  * @param {object} item Slide contents
   * @param {number} index Slide position
   * @param {array || string} panelClassName Slide className or array of classNames
   * @param {object} panelStyle Slide inline style declaration
   *
   * @returns {object} Slide
-  *
-  * TODO:
-  * - expand (handle contents !== from images)
-  * - possibly extract to improve Gallery flexibility
 */
 const createSingleSlide = (props) => {
   const {
@@ -158,21 +124,15 @@ const createSingleSlide = (props) => {
     panelClassName,
     panelStyle,
   } = props;
-  const { src, link, linkTitle } = getSlideData(item);
-  const slide = (
+  const slide = isValidElement(item) ? (
     <Slide
       key={`panel_${index}`}
       cssClass={panelClassName}
       styleObj={panelStyle}
-      link={link}
-      linkTitle={linkTitle}
     >
-      <Image
-        src={src}
-        styleObj={[{ maxHeight: panelStyle.height }]}
-      />
+      {cloneElement(item, { styleObj: { maxHeight: panelStyle.height } })}
     </Slide>
-  );
+  ) : null;
   return slide;
 };
 
