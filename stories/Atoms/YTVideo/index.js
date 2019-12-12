@@ -52,7 +52,6 @@ const YTVideo = ({
       href={`https://www.youtube.com/watch?v=${ytvideoid}`}
       alt={alt}
       className={previewLinkCls}
-      s
       onClick={
         (e) => {
           e.preventDefault();
