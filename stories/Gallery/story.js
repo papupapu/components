@@ -56,7 +56,7 @@ export const main = () => {
       >
         {
           media.map(
-            (el) => el.img && <Image key={el.uri} src={el.uri} />,
+            (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
           )
         }
       </Gallery>

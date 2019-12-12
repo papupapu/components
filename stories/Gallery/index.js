@@ -90,7 +90,6 @@ const Gallery = ({
   fullscreen,
 }) => {
   const classes = useStyles();
-
   /**
    * ref attached to gallery container div for
    * size computation purpouses
