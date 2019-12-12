@@ -132,12 +132,14 @@ const createSingleSlide = (props) => {
   let slide = null;
   if (isValidElement(item)) {
     let customStyleObj = null;
+    let customHeight = null;
     switch (type) {
-      case 'img':
+      case 'img':        
         customStyleObj = { maxHeight: panelStyle.height };
         break;
       case 'ytvideo':
-        customStyleObj = { width: panelStyle.width, height: panelStyle.height };
+        customHeight = { height: `${Math.round(panelStyle.width.replace('px', '') / 1.77)}px` };
+        customStyleObj = { width: panelStyle.width, height: `${Math.round(panelStyle.width.replace('px', '') / 1.77)}px`, 'max-height': panelStyle.height };
         break;
       default:
         return null;

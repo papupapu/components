@@ -45,7 +45,8 @@ const YTVideo = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const cls = makeCls([classes[mainCls], cssClass]);
   const previewLinkCls = makeCls([classes[`${mainCls}${linkCls}`]]);
-  const style = makeStyle(styleObj, [{ height: 'auto', maxHeight: height }, true]);
+  const style = makeStyle(styleObj);
+
   return !isLoaded ? (
     <a
       href={`https://www.youtube.com/watch?v=${ytvideoid}`}

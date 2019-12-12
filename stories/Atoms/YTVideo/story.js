@@ -9,17 +9,21 @@ export default {
 };
 
 export const story = () => (
-  <YTVideo
-    ytvideoid={ytvideoid}
-    width={600}
-    height={400}
-  />
+  <div style={{ width: '600px', height: '400px' }}>
+    <YTVideo
+      ytvideoid={ytvideoid}
+      width={600}
+      height={400}
+    />
+  </div>
 );
 
 
 export const styleObj = () => (
-  <YTVideo
-    ytvideoid={ytvideoid}
-    styleObj={{ width: '600px', height: '400px' }}
-  />
+  <div style={{ width: '600px', height: '400px' }}>
+    <YTVideo
+      ytvideoid={ytvideoid}
+      styleObj={{ width: '600px', height: '400px' }}
+    />
+  </div>
 );
