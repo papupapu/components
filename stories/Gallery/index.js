@@ -6,7 +6,8 @@ import Button from '../Atoms/Button';
 
 import makeCls from '../Utils/makeCls';
 import makeStyle from '../Utils/makeStyle';
-import setSizekMeasureUnit from '../Utils/setSizeMeasureUnit';
+import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';
+import { isValidString } from '../Utils/validvars';
 
 import * as helpers from './helpers';
 
@@ -16,9 +17,6 @@ import styles, {
   panelCls,
   buttonCls,
 } from './style';
-import { isValidString } from '../Utils/validvars';
-
-const useStyles = createUseStyles(styles);
 
 const propTypes = {
   /**
@@ -34,7 +32,7 @@ const propTypes = {
   ui: PropTypes.instanceOf(Object).isRequired,
   /**
    * Gallery contents
-   * collection of React Components or HTMLElements
+   * collection of React Components
   */
   children: PropTypes.instanceOf(Array).isRequired,
   /**
@@ -79,6 +77,8 @@ const defaultProps = {
   loop: false,
   fullscreen: false,
 };
+
+const useStyles = createUseStyles(styles);
 
 const Gallery = ({
   ui,
@@ -236,8 +236,8 @@ const Gallery = ({
   */
   const galleryClassName = makeCls([classes[mainCls]]);
   const galleryStyle = makeStyle({
-    width: setSizekMeasureUnit(computedSizes.width),
-    height: setSizekMeasureUnit(computedSizes.height),
+    width: setSizeMeasureUnit(computedSizes.width),
+    height: setSizeMeasureUnit(computedSizes.height),
   });
   /**
    * create Slider css classname and
@@ -245,9 +245,9 @@ const Gallery = ({
   */
   const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`]]);
   const sliderStyle = makeStyle({
-    width: setSizekMeasureUnit(computedSizes.sliderWidth),
-    height: setSizekMeasureUnit(computedSizes.height),
-    transform: `translate3d(${setSizekMeasureUnit(moveState.sliderCoords)}, 0, 0)`,
+    width: setSizeMeasureUnit(computedSizes.sliderWidth),
+    height: setSizeMeasureUnit(computedSizes.height),
+    transform: `translate3d(${setSizeMeasureUnit(moveState.sliderCoords)}, 0, 0)`,
 
     /**
      * if either the user is dragging Slider or Slider has to adjust it's coordinates
@@ -263,8 +263,8 @@ const Gallery = ({
   */
   const panelClassName = makeCls([classes[`${mainCls}${sliderCls}${panelCls}`]]);
   const panelStyle = makeStyle({
-    width: setSizekMeasureUnit(computedSizes.panelWidth),
-    height: setSizekMeasureUnit(computedSizes.height),
+    width: setSizeMeasureUnit(computedSizes.panelWidth),
+    height: setSizeMeasureUnit(computedSizes.height),
     pointerEvents: isValidString(moveState.dir) && moveState.dir !== 'loop' ? 'none' : 'all',
   });
 

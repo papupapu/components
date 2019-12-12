@@ -3,6 +3,7 @@ import React from 'react';
 import UI from '../Utils/UI';
 import Gallery from './index';
 import Image from '../Atoms/Image';
+import YTVideo from '../Atoms/YTVideo';
 
 import './story.css';
 
@@ -35,7 +36,36 @@ const media = [
     link: '#',
     linkTitle: 'suca',
   },
+  {
+    type: 'ytvideo',
+    ytvideoid: 'nwI-MrUCtkk',
+  },
 ];
+
+const galleryChildren = (data) => data.map(
+  (el) => {
+    switch (el.type) {
+      case 'img':
+        return (
+          <Image
+            key={el.uri}
+            type={el.type}
+            src={el.uri}
+          />
+        );
+      case 'ytvideo':
+        return (
+          <YTVideo
+            key={el.id}
+            type={el.type}
+            ytvideoid={el.ytvideoid}
+          />
+        );
+      default:
+        return null;
+    }
+  },
+).filter(Boolean);
 
 export const main = () => {
   const ui = UI();
@@ -43,22 +73,17 @@ export const main = () => {
     <>
       <dl style={{ marginTop: '450px' }}>
         <dt>TODO</dt>
-        <dd>- toil and finish and comment Atoms + complete commenting the code</dd>
+        <dd>- comment Atoms</dd>
         <dd>- touch events</dd>
         <dd>- check memo to prevent rerender</dd>
         <dd>- panels lazyloading</dd>
-        <dd>- different media support</dd>
       </dl>
       <Gallery
         ui={ui}
         size={{ w: 600, h: 400 }}
         loop
       >
-        {
-          media.map(
-            (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
-          )
-        }
+        {galleryChildren(media)}
       </Gallery>
     </>
   );
@@ -73,11 +98,7 @@ export const startAt = () => {
       startAt={2}
       loop
     >
-      {
-        media.map(
-          (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
-        )
-      }
+      {galleryChildren(media)}
     </Gallery>
   );
 };
@@ -90,11 +111,7 @@ export const looping = () => {
       size={{ w: 600, h: 400 }}
       loop
     >
-      {
-        media.map(
-          (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
-        )
-      }
+      {galleryChildren(media)}
     </Gallery>
   );
 };
@@ -107,11 +124,7 @@ export const nobuttons = () => {
       size={{ w: 600, h: 400 }}
       hasButtons={false}
     >
-      {
-        media.map(
-          (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
-        )
-      }
+      {galleryChildren(media)}
     </Gallery>
   );
 };
@@ -124,11 +137,7 @@ export const fullscreen = () => {
       loop
       fullscreen
     >
-      {
-        media.map(
-          (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
-        )
-      }
+      {galleryChildren(media)}
     </Gallery>
   );
 };
@@ -141,11 +150,7 @@ export const responsive = () => {
         ui={ui}
         loop
       >
-        {
-          media.map(
-            (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
-          )
-        }
+        {galleryChildren(media)}
       </Gallery>
     </div>
   );

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { createUseStyles } from 'react-jss';
-import styles, { mainCls } from './style';
 
 import makeCls from '../../Utils/makeCls';
 import makeStyle from '../../Utils/makeStyle';
 
-const useStyles = createUseStyles(styles);
+import styles, {
+  mainCls,
+} from './style';
 
 const propTypes = {
   type: PropTypes.string,
@@ -28,6 +28,8 @@ const defaultProps = {
   styleObj: {},
   children: '',
 };
+
+const useStyles = createUseStyles(styles);
 
 const Button = ({
   type,

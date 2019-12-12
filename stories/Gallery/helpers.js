@@ -123,16 +123,35 @@ const createSingleSlide = (props) => {
     index,
     panelClassName,
     panelStyle,
+    item: {
+      props: {
+        type,
+      },
+    },
   } = props;
-  const slide = isValidElement(item) ? (
-    <Slide
-      key={`panel_${index}`}
-      cssClass={panelClassName}
-      styleObj={panelStyle}
-    >
-      {cloneElement(item, { styleObj: { maxHeight: panelStyle.height } })}
-    </Slide>
-  ) : null;
+  let slide = null;
+  if (isValidElement(item)) {
+    let customStyleObj = null;
+    switch (type) {
+      case 'img':
+        customStyleObj = { maxHeight: panelStyle.height };
+        break;
+      case 'ytvideo':
+        customStyleObj = { width: panelStyle.width, height: panelStyle.height };
+        break;
+      default:
+        return null;
+    }
+    slide = (
+      <Slide
+        key={`panel_${index}`}
+        cssClass={panelClassName}
+        styleObj={panelStyle}
+      >
+        {cloneElement(item, { styleObj: customStyleObj })}
+      </Slide>
+    );
+  }
   return slide;
 };
 

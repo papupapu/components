@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import makeCls from '../../Utils/makeCls';
 import makeStyle from '../../Utils/makeStyle';
-import setSizekMeasureUnit from '../../Utils/setSizeMeasureUnit';
+import setSizeMeasureUnit from '../../Utils/setSizeMeasureUnit';
 
 const propTypes = {
   src: PropTypes.string,
@@ -39,8 +39,8 @@ const Image = ({
     <img
       src={src}
       alt={alt || 'no info available'}
-      width={setSizekMeasureUnit(width)}
-      height={setSizekMeasureUnit(height)}
+      width={setSizeMeasureUnit(width)}
+      height={setSizeMeasureUnit(height)}
       className={className}
       style={style}
       onLoad={() => { setIsLoaded(true); }}
