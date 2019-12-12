@@ -75,7 +75,7 @@ export const startAt = () => {
     >
       {
         media.map(
-          (el) => el.img && <Image key={el.uri} src={el.uri} />,
+          (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
         )
       }
     </Gallery>
@@ -92,7 +92,7 @@ export const looping = () => {
     >
       {
         media.map(
-          (el) => el.img && <Image key={el.uri} src={el.uri} />,
+          (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
         )
       }
     </Gallery>
@@ -109,7 +109,7 @@ export const nobuttons = () => {
     >
       {
         media.map(
-          (el) => el.img && <Image key={el.uri} src={el.uri} />,
+          (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
         )
       }
     </Gallery>
@@ -126,7 +126,7 @@ export const fullscreen = () => {
     >
       {
         media.map(
-          (el) => el.img && <Image key={el.uri} src={el.uri} />,
+          (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
         )
       }
     </Gallery>
@@ -143,7 +143,7 @@ export const responsive = () => {
       >
         {
           media.map(
-            (el) => el.img && <Image key={el.uri} src={el.uri} />,
+            (el) => el.type === 'img' && <Image key={el.uri} src={el.uri} />,
           )
         }
       </Gallery>
