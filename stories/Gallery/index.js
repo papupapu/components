@@ -16,6 +16,7 @@ import styles, {
   panelCls,
   buttonCls,
 } from './style';
+import { isValidString } from '../Utils/validvars';
 
 const useStyles = createUseStyles(styles);
 
@@ -32,31 +33,31 @@ const propTypes = {
   */
   ui: PropTypes.instanceOf(Object).isRequired,
   /**
-   * the gallery's contents
+   * Gallery contents
    * contents can be strings (supposedly a collection of img srcs)
    * or objects
   */
   items: PropTypes.instanceOf(Array).isRequired,
   /**
-   * the gallery's panel to show
+   * Gallery panel to show
    * optional
    * default value: 0
   */
   startAt: PropTypes.number,
   /*
-   * width and height of the gallery
+   * width and height of Gallery
    * optional
    * default value: {}
   */
   size: PropTypes.instanceOf(Object),
   /*
-   * should the gallery show prev/next buttons?
+   * should Gallery show prev/next buttons?
    * optional
    * default value: true
   */
   hasButtons: PropTypes.bool,
   /*
-   * should the gallery loop?
+   * should Gallery loop?
    * optional
    * default value: false
    *
@@ -65,7 +66,7 @@ const propTypes = {
   */
   loop: PropTypes.bool,
   /*
-   * is the gallery fullscreen?
+   * is Gallery fullscreen?
    * optional
    * default value: false
   */
@@ -126,8 +127,8 @@ const Gallery = ({
   /**
    * set up move state to keep track of:
    * - the current slide
-   * - the coordinates of the gallery's slider
-   * - the direction of the slider while it is moving
+   * - the coordinates of Slider
+   * - the direction of Slider while it is moving
    */
   const [moveState, setMoveState] = useState({
     current: helpers.initialSlide(startAt, loop),
@@ -137,7 +138,7 @@ const Gallery = ({
 
   /**
    * set up mouseDown state to keep track of:
-   * - the event fired by the user when he clicks and drag the slider
+   * - the event fired by the user when he clicks and drag Slider
    * - the coordinates at which the mousedown event happened
    */
   const [mouseDownState, setMouseDownState] = useState({
@@ -173,7 +174,7 @@ const Gallery = ({
         let newSize;
 
         /**
-         * in case the gallery is fullscreen
+         * in case Gallery is fullscreen
          * the new currentSize state is the new viewport size
          */
         if (fullscreen) {
@@ -183,8 +184,8 @@ const Gallery = ({
           };
 
           /**
-           * in case the gallery is responsive (size prop is not defined)
-           * the new currentSize state is the gallery's parent node size
+           * in case Gallery is responsive (size prop is not defined)
+           * the new currentSize state is Gallery parent node size
            */
         } else if (Object.keys(size).length === 0) {
           newSize = {
@@ -215,7 +216,7 @@ const Gallery = ({
         );
 
         /**
-         * adjust the coordinates of the gallery's slider
+         * adjust the coordinates of Slider
         */
         if (moveState.current !== 1) {
           setMoveState({
@@ -225,7 +226,7 @@ const Gallery = ({
 
               /**
                * set dir to 'loop' to reset the css transition while
-               * moving the slider to the correct coordinates
+               * moving Slider to the correct coordinates
               */
               dir: 'loop',
             },
@@ -240,7 +241,7 @@ const Gallery = ({
   */
 
   /**
-   * create the gallery's css classname and
+   * create Gallery css classname and
    * create its inline style object
   */
   const galleryClassName = makeCls([classes[mainCls]]);
@@ -249,7 +250,7 @@ const Gallery = ({
     height: setSizekMeasureUnit(computedSizes.height),
   });
   /**
-   * create the gallery slider's css classname and
+   * create Slider css classname and
    * create its inline style object
   */
   const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`]]);
@@ -259,7 +260,7 @@ const Gallery = ({
     transform: `translate3d(${setSizekMeasureUnit(moveState.sliderCoords)}, 0, 0)`,
 
     /**
-     * if either the user is dragging the slider or the slider has to adjust it's coordinates
+     * if either the user is dragging Slider or Slider has to adjust it's coordinates
      * because of looping or reacting to viewport changes, the css transition is set to none
      * else it works with the one defined by css
     */
@@ -267,18 +268,18 @@ const Gallery = ({
   });
 
   /**
-   * create the gallery panels' css classname and
+   * create Gallery panels' css classname and
    * create their inline style object
   */
   const panelClassName = makeCls([classes[`${mainCls}${sliderCls}${panelCls}`]]);
   const panelStyle = makeStyle({
     width: setSizekMeasureUnit(computedSizes.panelWidth),
     height: setSizekMeasureUnit(computedSizes.height),
-    pointerEvents: moveState.dir !== '' ? 'none' : 'all',
+    pointerEvents: isValidString(moveState.dir) && moveState.dir !== 'loop' ? 'none' : 'all',
   });
 
   /**
-   * create the gallery panels
+   * create Gallery panels
   */
   const sliderContents = helpers.createSlides({
     domready: ui.device !== '',
@@ -293,7 +294,7 @@ const Gallery = ({
   */
 
   /**
-   * move the slider to a new panel
+   * move Slider to a new panel
   */
   const jumpToSlide = (current) => {
     setMoveState({
@@ -305,14 +306,15 @@ const Gallery = ({
       },
     });
   };
+
   /**
-   * move the slider to the previous panel
+   * move Slider to the previous panel
   */
   const prevSlide = () => {
     let current = moveState.current - 1;
 
     /**
-     * if the gallery is not supposed to loop,
+     * if Gallery is not supposed to loop,
      * stop at the first panel
      */
     if (!loop && current >= 0) {
@@ -335,7 +337,7 @@ const Gallery = ({
       });
 
       /**
-       * if the gallery is supposed to loop, the first panel is clone of the last
+       * if Gallery is supposed to loop, the first panel is clone of the last
        * so as soon as the animation ends, jump to the last panel to create the loop effect
       */
       if (current === 0) {
@@ -349,13 +351,13 @@ const Gallery = ({
   };
 
   /**
-   * move the slider to the next panel
+   * move Slider to the next panel
   */
   const nextSlide = () => {
     let current = moveState.current + 1;
 
     /**
-     * if the gallery is not supposed to loop,
+     * if Gallery is not supposed to loop,
      * stop at the last panel
      */
     if (!loop && current <= sliderContents.length - 1) {
@@ -378,7 +380,7 @@ const Gallery = ({
       });
 
       /**
-       * if the gallery is supposed to loop, the last panel is clone of the first
+       * if Gallery is supposed to loop, the last panel is clone of the first
        * so as soon as the animation ends, jump to the first panel to create the loop effect
       */
       if (current === sliderContents.length - 1) {
@@ -392,7 +394,7 @@ const Gallery = ({
   };
 
   /**
-   * if the user fires a mouseDown event on the slider, prepare to animate it by dragging action by
+   * if the user fires a mouseDown event on Slider, prepare to animate it by dragging action by
    * - setting the mouseDown state to true
    * - registering the coordinates at which the mouseDown event happened
   */
@@ -411,14 +413,14 @@ const Gallery = ({
        * the mouseDown event was fired is going to give us:
        * - the amount of movement
        * - the direction of the movement
-       * - the new position of the slider
+       * - the new position of Slider
       */
       const deltaX = e.pageX - mouseDownState.coords;
       const dir = deltaX > 0 ? 'prev' : 'next';
       const newCoords = deltaX + helpers.sliderCoords(moveState.current, computedSizes.width);
 
       /**
-       * if the gallery is not supposed to loop, do not apply any animation if the user is
+       * if Gallery is not supposed to loop, do not apply any animation if the user is
        * try to go past the first or the last slide
       */
       if (
@@ -449,12 +451,12 @@ const Gallery = ({
   };
 
   /**
-   * if the user fires a mouseUp event after he has been dragging the slider
+   * if the user fires a mouseUp event after he has been dragging Slider
    * the event registered in the effect running just below
   */
   const stopMovingSlider = () => {
     /**
-     * if the direction of the slider has been registered,
+     * if the direction of Slider has been registered,
      * go to the previous or next panel accordingly
     */
     if (moveState.dir === 'prev') {

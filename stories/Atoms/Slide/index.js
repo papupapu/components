@@ -21,7 +21,7 @@ const defaultProps = {
   children: '',
 };
 
-const Panel = ({
+const Slide = ({
   cssClass,
   styleObj,
   link,
@@ -41,6 +41,6 @@ const Panel = ({
     }
   </div>
 );
-Panel.propTypes = propTypes;
-Panel.defaultProps = defaultProps;
-export default Panel;
+Slide.propTypes = propTypes;
+Slide.defaultProps = defaultProps;
+export default Slide;

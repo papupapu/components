@@ -43,9 +43,9 @@ export const main = () => {
     <>
       <dl style={{ marginTop: '450px' }}>
         <dt>TODO</dt>
-        <dd>- start commenting the code</dd>
-        <dd>- solve drag glitches - sometimes pointer events none on Panel is no reset to all</dd>
+        <dd>- toil and finish and comment Atoms + complete commenting the code</dd>
         <dd>- touch events</dd>
+        <dd>- check memo to prevent rerender</dd>
         <dd>- panels lazyloading</dd>
         <dd>- different media support</dd>
       </dl>

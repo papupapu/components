@@ -1,47 +1,47 @@
 import React from 'react';
 
-import Panel from '../Atoms/Panel';
+import Slide from '../Atoms/Slide';
 import Image from '../Atoms/Image';
 
 /**
-  * @desc compute the panel to be shown on mount
+  * @desc compute Slide to be shown on mount
   *
-  * @param {number} startAt the index of the Gallery's panel to be shown on mount
+  * @param {number} startAt Slide to be shown on mount index
   * @param {boolean} loop should Gallery loop?
   *
-  * @returns {number} index of the panel to be shown on mount
+  * @returns {number} Slide to be shown on mount index
 */
 export const initialSlide = (startAt, loop) => {
   if (startAt !== 0) {
     return startAt;
   }
   /**
-   * if Gallery is supposed to loop the first panel is 1
-   * since 0 is the clone of the last panel (see 'createSlides' method)
+   * if Gallery is supposed to loop the first Slide is 1
+   * since 0 is the clone of the last Slide (see 'createSlides' method)
   */
   return loop ? 1 : 0;
 };
 
 /**
-  * @desc compute the slider initial position
+  * @desc compute Slider initial position
   *
   * @param {boolean} loop should Gallery loop?
   * @param {object} size Gallery width and height
-  * @param {array} items Gallery contents
+  * @param {array} items Slides data collection
   *
-  * @returns {number} the slider initial position
+  * @returns {number} Slider initial position
   *
   * TODO:
   * - factor in optional startAt prop value
-  * - add different logic for different slider type
-  *   (i.e. centered panel with two showing at its sides)
+  * - add different logic for different Slider type
+  *   (i.e. centered Slide with two showing at its sides)
 */
 export const initialSliderCoords = (loop, size, items) => {
   /**
-   * if Gallery is supposed to loop the first panel is 1
-   * since 0 is the clone of the last panel (see 'createSlides' method)
+   * if Gallery is supposed to loop the first Slide is 1
+   * since 0 is the clone of the last Slide (see 'createSlides' method)
    *
-   * thus the slider's initial position will be: Gallery width * -1
+   * thus Slider initial position will be: Gallery width * -1
   */
   if (loop) {
     if (Object.keys(size).length) {
@@ -49,7 +49,7 @@ export const initialSliderCoords = (loop, size, items) => {
     }
     /**
      * if we do not have the explicit Gallery width value yet,
-     * the slider initial position will be expressed in percentage
+     * Slider initial position will be expressed in percentage
      *
      * add 2 to items.length since items[0] and items[items.length -1]
      * are cloned and added to items to create the loop effect
@@ -60,27 +60,27 @@ export const initialSliderCoords = (loop, size, items) => {
 };
 
 /**
-  * @desc compute the slider current position
+  * @desc compute Slider current position
   *
-  * @param {number} current index of the currently shown Gallery panel
+  * @param {number} current index of the currently shown Slide
   * @param {number} size Gallery width and height
   *
-  * @returns {number} the slider current position
+  * @returns {number} Slider current position
   *
   * TODO:
-  * - add different logic for different slider type
-  *   (i.e. centered panel with two showing at its sides)
+  * - add different logic for different Slider type
+  *   (i.e. centered Slide with two showing at its sides)
 */
 export const sliderCoords = (current, width) => (current * width) * -1;
 
 /**
-  * @desc compute the size of the slider's elements
+  * @desc compute the size of Slider elements
   *
   * @param {number} size Gallery width and height
-  * @param {number} itemsLength number of Gallery panels
+  * @param {number} itemsLength number of Slides
   * @param {boolean} loop should Gallery loop?
   *
-  * @returns {object} Gallery width / height, slider total width, panel width
+  * @returns {object} Gallery width / height, Slider total width, Slide width
 */
 export const getElementsSizes = (size, itemsLength, loop) => {
   /**
@@ -96,7 +96,7 @@ export const getElementsSizes = (size, itemsLength, loop) => {
   const height = size && 'h' in size && size.h ? size.h : null;
   /**
    * if we do not have the explicit Gallery width and height values yet,
-   * the slider and panel width will be expressed in percentage
+   * Slider and Slide width will be expressed in percentage
   */
   const sliderWidth = width ? size.w * additionalSlidesForLoop : `${100 * additionalSlidesForLoop}%`;
   const panelWidth = width || `${100 / additionalSlidesForLoop}%`;
@@ -109,17 +109,17 @@ export const getElementsSizes = (size, itemsLength, loop) => {
 };
 
 /**
-  * @desc extract the contents of a single Gallery panel
+  * @desc extract the contents of a single Slide
   *
-  * @param {object || string} item Gallery panel contents
+  * @param {object || string} item Slide contents
   *
-  * @returns {object} panels contents
+  * @returns {object} Slides contents
   *
   * TODO:
   * - expand (handle contents !== from images)
   * - possibly extract to improve Gallery flexibility
 */
-const getPanelData = (item) => {
+const getSlideData = (item) => {
   let src = null;
   let link = null;
   let linkTitle = null;
@@ -138,14 +138,14 @@ const getPanelData = (item) => {
 };
 
 /**
-  * @desc create a single Gallery panel
+  * @desc create a single Slide
   *
-  * @param {object || string} item Gallery panel contents
-  * @param {number} index Gallery panel's position
-  * @param {array || string} panelClassName Gallery panel's className or array of classNames
-  * @param {object} panelStyle Gallery panel inline style declaration
+  * @param {object || string} item Slide contents
+  * @param {number} index Slide position
+  * @param {array || string} panelClassName Slide className or array of classNames
+  * @param {object} panelStyle Slide inline style declaration
   *
-  * @returns {object} Gallery panel
+  * @returns {object} Slide
   *
   * TODO:
   * - expand (handle contents !== from images)
@@ -158,9 +158,9 @@ const createSingleSlide = (props) => {
     panelClassName,
     panelStyle,
   } = props;
-  const { src, link, linkTitle } = getPanelData(item);
+  const { src, link, linkTitle } = getSlideData(item);
   const slide = (
-    <Panel
+    <Slide
       key={`panel_${index}`}
       cssClass={panelClassName}
       styleObj={panelStyle}
@@ -171,21 +171,21 @@ const createSingleSlide = (props) => {
         src={src}
         styleObj={[{ maxHeight: panelStyle.height }]}
       />
-    </Panel>
+    </Slide>
   );
   return slide;
 };
 
 /**
-  * @desc create all Gallery panels
+  * @desc create all Slides
   *
   * @param {boolean} domready did the first render (SSR) happen already?
-  * @param {array} items Gallery contents
-  * @param {array || string} panelClassName Gallery panel's className or array of classNames
-  * @param {object} panelStyle Gallery panel inline style declaration
+  * @param {array} items Slides data collection
+  * @param {array || string} panelClassName Slide className or array of classNames
+  * @param {object} panelStyle Slide inline style declaration
   * @param {boolean} loop should Gallery loop?
   *
-  * @returns {array} Gallery panels collection
+  * @returns {array} Slides collection
 */
 export const createSlides = (props) => {
   const {
@@ -197,7 +197,7 @@ export const createSlides = (props) => {
   } = props;
   let slides = null;
   /**
-   * if we are dealing with SSR just print the first panel
+   * if we are dealing with SSR just print the first Slide
    * for SEO / Performances reasons
   */
   if (!domready) {
