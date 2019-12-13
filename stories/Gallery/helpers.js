@@ -132,12 +132,16 @@ const createSingleSlide = (props) => {
   let slide = null;
   if (isValidElement(item)) {
     let customStyleObj = null;
+    let customWidth = null;
+    let customHeight = null;
     switch (type) {
       case 'img':
         customStyleObj = { maxHeight: panelStyle.height };
         break;
       case 'ytvideo':
-        customStyleObj = { width: panelStyle.width, height: `${Math.round(panelStyle.width.replace('px', '') / 1.77)}px`, 'max-height': panelStyle.height };
+        customStyleObj = { width: panelStyle.width, height: `${Math.round(panelStyle.width.replace('px', '') / 1.77)}px`, maxHeight: panelStyle.height };
+        customWidth = panelStyle.width;
+        customHeight = panelStyle.height;
         break;
       default:
         return null;
@@ -148,7 +152,7 @@ const createSingleSlide = (props) => {
         cssClass={panelClassName}
         styleObj={panelStyle}
       >
-        {cloneElement(item, { styleObj: customStyleObj })}
+        {cloneElement(item, { styleObj: customStyleObj, width: customWidth, height: customHeight })}
       </Slide>
     );
   }

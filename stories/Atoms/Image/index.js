@@ -8,8 +8,14 @@ import setSizeMeasureUnit from '../../Utils/setSizeMeasureUnit';
 const propTypes = {
   src: PropTypes.string,
   alt: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
+  width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  height: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   cssClass: PropTypes.string,
   styleObj: PropTypes.instanceOf(Object),
 };

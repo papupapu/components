@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 
@@ -6,7 +6,10 @@ import Image from '../Image';
 
 import makeCls from '../../Utils/makeCls';
 import makeStyle from '../../Utils/makeStyle';
+import loadScript from '../../Utils/loadScript';
 import setSizeMeasureUnit from '../../Utils/setSizeMeasureUnit';
+
+import * as constants from './constants';
 
 import styles, {
   mainCls,
@@ -16,8 +19,14 @@ import styles, {
 const propTypes = {
   ytvideoid: PropTypes.string,
   alt: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
+  width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  height: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   cssClass: PropTypes.string,
   styleObj: PropTypes.instanceOf(Object),
 };
@@ -43,24 +52,79 @@ const YTVideo = ({
 }) => {
   const classes = useStyles();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [player, setPlayer] = useState(null);
   const cls = makeCls([classes[mainCls], cssClass]);
   const previewLinkCls = makeCls([classes[`${mainCls}${linkCls}`]]);
   const style = makeStyle(styleObj);
+  const playerHeight = 'height' in styleObj ? styleObj.height : height;
+
+  useEffect(
+    () => {
+      if (isLoaded) {
+        if (!window.YT) {
+          loadScript(constants.YTApi);
+          // https://developers.google.com/youtube/iframe_api_reference
+          window.onYouTubeIframeAPIReady = () => {
+            const playerConstructor = new window.YT.Player(
+              `YTplayer_${ytvideoid}`,
+              {
+                width,
+                height: playerHeight,
+                videoId: ytvideoid,
+                events: {
+                  onReady: (e) => e.target.playVideo(),
+                },
+              },
+            );
+            setPlayer(playerConstructor);
+          };
+        } else {
+          const playerConstructor = new window.YT.Player(
+            `YTplayer_${ytvideoid}`,
+            {
+              width,
+              height: playerHeight,
+              videoId: ytvideoid,
+              events: {
+                onReady: (e) => e.target.playVideo(),
+              },
+            },
+          );
+          setPlayer(playerConstructor);
+        }
+      }
+    }, [isLoaded, width, playerHeight, ytvideoid],
+  );
+
+  useEffect(
+    () => {
+      const removePlayer = () => {
+        player.stopVideo();
+        player.destroy();
+        setIsLoaded(false);
+        setPlayer(null);
+        window.removeEventListener('click', removePlayer);
+      };
+      if (player) {
+        window.addEventListener('click', removePlayer);
+      }
+    }, [player],
+  );
+
+  const linkPreviewAction = (e) => {
+    e.preventDefault();
+    setIsLoaded(true);
+  };
 
   return !isLoaded ? (
     <a
-      href={`https://www.youtube.com/watch?v=${ytvideoid}`}
+      href={`${constants.YTVideoPageUri}${ytvideoid}`}
       alt={alt}
       className={previewLinkCls}
-      onClick={
-        (e) => {
-          e.preventDefault();
-          setIsLoaded(true);
-        }
-      }
+      onClick={linkPreviewAction}
     >
       <Image
-        src={`https://i.ytimg.com/vi/${ytvideoid}/hq720.jpg`}
+        src={`${constants.YTVideoImgUri}${ytvideoid}${constants.YTVideoImgName}`}
         alt={alt || 'no info available'}
         width={setSizeMeasureUnit(width)}
         height={setSizeMeasureUnit(height)}
@@ -69,16 +133,7 @@ const YTVideo = ({
       />
     </a>
   ) : (
-    <iframe
-      title={alt}
-      src={`https://www.youtube.com/embed/${ytvideoid}?autoplay=1`}
-      className={cls}
-      width={setSizeMeasureUnit(width)}
-      height={setSizeMeasureUnit(height)}
-      style={style}
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    />
+    <div id={`YTplayer_${ytvideoid}`} />
   );
 };
 YTVideo.propTypes = propTypes;

@@ -129,7 +129,6 @@ const Gallery = ({
     sliderCoords: helpers.initialSliderCoords(loop, size, children),
     dir: '',
   });
-
   /**
    * set up mouseDown state to keep track of:
    * - the event fired by the user when he clicks and drag Slider
@@ -139,7 +138,6 @@ const Gallery = ({
     down: false,
     coords: 0,
   });
-
   /**
    * effect triggered by viewport size changes.
    * it is going be triggered just after first mount since initially
@@ -243,7 +241,7 @@ const Gallery = ({
    * create Slider css classname and
    * create its inline style object
   */
-  const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`]]);
+  const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`], isValidString(moveState.dir) && moveState.dir !== 'loop' ? 'deletePointerEvents' : null]);
   const sliderStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.sliderWidth),
     height: setSizeMeasureUnit(computedSizes.height),
@@ -265,7 +263,6 @@ const Gallery = ({
   const panelStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.panelWidth),
     height: setSizeMeasureUnit(computedSizes.height),
-    pointerEvents: isValidString(moveState.dir) && moveState.dir !== 'loop' ? 'none' : 'all',
   });
 
   /**

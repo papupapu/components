@@ -11,12 +11,16 @@ export default {
   title: 'Gallery',
 };
 
-const media = [
+const slides = [
   {
     type: 'img',
     uri: 'http://localhost:8888/Img/d.jpg',
     link: '#',
     linkTitle: 'suca',
+  },
+  {
+    type: 'ytvideo',
+    ytvideoid: '0rfhC4hT5O4',
   },
   {
     type: 'img',
@@ -56,7 +60,7 @@ const galleryChildren = (data) => data.map(
       case 'ytvideo':
         return (
           <YTVideo
-            key={el.id}
+            key={el.ytvideoid}
             type={el.type}
             ytvideoid={el.ytvideoid}
           />
@@ -72,18 +76,19 @@ export const main = () => {
   return (
     <>
       <dl style={{ marginTop: '450px' }}>
-        <dt>TODO</dt>
+        <dt><a href='#'>TODO</a></dt>
         <dd>- comment Atoms</dd>
         <dd>- touch events</dd>
-        <dd>- check memo to prevent rerender</dd>
+        <dd>- link Atom</dd>
         <dd>- panels lazyloading</dd>
+        <dd>- different slider styles (centered / 75% of gallery width)</dd>
       </dl>
       <Gallery
         ui={ui}
         size={{ w: 600, h: 400 }}
         loop
       >
-        {galleryChildren(media)}
+        {galleryChildren(slides)}
       </Gallery>
     </>
   );
@@ -98,7 +103,7 @@ export const startAt = () => {
       startAt={2}
       loop
     >
-      {galleryChildren(media)}
+      {galleryChildren(slides)}
     </Gallery>
   );
 };
@@ -111,7 +116,7 @@ export const looping = () => {
       size={{ w: 600, h: 400 }}
       loop
     >
-      {galleryChildren(media)}
+      {galleryChildren(slides)}
     </Gallery>
   );
 };
@@ -124,7 +129,7 @@ export const nobuttons = () => {
       size={{ w: 600, h: 400 }}
       hasButtons={false}
     >
-      {galleryChildren(media)}
+      {galleryChildren(slides)}
     </Gallery>
   );
 };
@@ -137,7 +142,7 @@ export const fullscreen = () => {
       loop
       fullscreen
     >
-      {galleryChildren(media)}
+      {galleryChildren(slides)}
     </Gallery>
   );
 };
@@ -150,7 +155,7 @@ export const responsive = () => {
         ui={ui}
         loop
       >
-        {galleryChildren(media)}
+        {galleryChildren(slides)}
       </Gallery>
     </div>
   );
