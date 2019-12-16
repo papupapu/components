@@ -18,7 +18,6 @@ import styles, {
   buttonCls,
 } from './style';
 
-
 const useStyles = createUseStyles(styles);
 
 const propTypes = {

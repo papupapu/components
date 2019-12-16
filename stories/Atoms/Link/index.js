@@ -36,7 +36,7 @@ const Link = ({
   children,
 }) => {
   const onClickAction = (e) => {
-    if (action === 'function') {
+    if (typeof action === 'function') {
       e.preventDefault();
       action(e);
     }

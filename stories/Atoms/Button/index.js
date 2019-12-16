@@ -39,7 +39,7 @@ const Button = ({
   const classes = useStyles();
   const cls = makeCls([classes[mainCls], cssClass]);
   const onClickAction = (e) => {
-    if (action === 'function') {
+    if (typeof action === 'function') {
       e.preventDefault();
       action(e);
     }
