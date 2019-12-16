@@ -4,6 +4,7 @@ import { createUseStyles } from 'react-jss';
 
 import Link from '../Link';
 import Panel from '../Panel';
+import Icon from '../Icon';
 
 import makeCls from '../../Utils/makeCls';
 import makeStyle from '../../Utils/makeStyle';
@@ -97,9 +98,21 @@ const Image = ({
         title={linkTitle || alt}
         styleObj={brokenStyle}
       >
-      Oooooooops...
+        <Icon
+          name="brokenImage"
+          width={40}
+          height={40}
+          cssClass="noStroke"
+        />
       </Link>
-    ) : 'Oooooooops...';
+    ) : (
+      <Icon
+        name="brokenImage"
+        width={40}
+        height={40}
+        cssClass="noStroke"
+      />
+    );
     code = (
       <Panel
         cssClass={brokenClassName}

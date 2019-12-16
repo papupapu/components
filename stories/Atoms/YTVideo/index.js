@@ -6,6 +6,7 @@ import { createUseStyles } from 'react-jss';
 
 import Link from '../Link';
 import Image from '../Image';
+import Icon from '../Icon';
 
 import makeCls from '../../Utils/makeCls';
 import makeStyle from '../../Utils/makeStyle';
@@ -18,7 +19,6 @@ import styles, {
   mainCls,
   linkCls,
 } from './style';
-
 
 const useStyles = createUseStyles(styles);
 
@@ -122,7 +122,7 @@ const YTVideo = ({
     <Link
       href={`${constants.YTVideoPageUri}${ytvideoid}`}
       alt={alt}
-      className={previewLinkCls}
+      cssClass={previewLinkCls}
       action={linkPreviewAction}
     >
       <Image
@@ -130,8 +130,14 @@ const YTVideo = ({
         alt={alt}
         width={setSizeMeasureUnit(width)}
         height={setSizeMeasureUnit(height)}
-        className={cls}
+        cssClass={cls}
         styleObj={style}
+      />
+      <Icon
+        name="play"
+        width={100}
+        height={100}
+        cssClass="icon"
       />
     </Link>
   ) : (

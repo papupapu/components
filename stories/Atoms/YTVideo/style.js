@@ -11,16 +11,14 @@ export default {
   [`${mainCls}${linkCls}`]: {
     display: 'block',
     position: 'relative',
-    '&:after': {
-      content: '""',
+    color: '#FFF',
+    '& .icon': {
       position: 'absolute',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      width: '100%',
-      height: '100%',
-      background: 'url(http://localhost:8888/Img/play-button-1.png) center center no-repeat',
-      backgroundSize: '100px 100px',
+      opacity: '.7',
+      pointerEvents: 'none',
     },
   },
 };
