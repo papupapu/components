@@ -41,6 +41,12 @@ const slides = [
     linkTitle: 'suca',
   },
   {
+    type: 'img',
+    uri: 'http://localhost:8888/Img/error.jpg',
+    link: '#',
+    linkTitle: 'suca',
+  },
+  {
     type: 'ytvideo',
     ytvideoid: 'nwI-MrUCtkk',
   },
@@ -55,6 +61,8 @@ const galleryChildren = (data) => data.map(
             key={el.uri}
             type={el.type}
             src={el.uri}
+            link={el.link}
+            linkTitle={el.linkTitle}
           />
         );
       case 'ytvideo':
@@ -76,10 +84,9 @@ export const main = () => {
   return (
     <>
       <dl style={{ marginTop: '450px' }}>
-        <dt><a href='#'>TODO</a></dt>
+        <dt>TODO</dt>
         <dd>- comment Atoms</dd>
         <dd>- touch events</dd>
-        <dd>- link Atom</dd>
         <dd>- panels lazyloading</dd>
         <dd>- different slider styles (centered / 75% of gallery width)</dd>
       </dl>

@@ -18,6 +18,9 @@ import styles, {
   buttonCls,
 } from './style';
 
+
+const useStyles = createUseStyles(styles);
+
 const propTypes = {
   /**
    * user's device infos
@@ -77,8 +80,6 @@ const defaultProps = {
   loop: false,
   fullscreen: false,
 };
-
-const useStyles = createUseStyles(styles);
 
 const Gallery = ({
   ui,
@@ -241,7 +242,7 @@ const Gallery = ({
    * create Slider css classname and
    * create its inline style object
   */
-  const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`], isValidString(moveState.dir) && moveState.dir !== 'loop' ? 'deletePointerEvents' : null]);
+  const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`]]);
   const sliderStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.sliderWidth),
     height: setSizeMeasureUnit(computedSizes.height),
@@ -263,6 +264,8 @@ const Gallery = ({
   const panelStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.panelWidth),
     height: setSizeMeasureUnit(computedSizes.height),
+
+    pointerEvents: isValidString(moveState.dir) && moveState.dir !== 'loop' ? 'none' : null,
   });
 
   /**

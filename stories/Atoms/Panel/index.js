@@ -8,16 +8,15 @@ const propTypes = {
     PropTypes.string,
     PropTypes.node,
     PropTypes.func,
-  ]),
+  ]).isRequired,
 };
 
 const defaultProps = {
-  cssClass: '',
+  cssClass: null,
   styleObj: {},
-  children: '',
 };
 
-const Slide = ({
+const Panel = ({
   cssClass,
   styleObj,
   children,
@@ -29,6 +28,6 @@ const Slide = ({
     {children}
   </div>
 );
-Slide.propTypes = propTypes;
-Slide.defaultProps = defaultProps;
-export default Slide;
+Panel.propTypes = propTypes;
+Panel.defaultProps = defaultProps;
+export default Panel;

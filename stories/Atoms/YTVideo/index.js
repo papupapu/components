@@ -1,7 +1,10 @@
+// https://developers.google.com/youtube/iframe_api_reference
+
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 
+import Link from '../Link';
 import Image from '../Image';
 
 import makeCls from '../../Utils/makeCls';
@@ -16,8 +19,11 @@ import styles, {
   linkCls,
 } from './style';
 
+
+const useStyles = createUseStyles(styles);
+
 const propTypes = {
-  ytvideoid: PropTypes.string,
+  ytvideoid: PropTypes.string.isRequired,
   alt: PropTypes.string,
   width: PropTypes.oneOfType([
     PropTypes.string,
@@ -32,15 +38,12 @@ const propTypes = {
 };
 
 const defaultProps = {
-  ytvideoid: '',
-  alt: '',
+  alt: null,
   width: null,
   height: null,
-  cssClass: '',
+  cssClass: null,
   styleObj: {},
 };
-
-const useStyles = createUseStyles(styles);
 
 const YTVideo = ({
   ytvideoid,
@@ -63,7 +66,6 @@ const YTVideo = ({
       if (isLoaded) {
         if (!window.YT) {
           loadScript(constants.YTApi);
-          // https://developers.google.com/youtube/iframe_api_reference
           window.onYouTubeIframeAPIReady = () => {
             const playerConstructor = new window.YT.Player(
               `YTplayer_${ytvideoid}`,
@@ -117,21 +119,21 @@ const YTVideo = ({
   };
 
   return !isLoaded ? (
-    <a
+    <Link
       href={`${constants.YTVideoPageUri}${ytvideoid}`}
       alt={alt}
       className={previewLinkCls}
-      onClick={linkPreviewAction}
+      action={linkPreviewAction}
     >
       <Image
         src={`${constants.YTVideoImgUri}${ytvideoid}${constants.YTVideoImgName}`}
-        alt={alt || 'no info available'}
+        alt={alt}
         width={setSizeMeasureUnit(width)}
         height={setSizeMeasureUnit(height)}
         className={cls}
         styleObj={style}
       />
-    </a>
+    </Link>
   ) : (
     <div id={`YTplayer_${ytvideoid}`} />
   );

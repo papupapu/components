@@ -16,11 +16,6 @@ export default {
     display: 'flex',
     height: '100%',
     transition: 'transform .3s linear',
-    '&.deletePointerEvents': {
-      [`.${mainCls}${sliderCls}${panelCls}`]: {
-        pointerEvents: 'none',
-      },
-    },
   },
   [`${mainCls}${sliderCls}${panelCls}`]: {
     display: 'flex',
@@ -32,7 +27,6 @@ export default {
       display: 'block',
       maxWidth: '100%',
       height: 'auto',
-      pointerEvents: 'none',
     },
   },
   [`${mainCls}${sliderCls}${buttonCls}`]: {

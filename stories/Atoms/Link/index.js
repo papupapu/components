@@ -1,19 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createUseStyles } from 'react-jss';
-
-import makeCls from '../../Utils/makeCls';
-
-import styles, {
-  mainCls,
-} from './style';
-
-const useStyles = createUseStyles(styles);
 
 const propTypes = {
-  type: PropTypes.string,
+  href: PropTypes.string.isRequired,
+  title: PropTypes.string,
   cssClass: PropTypes.string,
   styleObj: PropTypes.instanceOf(Object),
+  rel: PropTypes.string,
+  target: PropTypes.string,
   action: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -23,21 +17,24 @@ const propTypes = {
 };
 
 const defaultProps = {
-  type: 'button',
+  title: null,
   cssClass: null,
   styleObj: {},
+  rel: null,
+  target: null,
   action: null,
 };
 
-const Button = ({
-  type,
-  action,
+const Link = ({
+  href,
+  title,
   cssClass,
   styleObj,
+  rel,
+  target,
+  action,
   children,
 }) => {
-  const classes = useStyles();
-  const cls = makeCls([classes[mainCls], cssClass]);
   const onClickAction = (e) => {
     if (action === 'function') {
       e.preventDefault();
@@ -45,17 +42,20 @@ const Button = ({
     }
   };
   return (
-    // eslint-disable-next-line react/button-has-type
-    <button
-      type={type}
-      className={cls}
+    <a
+      href={href}
+      title={title}
+      className={cssClass}
       style={styleObj}
+      rel={rel}
+      target={target}
       onClick={onClickAction}
     >
       {children}
-    </button>
+    </a>
   );
 };
-Button.propTypes = propTypes;
-Button.defaultProps = defaultProps;
-export default Button;
+
+Link.propTypes = propTypes;
+Link.defaultProps = defaultProps;
+export default Link;

@@ -1,6 +1,6 @@
 import React, { cloneElement, isValidElement } from 'react';
 
-import Slide from './Atoms/Slide';
+import Slide from '../Atoms/Panel';
 
 /**
   * @desc compute Slide to be shown on mount
