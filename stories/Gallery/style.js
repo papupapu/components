@@ -16,6 +16,11 @@ export default {
     display: 'flex',
     height: '100%',
     transition: 'transform .3s linear',
+    '&.deletePointerEvents': {
+      '& > *': {
+        pointerEvents: 'none',
+      },
+    },
   },
   [`${mainCls}${sliderCls}${panelCls}`]: {
     display: 'flex',

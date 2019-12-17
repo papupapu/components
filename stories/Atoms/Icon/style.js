@@ -4,13 +4,13 @@ export default {
   [mainCls]: {
     verticalAlign: 'middle',
     pointerEvents: 'all',
-    fill: 'currentColor',
+    fill: (props) => `${props.color || 'currentColor'}`,
     '& path': {
       stroke: 'transparent',
     },
     '&.addStroke': {
       '& path': {
-        stroke: 'currentColor',
+        stroke: (props) => `${props.color || 'currentColor'}`,
       },
     },
   },

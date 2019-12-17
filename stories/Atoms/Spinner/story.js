@@ -24,3 +24,21 @@ export const custom = () => (
     />
   </>
 );
+
+export const two = () => (
+  <>
+    <p>Spinner</p>
+    <Spinner
+      width={40}
+      height={40}
+      strokeWidth={2}
+      color="#f90"
+    />
+    <Spinner
+      width={60}
+      height={60}
+      strokeWidth={2}
+      color="#900"
+    />
+  </>
+);

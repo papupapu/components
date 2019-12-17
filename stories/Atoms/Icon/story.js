@@ -17,6 +17,18 @@ export const main = () => (
   </>
 );
 
+export const customcolor = () => (
+  <>
+    <p>Image icon - custom color</p>
+    <Icon
+      name="image"
+      width={40}
+      height={40}
+      color="#900"
+    />
+  </>
+);
+
 export const mainStroke = () => (
   <>
     <p>Image icon - added stroke</p>

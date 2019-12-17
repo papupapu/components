@@ -29,3 +29,17 @@ export default (fn, time) => {
     timeout = setTimeout(functionCall, time);
   };
 };
+
+/*
+
+More stylish version to test
+
+export default (fn, tm = 0) => {
+  let timeout;
+
+  return (...args) => {
+    timeout && clearTimeout(timeout);
+    timeout = setTimeout(() => fn(...args), tm);
+  };
+};
+*/

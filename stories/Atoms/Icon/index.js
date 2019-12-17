@@ -24,6 +24,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]),
+  color: PropTypes.string,
   cssClass: PropTypes.string,
   styleObj: PropTypes.instanceOf(Object),
 };
@@ -31,6 +32,7 @@ const propTypes = {
 const defaultProps = {
   width: null,
   height: null,
+  color: null,
   cssClass: null,
   styleObj: {},
 };
@@ -39,10 +41,11 @@ const Icon = ({
   name,
   width,
   height,
+  color,
   cssClass,
   styleObj,
 }) => {
-  const classes = useStyles();
+  const classes = useStyles({ color });
 
   const IconComponent = icons[name] || null;
   const cls = makeCls([classes[mainCls], cssClass]);

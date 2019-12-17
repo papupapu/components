@@ -1,5 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
+
+import isEqual from '../../Utils/isEqual';
+
+const panelPropsCheck = (
+  prevPanelProps,
+  nextPanelProps,
+) => prevPanelProps.cssClass === nextPanelProps.cssClass
+  && isEqual(prevPanelProps.styleObj, nextPanelProps.styleObj);
 
 const propTypes = {
   cssClass: PropTypes.string,
@@ -30,4 +38,4 @@ const Panel = ({
 );
 Panel.propTypes = propTypes;
 Panel.defaultProps = defaultProps;
-export default Panel;
+export default memo(Panel, panelPropsCheck);

@@ -237,11 +237,12 @@ const Gallery = ({
     width: setSizeMeasureUnit(computedSizes.width),
     height: setSizeMeasureUnit(computedSizes.height),
   });
+
   /**
    * create Slider css classname and
    * create its inline style object
   */
-  const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`]]);
+  const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`], isValidString(moveState.dir) && moveState.dir !== 'loop' && 'deletePointerEvents']);
   const sliderStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.sliderWidth),
     height: setSizeMeasureUnit(computedSizes.height),
@@ -263,20 +264,19 @@ const Gallery = ({
   const panelStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.panelWidth),
     height: setSizeMeasureUnit(computedSizes.height),
-
-    pointerEvents: isValidString(moveState.dir) && moveState.dir !== 'loop' ? 'none' : null,
   });
 
   /**
-   * create Gallery panels
-  */
-  const sliderContents = helpers.createSlides({
+     * create Gallery panels
+   */
+  const createSlidesProps = {
     domready: ui.device !== '',
     items: children,
     panelClassName,
     panelStyle,
     loop,
-  });
+  };
+  const sliderContents = helpers.createSlides(createSlidesProps);  
 
   /**
    * move Slider to a new panel

@@ -85,9 +85,13 @@ export const main = () => {
     <>
       <dl style={{ marginTop: '450px' }}>
         <dt>TODO</dt>
+        <dd>- check if useMemo is better than memo for Panel rerender prevention</dd>
+        <dd>- check if is it possible to prevent buttons rerender</dd>
+        <dd>- find way to externalize buttons</dd>
         <dd>- comment Atoms</dd>
         <dd>- touch events</dd>
-        <dd>- panels lazyloading</dd>
+        <dd>- panels lazyloading (apply spinner)</dd>
+        <dd>- panels may have different needs depending on their contents</dd>
         <dd>- different slider styles (centered / 75% of gallery width)</dd>
       </dl>
       <Gallery
