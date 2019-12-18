@@ -127,6 +127,7 @@ const Gallery = ({
    */
   const [moveState, setMoveState] = useState({
     current: helpers.initialSlide(startAt, loop),
+    loadedSlides: [helpers.initialSlide(startAt, loop)],
     sliderCoords: helpers.initialSliderCoords(loop, size, children),
     dir: '',
   });
@@ -262,9 +263,9 @@ const Gallery = ({
    * create their inline style object
   */
   const panelClassName = makeCls([classes[`${mainCls}${sliderCls}${panelCls}`]]);
-  const panelStyle = makeStyle({
-    width: setSizeMeasureUnit(computedSizes.panelWidth),
-    height: setSizeMeasureUnit(computedSizes.height),
+  const panelSize = makeStyle({
+    width: computedSizes.panelWidth,
+    height: computedSizes.height,
   });
 
   /**
@@ -274,7 +275,7 @@ const Gallery = ({
     domready: ui.device !== '',
     items: children,
     panelClassName,
-    panelStyle,
+    panelSize,
     loop,
   });
 
@@ -355,10 +356,35 @@ const Gallery = ({
         },
       });
     } else if (loop) {
+      // clone state
+      const slidesToLoad = [...moveState.loadedSlides];
+      if (slidesToLoad.length < children.length) {
+        if (slidesToLoad.indexOf(current) < 0) {
+          slidesToLoad.push(current);
+        }
+        const N = 2;
+        const nextCandidates = [...Array(N).keys()].map((_e, i) => current + (i + 1));
+        nextCandidates.forEach(
+          (nc) => {
+            if (
+              nc < children.length - 1
+              && slidesToLoad.indexOf(nc) < 0
+              && current % N === 0
+              
+            ) {
+              
+              slidesToLoad.push(nc);
+            }
+          },
+        );
+      }
+      console.log(current);
+      console.log(slidesToLoad);
       setMoveState({
         ...moveState,
         ...{
           current,
+          loadedSlides: slidesToLoad,
           sliderCoords: helpers.sliderCoords(current, computedSizes.width),
           dir: '',
         },

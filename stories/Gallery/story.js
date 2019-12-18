@@ -50,7 +50,45 @@ const slides = [
     type: 'ytvideo',
     ytvideoid: 'nwI-MrUCtkk',
   },
-];
+
+  {
+    type: 'img',
+    uri: 'http://localhost:8888/Img/d.jpg',
+    link: '#',
+    linkTitle: 'suca',
+  },
+  {
+    type: 'ytvideo',
+    ytvideoid: '0rfhC4hT5O4',
+  },
+  {
+    type: 'img',
+    uri: 'http://localhost:8888/Img/a.jpg',
+    link: '#',
+    linkTitle: 'suca',
+  },
+  {
+    type: 'img',
+    uri: 'http://localhost:8888/Img/b.jpg',
+    link: '#',
+    linkTitle: 'suca',
+  },
+  {
+    type: 'img',
+    uri: 'http://localhost:8888/Img/c.jpg',
+    link: '#',
+    linkTitle: 'suca',
+  },
+  {
+    type: 'img',
+    uri: 'http://localhost:8888/Img/error.jpg',
+    link: '#',
+    linkTitle: 'suca',
+  },
+  {
+    type: 'ytvideo',
+    ytvideoid: 'nwI-MrUCtkk',
+  },];
 
 const galleryChildren = (data) => data.map(
   (el) => {

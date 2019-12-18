@@ -2,6 +2,8 @@ import React, { cloneElement, isValidElement } from 'react';
 
 import Slide from '../Atoms/Panel';
 
+import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';
+
 /**
   * @desc compute Slide to be shown on mount
   *
@@ -113,16 +115,18 @@ export const getElementsSizes = (size, itemsLength, loop) => {
   * @param {object} item Slide contents
   * @param {number} index Slide position
   * @param {array || string} panelClassName Slide className or array of classNames
-  * @param {object} panelStyle Slide inline style declaration
+  * @param {object} panelSize Slide width and height
   *
   * @returns {object} Slide
+  *
+  * TODO: allow slide to accept plain HTML as children
 */
 const createSingleSlide = (props) => {
   const {
     item,
     index,
     panelClassName,
-    panelStyle,
+    panelSize,
     item: {
       props: {
         type,
@@ -130,22 +134,57 @@ const createSingleSlide = (props) => {
     },
   } = props;
   let slide = null;
+  /**
+   * Slide contents are supposed to be valid React components
+   */
   if (isValidElement(item)) {
+    /**
+     * different type of contents may need different props
+     * for Gallery to display them correctly
+     */
     let customStyleObj = null;
     let customWidth = null;
     let customHeight = null;
+    /**
+     * set up Slide style
+     */
+    const panelStyle = {
+      width: setSizeMeasureUnit(panelSize.width),
+      height: setSizeMeasureUnit(panelSize.height),
+    };
     switch (type) {
+      /**
+       * Image max-height will be equal to Slide height
+       */
       case 'img':
         customStyleObj = { maxHeight: panelStyle.height };
         break;
       case 'ytvideo':
-        customStyleObj = { width: panelStyle.width, height: `${Math.round(panelStyle.width.replace('px', '') / 1.77)}px`, maxHeight: panelStyle.height };
+        /**
+         * Style to apply to the video preview Image
+         * Height is computed from Slide width / 1.77 to force 16:9
+         * standard YT video ratio
+         */
+        customStyleObj = {
+          width: panelStyle.width,
+          height: setSizeMeasureUnit(Math.round(panelSize.width / 1.77)),
+          maxHeight: panelStyle.height,
+        };
+        /**
+         * Size to apply to YT Iframe
+         */
         customWidth = panelStyle.width;
         customHeight = panelStyle.height;
         break;
       default:
         return null;
     }
+    /**
+     * cloneElement is a perfectly safe & efficient way to pass
+     * custom props to Slide children components
+     * expecially coupled with React.memo to prevent unnecessary rerenderingù
+     *
+    */
     slide = (
       <Slide
         key={`panel_${index}`}
@@ -165,7 +204,7 @@ const createSingleSlide = (props) => {
   * @param {boolean} domready did the first render (SSR) happen already?
   * @param {array} items Slides data collection
   * @param {array || string} panelClassName Slide className or array of classNames
-  * @param {object} panelStyle Slide inline style declaration
+  * @param {object} panelSize Slide width and height
   * @param {boolean} loop should Gallery loop?
   *
   * @returns {array} Slides collection
@@ -175,7 +214,7 @@ export const createSlides = (props) => {
     domready,
     items,
     panelClassName,
-    panelStyle,
+    panelSize,
     loop,
   } = props;
   let slides = null;
@@ -188,7 +227,7 @@ export const createSlides = (props) => {
       item: items[0],
       index: 'noindex',
       panelClassName,
-      panelStyle,
+      panelSize,
     });
   } else {
     slides = items
@@ -197,7 +236,7 @@ export const createSlides = (props) => {
           item,
           index,
           panelClassName,
-          panelStyle,
+          panelSize,
         }),
       );
     /**
@@ -209,13 +248,13 @@ export const createSlides = (props) => {
         item: items[0],
         index: (items.length + 1),
         panelClassName,
-        panelStyle,
+        panelSize,
       });
       const loopFirst = createSingleSlide({
         item: items[items.length - 1],
         index: (items.length + 2),
         panelClassName,
-        panelStyle,
+        panelSize,
       });
       slides = [loopFirst, ...slides, loopLast];
     }
