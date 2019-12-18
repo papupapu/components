@@ -15,7 +15,7 @@ export default {
   [`${mainCls}${sliderCls}`]: {
     display: 'flex',
     height: '100%',
-    transition: 'transform .3s linear',
+    transition: 'transform .3s cubic-bezier(0.75, 0.25, 0.22, 0.90)',
     '&.deletePointerEvents': {
       '& > *': {
         pointerEvents: 'none',

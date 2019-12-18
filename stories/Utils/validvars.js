@@ -1,4 +1,22 @@
 /**
+  * @desc check if a variable is an object
+  *
+  * @param {any} x variable to be checked
+  *
+  * @returns {boolean} is the variable an object?
+*/
+export const isObject = (x) => typeof x === 'object';
+
+/**
+  * @desc check if a variable is a string
+  *
+  * @param {any} x variable to be checked
+  *
+  * @returns {boolean} is the variable a string?
+*/
+export const isString = (x) => typeof x === 'string';
+
+/**
   * @desc check if a variable is not undefined nor null
   *
   * @param {any} x variable to be checked
@@ -14,6 +32,4 @@ export const isValidVar = (x) => typeof x !== 'undefined' && x !== null;
   *
   * @returns {boolean} is the variable a valid string?
 */
-export const isValidString = (x) => isValidVar(x) && typeof x === 'string' && x !== '';
-
-export const isObject = (x) => typeof x === 'object';
+export const isValidString = (x) => isValidVar(x) && isString(x) && x !== '';

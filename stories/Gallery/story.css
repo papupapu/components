@@ -1,19 +1,22 @@
 .responsivecontainer{
-  position:relative;
-  width: 375px;
-  height: 276px;
+  position:absolute;
+  top:0; left: 0;
+  width: 100vw;
+  height: calc((100vw * 235) / 320); /* 320 : 235 = 375 : x */
 }
 
 @media only screen and (min-width:768px) {
   .responsivecontainer{
-    width: 400px;
-    height: 295px;
+    position:relative; top: auto; left: auto;
+    margin:0 auto;
+    width: calc(100vw - 40px);
+    height: calc(((100vw - 40px) * 235) / 320);
   }
 }
 
 @media only screen and (min-width:1024px) {
   .responsivecontainer{
-    width: 600px;
-    height: 441px;
+    width: 1000px;
+    height: 600px;
   }
 }

@@ -8,6 +8,7 @@ import makeCls from '../Utils/makeCls';
 import makeStyle from '../Utils/makeStyle';
 import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';
 import { isValidString } from '../Utils/validvars';
+import { disableScroll, enableScroll } from '../Utils/scrollActions';
 
 import * as helpers from './helpers';
 
@@ -269,14 +270,13 @@ const Gallery = ({
   /**
      * create Gallery panels
    */
-  const createSlidesProps = {
+  const sliderContents = helpers.createSlides({
     domready: ui.device !== '',
     items: children,
     panelClassName,
     panelStyle,
     loop,
-  };
-  const sliderContents = helpers.createSlides(createSlidesProps);  
+  });
 
   /**
    * move Slider to a new panel
@@ -378,6 +378,13 @@ const Gallery = ({
     }
   };
 
+  const correctEvent = (e) => {
+    if (uiState.touchscreen) {
+      return e.touches[0];
+    }
+    return e;
+  };
+
   /**
    * if the user fires a mouseDown event on Slider, prepare to animate it by dragging action by
    * - setting the mouseDown state to true
@@ -385,7 +392,7 @@ const Gallery = ({
   */
   const mouseDownOnSlider = (e) => setMouseDownState({
     down: true,
-    coords: e.pageX,
+    coords: correctEvent(e).pageX,
   });
 
   /**
@@ -393,6 +400,7 @@ const Gallery = ({
   */
   const moveSlider = (e) => {
     if (mouseDownState.down) {
+      disableScroll();
       /**
        * the difference between the current mouse position and the one registered when
        * the mouseDown event was fired is going to give us:
@@ -400,7 +408,7 @@ const Gallery = ({
        * - the direction of the movement
        * - the new position of Slider
       */
-      const deltaX = e.pageX - mouseDownState.coords;
+      const deltaX = correctEvent(e).pageX - mouseDownState.coords;
       const dir = deltaX > 0 ? 'prev' : 'next';
       const newCoords = deltaX + helpers.sliderCoords(moveState.current, computedSizes.width);
 
@@ -457,6 +465,7 @@ const Gallery = ({
       down: false,
       coords: 0,
     });
+    enableScroll();
   };
 
   /**
@@ -483,6 +492,9 @@ const Gallery = ({
     },
   );
 
+  const prevButtonDisabled = !loop && moveState.current === 0;
+  const nextButtonDisabled = !loop && moveState.current === sliderContents.length - 1;
+
   return (
     <div
       ref={galleryMainElement}
@@ -495,36 +507,38 @@ const Gallery = ({
         className={sliderClassName}
         onMouseMove={moveSlider}
         onMouseDown={mouseDownOnSlider}
+        onTouchStart={mouseDownOnSlider}
+        onTouchMove={moveSlider}
+        onTouchEnd={stopMovingSlider}
       >
         {sliderContents}
       </div>
       {
-        hasButtons && (
-          <Button
-            action={prevSlide}
-            cssClass={makeCls([
-              classes[`${mainCls}${sliderCls}${buttonCls}`],
-              'prev',
-              !loop && moveState.current === 0 && 'disabled',
-            ])}
-          >
-            Prev
-          </Button>
-        )
-      }
-      {
-        hasButtons && (
-          <Button
-            action={nextSlide}
-            cssClass={makeCls([
-              classes[`${mainCls}${sliderCls}${buttonCls}`],
-              'next',
-              !loop && moveState.current === sliderContents.length - 1 && 'disabled',
-            ])}
-          >
-            Next
-          </Button>
-        )
+        hasButtons
+          && (
+            <>
+              <Button
+                action={prevSlide}
+                cssClass={makeCls([
+                  classes[`${mainCls}${sliderCls}${buttonCls}`],
+                  'prev',
+                  prevButtonDisabled && 'disabled',
+                ])}
+              >
+                Prev
+              </Button>
+              <Button
+                action={nextSlide}
+                cssClass={makeCls([
+                  classes[`${mainCls}${sliderCls}${buttonCls}`],
+                  'next',
+                  nextButtonDisabled && 'disabled',
+                ])}
+              >
+                Next
+              </Button>
+            </>
+          )
       }
     </div>
   );
