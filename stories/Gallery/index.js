@@ -356,13 +356,12 @@ const Gallery = ({
         },
       });
     } else if (loop) {
-      // clone state
       const slidesToLoad = [...moveState.loadedSlides];
       if (slidesToLoad.length < children.length) {
+        const N = 2;
         if (slidesToLoad.indexOf(current) < 0) {
           slidesToLoad.push(current);
         }
-        const N = 2;
         const nextCandidates = [...Array(N).keys()].map((_e, i) => current + (i + 1));
         nextCandidates.forEach(
           (nc) => {
@@ -370,16 +369,13 @@ const Gallery = ({
               nc < children.length - 1
               && slidesToLoad.indexOf(nc) < 0
               && current % N === 0
-              
+              && nc - slidesToLoad.length < N
             ) {
-              
               slidesToLoad.push(nc);
             }
           },
         );
       }
-      console.log(current);
-      console.log(slidesToLoad);
       setMoveState({
         ...moveState,
         ...{
