@@ -5,6 +5,7 @@ import { createUseStyles } from 'react-jss';
 import Link from '../Link';
 import Panel from '../Panel';
 import Icon from '../Icon';
+import Spinner from '../Spinner';
 
 import makeCls from '../../Utils/makeCls';
 import makeStyle from '../../Utils/makeStyle';
@@ -31,6 +32,8 @@ const propTypes = {
   styleObj: PropTypes.instanceOf(Object),
   link: PropTypes.string,
   linkTitle: PropTypes.string,
+  loadingIcon: PropTypes.string,
+  isLoadedClb: PropTypes.func,
 };
 
 const defaultProps = {
@@ -41,6 +44,8 @@ const defaultProps = {
   styleObj: {},
   link: null,
   linkTitle: null,
+  loadingIcon: 'image',
+  isLoadedClb: () => {},
 };
 
 const Image = ({
@@ -52,6 +57,8 @@ const Image = ({
   styleObj,
   link,
   linkTitle,
+  loadingIcon,
+  isLoadedClb,
 }) => {
   const classes = useStyles();
 
@@ -60,32 +67,12 @@ const Image = ({
 
   const className = makeCls([classes[mainCls], cssClass]);
   const style = makeStyle({ opacity: !isLoaded ? 0 : 1 }, styleObj);
+  const loadingStyle = makeStyle(style, [{ position: 'absolute', width: 0, height: 0 }, true]);
 
-  const onLoadAction = () => setIsLoaded(true);
+  const onLoadAction = (e) => { setIsLoaded(true); isLoadedClb(e); };
   const onErrorAction = () => setIsBroken(true);
 
-  let code = (
-    <img
-      src={src}
-      alt={alt}
-      width={setSizeMeasureUnit(width)}
-      height={setSizeMeasureUnit(height)}
-      className={className}
-      style={style}
-      onLoad={onLoadAction}
-      onError={onErrorAction}
-    />
-  );
-  if (link) {
-    code = (
-      <Link
-        href={link}
-        title={linkTitle || alt}
-      >
-        {code}
-      </Link>
-    );
-  }
+  let code = null;
   if (isBroken) {
     const brokenClassName = makeCls([classes[`${mainCls}__error`], cssClass]);
     const brokenStyle = makeStyle({
@@ -121,6 +108,84 @@ const Image = ({
         {errorCode}
       </Panel>
     );
+  } else {
+    code = (
+      <img
+        src={src}
+        alt={alt}
+        width={setSizeMeasureUnit(width)}
+        height={setSizeMeasureUnit(height)}
+        className={className}
+        style={style}
+        onLoad={onLoadAction}
+        onError={onErrorAction}
+      />
+    );
+    if (link) {
+      code = (
+        <Link
+          href={link}
+          title={linkTitle || alt}
+        >
+          {code}
+        </Link>
+      );
+    }
+    if (!isLoaded) {
+      let contents = (
+        <>
+          <img
+            src={src}
+            alt={alt}
+            width={0}
+            height={0}
+            className={className}
+            style={loadingStyle}
+            onLoad={onLoadAction}
+            onError={onErrorAction}
+          />
+          <Icon
+            name={loadingIcon}
+            width={40}
+            height={40}
+            color="#606060"
+            styleObj={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          />
+          <Spinner
+            width={80}
+            height={80}
+            strokeWidth={2}
+            color="#606060"
+          />
+        </>
+      );
+      if (link) {
+        contents = (
+          <Link
+            href={link}
+            title={linkTitle || alt}
+          >
+            {contents}
+          </Link>
+        );
+      }
+      code = (
+        <Panel
+          styleObj={{
+            position: 'relative',
+            width: setSizeMeasureUnit(width) || '100%',
+            height: setSizeMeasureUnit(height) || '100%',
+          }}
+        >
+          {contents}
+        </Panel>
+      );
+    }
   }
   return code;
 };

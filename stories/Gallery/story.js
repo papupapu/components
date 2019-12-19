@@ -85,10 +85,15 @@ export const main = () => {
     <>
       <dl style={{ marginTop: '450px' }}>
         <dt>TODO</dt>
-        <dd>- comment Atoms</dd>
+        <dd>- prevent doubling img requests</dd>
+        <dd>- dry css to the bone and experiment with external customization</dd>
         <dd>- different slider styles (centered / 75% of gallery width)</dd>
+        <dd>- comment Atoms once they are done</dd>
         <dt>PHASE 2</dt>
-        <dd>- Gallery shoud be HOC including: Slider, Buttons, Thumbnails</dd>
+        <dd>- Gallery shoud be father component including optionally:</dd>
+        <dd>&nbsp;&nbsp;Slider, Buttons, Thumbnails</dd>
+        <dd>&nbsp;&nbsp;-- shared current prop?</dd>
+        <dd>&nbsp;&nbsp;-- Context API?</dd>
       </dl>
       <Gallery
         ui={ui}

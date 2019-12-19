@@ -54,7 +54,8 @@ const YTVideo = ({
   styleObj,
 }) => {
   const classes = useStyles();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isPreviewLoaded, setIsPreviewLoaded] = useState(false);
+  const [showPlayer, setShowPLayer] = useState(false);
   const [player, setPlayer] = useState(null);
   const cls = makeCls([classes[mainCls], cssClass]);
   const previewLinkCls = makeCls([classes[`${mainCls}${linkCls}`]]);
@@ -63,7 +64,7 @@ const YTVideo = ({
 
   useEffect(
     () => {
-      if (isLoaded) {
+      if (showPlayer) {
         if (!window.YT) {
           loadScript(constants.YTApi);
           window.onYouTubeIframeAPIReady = () => {
@@ -95,7 +96,7 @@ const YTVideo = ({
           setPlayer(playerConstructor);
         }
       }
-    }, [isLoaded, width, playerHeight, ytvideoid],
+    }, [showPlayer, width, playerHeight, ytvideoid],
   );
 
   useEffect(
@@ -103,7 +104,7 @@ const YTVideo = ({
       const removePlayer = () => {
         player.stopVideo();
         player.destroy();
-        setIsLoaded(false);
+        setShowPLayer(false);
         setPlayer(null);
         window.removeEventListener('click', removePlayer);
       };
@@ -115,10 +116,12 @@ const YTVideo = ({
 
   const linkPreviewAction = (e) => {
     e.preventDefault();
-    setIsLoaded(true);
+    setShowPLayer(true);
   };
 
-  return !isLoaded ? (
+  const clb = () => setIsPreviewLoaded(true);
+
+  return !showPlayer ? (
     <Link
       href={`${constants.YTVideoPageUri}${ytvideoid}`}
       alt={alt}
@@ -131,14 +134,21 @@ const YTVideo = ({
         width={setSizeMeasureUnit(width)}
         height={setSizeMeasureUnit(height)}
         cssClass={cls}
+        loadingIcon="movie"
         styleObj={style}
+        isLoadedClb={clb}
       />
-      <Icon
-        name="play"
-        width={100}
-        height={100}
-        cssClass="icon"
-      />
+      {
+        isPreviewLoaded
+          && (
+            <Icon
+              name="play"
+              width={100}
+              height={100}
+              cssClass="icon"
+            />
+          )
+      }
     </Link>
   ) : (
     <div id={`YTplayer_${ytvideoid}`} />

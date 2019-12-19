@@ -204,7 +204,6 @@ const createSingleSlide = (props) => {
     /**
      * set up Slide style
      */
-    let slideContentType = null;
     const slideStyle = {
       width: setSizeMeasureUnit(slideSize.width),
       height: setSizeMeasureUnit(slideSize.height),
@@ -215,7 +214,6 @@ const createSingleSlide = (props) => {
        */
       case 'img':
         customStyleObj = { maxHeight: slideStyle.height };
-        slideContentType = 'image';
         break;
       case 'ytvideo':
         /**
@@ -233,7 +231,6 @@ const createSingleSlide = (props) => {
          */
         customWidth = slideStyle.width;
         customHeight = slideStyle.height;
-        slideContentType = 'movie';
         slideStyle.background = '#000';
         break;
       default:
@@ -250,7 +247,6 @@ const createSingleSlide = (props) => {
         key={`slide_${index}`}
         cssClass={slideClassName}
         styleObj={slideStyle}
-        type={slideContentType}
         loaded={loaded}
       >
         {cloneElement(item, { styleObj: customStyleObj, width: customWidth, height: customHeight })}
