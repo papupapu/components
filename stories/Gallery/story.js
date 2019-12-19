@@ -88,7 +88,7 @@ export const main = () => {
         <dd>- comment Atoms</dd>
         <dd>- different slider styles (centered / 75% of gallery width)</dd>
         <dt>PHASE 2</dt>
-        <dd>- Gallery shoud be HOC including: Slider, Buttons, Thumbnails</dd>        
+        <dd>- Gallery shoud be HOC including: Slider, Buttons, Thumbnails</dd>
       </dl>
       <Gallery
         ui={ui}
