@@ -15,7 +15,7 @@ import * as helpers from './helpers';
 import styles, {
   mainCls,
   sliderCls,
-  panelCls,
+  slideCls,
   buttonCls,
 } from './style';
 
@@ -39,7 +39,7 @@ const propTypes = {
   */
   children: PropTypes.instanceOf(Array).isRequired,
   /**
-   * Gallery panel to show
+   * Gallery slide to show
    * optional
    * default value: 0
   */
@@ -259,34 +259,36 @@ const Gallery = ({
   });
 
   /**
-   * create Gallery panels' css classname and
+   * create Gallery slides' css classname and
    * create their inline style object
   */
-  const panelClassName = makeCls([classes[`${mainCls}${sliderCls}${panelCls}`]]);
-  const panelSize = makeStyle({
-    width: computedSizes.panelWidth,
+  const slideClassName = makeCls([classes[`${mainCls}${sliderCls}${slideCls}`]]);
+  const slideSize = makeStyle({
+    width: computedSizes.slideWidth,
     height: computedSizes.height,
   });
 
   /**
-     * create Gallery panels
+     * create Gallery slides
    */
   const sliderContents = helpers.createSlides({
     domready: ui.device !== '',
     items: children,
-    panelClassName,
-    panelSize,
+    slideClassName,
+    slideSize,
     loop,
+    loadedSlides: moveState.loadedSlides,
   });
 
   /**
-   * move Slider to a new panel
+   * move Slider to a new slide
   */
-  const jumpToSlide = (current) => {
+  const jumpToSlide = (current, slidesToLoad) => {
     setMoveState({
       ...moveState,
       ...{
         current,
+        loadedSlides: slidesToLoad,
         sliderCoords: helpers.sliderCoords(current, computedSizes.width),
         dir: 'loop',
       },
@@ -294,20 +296,27 @@ const Gallery = ({
   };
 
   /**
-   * move Slider to the previous panel
+   * move Slider to the previous slide
   */
   const prevSlide = () => {
     let current = moveState.current - 1;
-
+    const totSlides = loop ? children.length + 2 : children.length;
+    const slidesToLoad = helpers.computeSlidesToLoad(
+      moveState.loadedSlides,
+      current,
+      totSlides,
+      'prev',
+    );
     /**
      * if Gallery is not supposed to loop,
-     * stop at the first panel
+     * stop at the first slide
      */
     if (!loop && current >= 0) {
       setMoveState({
         ...moveState,
         ...{
           current,
+          loadedSlides: slidesToLoad,
           sliderCoords: helpers.sliderCoords(current, computedSizes.width),
           dir: '',
         },
@@ -317,19 +326,19 @@ const Gallery = ({
         ...moveState,
         ...{
           current,
+          loadedSlides: slidesToLoad,
           sliderCoords: helpers.sliderCoords(current, computedSizes.width),
           dir: '',
         },
       });
-
       /**
-       * if Gallery is supposed to loop, the first panel is clone of the last
-       * so as soon as the animation ends, jump to the last panel to create the loop effect
+       * if Gallery is supposed to loop, the first slide is clone of the last
+       * so as soon as the animation ends, jump to the last slide to create the loop effect
       */
       if (current === 0) {
         current = sliderContents.length - 2;
         setTimeout(
-          () => jumpToSlide(current),
+          () => jumpToSlide(current, slidesToLoad),
           305,
         );
       }
@@ -337,45 +346,32 @@ const Gallery = ({
   };
 
   /**
-   * move Slider to the next panel
+   * move Slider to the next slide
   */
   const nextSlide = () => {
     let current = moveState.current + 1;
-
+    const totSlides = loop ? children.length + 2 : children.length;
+    const slidesToLoad = helpers.computeSlidesToLoad(
+      moveState.loadedSlides,
+      current,
+      totSlides,
+      'next',
+    );
     /**
      * if Gallery is not supposed to loop,
-     * stop at the last panel
+     * stop at the last slide
      */
     if (!loop && current <= sliderContents.length - 1) {
       setMoveState({
         ...moveState,
         ...{
           current,
+          loadedSlides: slidesToLoad,
           sliderCoords: helpers.sliderCoords(current, computedSizes.width),
           dir: '',
         },
       });
     } else if (loop) {
-      const slidesToLoad = [...moveState.loadedSlides];
-      if (slidesToLoad.length < children.length) {
-        const N = 2;
-        if (slidesToLoad.indexOf(current) < 0) {
-          slidesToLoad.push(current);
-        }
-        const nextCandidates = [...Array(N).keys()].map((_e, i) => current + (i + 1));
-        nextCandidates.forEach(
-          (nc) => {
-            if (
-              nc < children.length - 1
-              && slidesToLoad.indexOf(nc) < 0
-              && current % N === 0
-              && nc - slidesToLoad.length < N
-            ) {
-              slidesToLoad.push(nc);
-            }
-          },
-        );
-      }
       setMoveState({
         ...moveState,
         ...{
@@ -387,13 +383,13 @@ const Gallery = ({
       });
 
       /**
-       * if Gallery is supposed to loop, the last panel is clone of the first
-       * so as soon as the animation ends, jump to the first panel to create the loop effect
+       * if Gallery is supposed to loop, the last slide is clone of the first
+       * so as soon as the animation ends, jump to the first slide to create the loop effect
       */
       if (current === sliderContents.length - 1) {
         current = 1;
         setTimeout(
-          () => jumpToSlide(current),
+          () => jumpToSlide(current, slidesToLoad),
           305,
         );
       }
@@ -472,7 +468,7 @@ const Gallery = ({
   const stopMovingSlider = () => {
     /**
      * if the direction of Slider has been registered,
-     * go to the previous or next panel accordingly
+     * go to the previous or next slide accordingly
     */
     if (moveState.dir === 'prev') {
       prevSlide();

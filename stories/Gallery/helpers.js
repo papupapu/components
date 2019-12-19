@@ -100,13 +100,68 @@ export const getElementsSizes = (size, itemsLength, loop) => {
    * Slider and Slide width will be expressed in percentage
   */
   const sliderWidth = width ? size.w * additionalSlidesForLoop : `${100 * additionalSlidesForLoop}%`;
-  const panelWidth = width || `${100 / additionalSlidesForLoop}%`;
+  const slideWidth = width || `${100 / additionalSlidesForLoop}%`;
   return {
     width,
     height,
     sliderWidth,
-    panelWidth,
+    slideWidth,
   };
+};
+
+export const computeSlidesToLoad = (alreadyLoaded, currentSlide, totSlides, direction) => {
+  const slidesToLoad = [...alreadyLoaded];
+  if (slidesToLoad.length < totSlides) {
+    const N = 2;
+    if (slidesToLoad.indexOf(currentSlide) < 0) {
+      slidesToLoad.push(currentSlide);
+    }
+    if (direction === 'next') {
+      const nextCandidates = [...Array(N).keys()].map((_e, i) => currentSlide + (i + 1));
+      nextCandidates.forEach(
+        (nc) => {
+          if (
+            nc < totSlides
+            && slidesToLoad.indexOf(nc) < 0
+            && currentSlide % N === 0
+            && nc - slidesToLoad.length < N
+          ) {
+            slidesToLoad.push(nc);
+          }
+        },
+      );
+      if (
+        slidesToLoad.length === totSlides - 1
+        && slidesToLoad.indexOf(0) < 0
+      ) {
+        slidesToLoad.push(0);
+      }
+    } else if (direction === 'prev') {
+      if (
+        currentSlide === 0
+        && slidesToLoad.indexOf(totSlides - 1) < 0
+        && slidesToLoad.indexOf(totSlides - 2) < 0
+      ) {
+        slidesToLoad.push(totSlides - 1);
+        slidesToLoad.push(totSlides - 2);
+      } else {
+        const nextCandidates = [...Array(N).keys()].map((_e, i) => currentSlide - (i + 1));
+        nextCandidates.forEach(
+          (nc) => {
+            if (
+              nc > -1
+              && slidesToLoad.indexOf(nc) < 0
+              && currentSlide % N === 0
+              && nc - slidesToLoad.length < N
+            ) {
+              slidesToLoad.push(nc);
+            }
+          },
+        );
+      }
+    }
+  }
+  return slidesToLoad;
 };
 
 /**
@@ -114,8 +169,8 @@ export const getElementsSizes = (size, itemsLength, loop) => {
   *
   * @param {object} item Slide contents
   * @param {number} index Slide position
-  * @param {array || string} panelClassName Slide className or array of classNames
-  * @param {object} panelSize Slide width and height
+  * @param {array || string} slideClassName Slide className or array of classNames
+  * @param {object} slideSize Slide width and height
   *
   * @returns {object} Slide
   *
@@ -125,8 +180,9 @@ const createSingleSlide = (props) => {
   const {
     item,
     index,
-    panelClassName,
-    panelSize,
+    slideClassName,
+    slideSize,
+    loaded,
     item: {
       props: {
         type,
@@ -148,16 +204,18 @@ const createSingleSlide = (props) => {
     /**
      * set up Slide style
      */
-    const panelStyle = {
-      width: setSizeMeasureUnit(panelSize.width),
-      height: setSizeMeasureUnit(panelSize.height),
+    let slideContentType = null;
+    const slideStyle = {
+      width: setSizeMeasureUnit(slideSize.width),
+      height: setSizeMeasureUnit(slideSize.height),
     };
     switch (type) {
       /**
        * Image max-height will be equal to Slide height
        */
       case 'img':
-        customStyleObj = { maxHeight: panelStyle.height };
+        customStyleObj = { maxHeight: slideStyle.height };
+        slideContentType = 'image';
         break;
       case 'ytvideo':
         /**
@@ -166,15 +224,17 @@ const createSingleSlide = (props) => {
          * standard YT video ratio
          */
         customStyleObj = {
-          width: panelStyle.width,
-          height: setSizeMeasureUnit(Math.round(panelSize.width / 1.77)),
-          maxHeight: panelStyle.height,
+          width: slideStyle.width,
+          height: setSizeMeasureUnit(Math.round(slideSize.width / 1.77)),
+          maxHeight: slideStyle.height,
         };
         /**
          * Size to apply to YT Iframe
          */
-        customWidth = panelStyle.width;
-        customHeight = panelStyle.height;
+        customWidth = slideStyle.width;
+        customHeight = slideStyle.height;
+        slideContentType = 'movie';
+        slideStyle.background = '#000';
         break;
       default:
         return null;
@@ -187,9 +247,11 @@ const createSingleSlide = (props) => {
     */
     slide = (
       <Slide
-        key={`panel_${index}`}
-        cssClass={panelClassName}
-        styleObj={panelStyle}
+        key={`slide_${index}`}
+        cssClass={slideClassName}
+        styleObj={slideStyle}
+        type={slideContentType}
+        loaded={loaded}
       >
         {cloneElement(item, { styleObj: customStyleObj, width: customWidth, height: customHeight })}
       </Slide>
@@ -203,8 +265,8 @@ const createSingleSlide = (props) => {
   *
   * @param {boolean} domready did the first render (SSR) happen already?
   * @param {array} items Slides data collection
-  * @param {array || string} panelClassName Slide className or array of classNames
-  * @param {object} panelSize Slide width and height
+  * @param {array || string} slideClassName Slide className or array of classNames
+  * @param {object} slideSize Slide width and height
   * @param {boolean} loop should Gallery loop?
   *
   * @returns {array} Slides collection
@@ -213,9 +275,10 @@ export const createSlides = (props) => {
   const {
     domready,
     items,
-    panelClassName,
-    panelSize,
+    slideClassName,
+    slideSize,
     loop,
+    loadedSlides,
   } = props;
   let slides = null;
   /**
@@ -225,18 +288,20 @@ export const createSlides = (props) => {
   if (!domready) {
     slides = createSingleSlide({
       item: items[0],
-      index: 'noindex',
-      panelClassName,
-      panelSize,
+      index: loop ? 1 : 0,
+      slideClassName,
+      slideSize,
+      loaded: loadedSlides.indexOf(loop ? 1 : 0) > -1,
     });
   } else {
     slides = items
       .map(
         (item, index) => createSingleSlide({
           item,
-          index,
-          panelClassName,
-          panelSize,
+          index: loop ? index + 1 : index,
+          slideClassName,
+          slideSize,
+          loaded: loadedSlides.indexOf(loop ? index + 1 : index) > -1,
         }),
       );
     /**
@@ -247,14 +312,16 @@ export const createSlides = (props) => {
       const loopLast = createSingleSlide({
         item: items[0],
         index: (items.length + 1),
-        panelClassName,
-        panelSize,
+        slideClassName,
+        slideSize,
+        loaded: loadedSlides.indexOf(items.length + 1) > -1,
       });
       const loopFirst = createSingleSlide({
         item: items[items.length - 1],
-        index: (items.length + 2),
-        panelClassName,
-        panelSize,
+        index: 0,
+        slideClassName,
+        slideSize,
+        loaded: loadedSlides.indexOf(0) > -1,
       });
       slides = [loopFirst, ...slides, loopLast];
     }

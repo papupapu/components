@@ -1,6 +1,6 @@
 export const mainCls = 'gallery';
 export const sliderCls = '__slider';
-export const panelCls = '__panel';
+export const slideCls = '__slide';
 export const buttonCls = '__button';
 export default {
   [mainCls]: {
@@ -22,7 +22,7 @@ export default {
       },
     },
   },
-  [`${mainCls}${sliderCls}${panelCls}`]: {
+  [`${mainCls}${sliderCls}${slideCls}`]: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

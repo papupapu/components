@@ -50,45 +50,7 @@ const slides = [
     type: 'ytvideo',
     ytvideoid: 'nwI-MrUCtkk',
   },
-
-  {
-    type: 'img',
-    uri: 'http://localhost:8888/Img/d.jpg',
-    link: '#',
-    linkTitle: 'suca',
-  },
-  {
-    type: 'ytvideo',
-    ytvideoid: '0rfhC4hT5O4',
-  },
-  {
-    type: 'img',
-    uri: 'http://localhost:8888/Img/a.jpg',
-    link: '#',
-    linkTitle: 'suca',
-  },
-  {
-    type: 'img',
-    uri: 'http://localhost:8888/Img/b.jpg',
-    link: '#',
-    linkTitle: 'suca',
-  },
-  {
-    type: 'img',
-    uri: 'http://localhost:8888/Img/c.jpg',
-    link: '#',
-    linkTitle: 'suca',
-  },
-  {
-    type: 'img',
-    uri: 'http://localhost:8888/Img/error.jpg',
-    link: '#',
-    linkTitle: 'suca',
-  },
-  {
-    type: 'ytvideo',
-    ytvideoid: 'nwI-MrUCtkk',
-  },];
+];
 
 const galleryChildren = (data) => data.map(
   (el) => {
@@ -123,11 +85,10 @@ export const main = () => {
     <>
       <dl style={{ marginTop: '450px' }}>
         <dt>TODO</dt>
-        <dd>- panels lazyloading (apply spinner)</dd>
-        <dd>- panels may have different needs depending on their contents</dd>
         <dd>- comment Atoms</dd>
-        <dd>- find way to externalize buttons</dd>
         <dd>- different slider styles (centered / 75% of gallery width)</dd>
+        <dt>PHASE 2</dt>
+        <dd>- Gallery shoud be HOC including: Slider, Buttons, Thumbnails</dd>        
       </dl>
       <Gallery
         ui={ui}
