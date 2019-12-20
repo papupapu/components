@@ -10,6 +10,9 @@ export default {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
+    background: (props) => props.galleryBackground || null,
+    border: (props) => props.galleryBorder || null,
+    borderRadius: (props) => props.galleryBorderRadius || null,
   },
   [`${mainCls}${sliderCls}`]: {
     display: 'flex',
@@ -22,15 +25,46 @@ export default {
     },
   },
   [`${mainCls}${sliderCls}${slideCls}`]: {
-    '& a': {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
+    '&.image': {
+      '& a': {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      '& img': {
+        display: 'block',
+        maxWidth: '100%',
+        height: 'auto',
+      },
+      '& a.loading': {
+        color: (props) => props.loadingImagePlaceHolderColor || null,
+        '& .spinner > div': {
+          borderColor: (props) => props.loadingImagePlaceHolderColor && `${props.loadingImagePlaceHolderColor} transparent transparent transparent`,
+        },
+      },
+      '& .error a': {
+        color: (props) => props.loadingImagePlaceHolderColor || null,
+      },
     },
-    '& img': {
-      display: 'block',
-      maxWidth: '100%',
-      height: 'auto',
+    '&.ytvideo': {
+      background: (props) => props.videoSlideBackground || null,
+      '& a': {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: (props) => props.videoPreviewIconColor || null,
+      },
+      '& img': {
+        display: 'block',
+        maxWidth: '100%',
+        height: 'auto',
+      },
+      '& a.loading': {
+        color: (props) => props.videoPreviewLoadingColor || null,
+      },
+      '& .spinner > div': {
+        borderColor: (props) => props.videoPreviewLoadingColor && `${props.videoPreviewLoadingColor} transparent transparent transparent`,
+      },
     },
   },
   [`${mainCls}${sliderCls}${buttonCls}`]: {

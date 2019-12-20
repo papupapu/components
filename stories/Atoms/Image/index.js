@@ -75,7 +75,7 @@ const Image = ({
   let code = null;
 
   if (isBroken) {
-    const brokenClassName = makeCls([classes[`${mainCls}__error`], cssClass]);
+    const brokenClassName = makeCls([classes[mainCls], 'error', cssClass]);
     const brokenStyle = makeStyle({
       width: setSizeMeasureUnit(width) || '100%',
       height: setSizeMeasureUnit(height) || '100%',
@@ -150,6 +150,7 @@ const Image = ({
         <Link
           href={link}
           title={linkTitle || alt}
+          cssClass={!isLoaded && 'loading'}
           styleObj={{
             position: 'relative',
             width: setSizeMeasureUnit(width) || '100%',

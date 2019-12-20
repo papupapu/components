@@ -2,6 +2,7 @@ import React, { cloneElement, isValidElement } from 'react';
 
 import Slide from '../Atoms/Panel';
 
+import makeCls from '../Utils/makeCls';
 import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';
 
 /**
@@ -194,7 +195,7 @@ const createSingleSlide = (props) => {
    * Slide contents are supposed to be valid React components
    */
   if (isValidElement(item)) {
-    let customSlideClassName = slideClassName;
+    const customSlideClassName = makeCls([slideClassName, type]);
     /**
      * different type of contents may need different props
      * for Gallery to display them correctly
@@ -213,11 +214,10 @@ const createSingleSlide = (props) => {
       /**
        * Image max-height will be equal to Slide height
        */
-      case 'img':
+      case 'image':
         customStyleObj = { maxHeight: slideStyle.height };
         break;
       case 'ytvideo':
-        customSlideClassName = `${slideClassName} ytvideo`;
         /**
          * Style to apply to the video preview Image
          * Height is computed from Slide width / 1.77 to force 16:9

@@ -1,6 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
+
+import GalleryTheme from './theme';
 
 import Button from '../Atoms/Button';
 
@@ -8,7 +15,10 @@ import makeCls from '../Utils/makeCls';
 import makeStyle from '../Utils/makeStyle';
 import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';
 import { isValidString } from '../Utils/validvars';
-import { disableScroll, enableScroll } from '../Utils/scrollActions';
+import {
+  disableScroll,
+  enableScroll,
+} from '../Utils/scrollActions';
 
 import * as helpers from './helpers';
 
@@ -50,7 +60,12 @@ const propTypes = {
    * default value: {}
   */
   size: PropTypes.instanceOf(Object),
-  cssClass: PropTypes.string,
+  /**
+   * Gallery theme to use
+   * optional
+   * default value: 'default'
+  */
+  theme: PropTypes.instanceOf(Object),
   /*
    * should Gallery show prev/next buttons?
    * optional
@@ -76,7 +91,7 @@ const propTypes = {
 
 const defaultProps = {
   size: {},
-  cssClass: null,
+  theme: { default: {} },
   startAt: 0,
   hasButtons: true,
   loop: false,
@@ -87,13 +102,15 @@ const Gallery = ({
   ui,
   children,
   size,
-  cssClass,
+  theme,
   startAt,
   hasButtons,
   loop,
   fullscreen,
 }) => {
-  const classes = useStyles();
+  const styleTheme = useContext(GalleryTheme(theme));
+  const classes = useStyles(styleTheme);
+
   /**
    * ref attached to gallery container div for
    * size computation purpouses
@@ -239,7 +256,6 @@ const Gallery = ({
   */
   const galleryClassName = makeCls([
     classes[mainCls],
-    cssClass,
   ]);
   const galleryStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.width),
@@ -252,7 +268,6 @@ const Gallery = ({
   */
   const sliderClassName = makeCls([
     classes[`${mainCls}${sliderCls}`],
-    cssClass ? `${cssClass}_slider` : null,
     isValidString(moveState.dir) && moveState.dir !== 'loop' && 'deletePointerEvents',
   ]);
   const sliderStyle = makeStyle({
@@ -274,7 +289,6 @@ const Gallery = ({
   */
   const slideClassName = makeCls([
     classes[`${mainCls}${sliderCls}${slideCls}`],
-    cssClass ? `${cssClass}_slide` : null,
   ]);
   const slideSize = makeStyle({
     width: computedSizes.slideWidth,

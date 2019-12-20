@@ -10,5 +10,4 @@ export default {
     border: '0 none',
     outline: '0',
   },
-  [`${mainCls}__error`]: {},
 };

@@ -48,7 +48,7 @@ const Spinner = ({
     strokeWidth,
     color,
   });
-  const cls = makeCls([classes[mainCls], cssClass]);
+  const cls = makeCls([classes[mainCls], cssClass, 'spinner']);
   return (
     <div className={cls}>
       <div />

@@ -13,7 +13,7 @@ export default {
 
 const slides = [
   {
-    type: 'img',
+    type: 'image',
     uri: 'http://localhost:8888/Img/d.jpg',
     link: '#',
     linkTitle: 'suca',
@@ -23,25 +23,25 @@ const slides = [
     ytvideoid: '0rfhC4hT5O4',
   },
   {
-    type: 'img',
+    type: 'image',
     uri: 'http://localhost:8888/Img/a.jpg',
     link: '#',
     linkTitle: 'suca',
   },
   {
-    type: 'img',
+    type: 'image',
     uri: 'http://localhost:8888/Img/b.jpg',
     link: '#',
     linkTitle: 'suca',
   },
   {
-    type: 'img',
+    type: 'image',
     uri: 'http://localhost:8888/Img/c.jpg',
     link: '#',
     linkTitle: 'suca',
   },
   {
-    type: 'img',
+    type: 'image',
     uri: 'http://localhost:8888/Img/error.jpg',
     link: '#',
     linkTitle: 'suca',
@@ -55,7 +55,7 @@ const slides = [
 const galleryChildren = (data) => data.map(
   (el) => {
     switch (el.type) {
-      case 'img':
+      case 'image':
         return (
           <Image
             key={el.uri}
@@ -81,12 +81,22 @@ const galleryChildren = (data) => data.map(
 
 export const main = () => {
   const ui = UI();
+  const theme = {
+    custom: {
+      galleryBackground: '#DFDDD3',
+      galleryBorderRadius: '10px',
+      loadingImagePlaceHolderColor: '#BFBFB9',
+      videoSlideBackground: '#000',
+      videoPreviewIconColor: '#FFF',
+      videoPreviewLoadingColor: '#BFBFB9',
+    },
+  };
   return (
     <>
       <dl style={{ marginTop: '450px' }}>
         <dt>TODO</dt>
-        <dd>- experiment with external customization</dd>
-        <dd>- comment Atoms once they are done</dd>
+        <dd>- comment Atoms</dd>
+        <dd>- keep expanding themes</dd>
         <dd>- different slider styles (centered / 75% of gallery width)</dd>
         <dt>PHASE 2</dt>
         <dd>- Gallery shoud be father component including optionally:</dd>
@@ -97,8 +107,8 @@ export const main = () => {
       <Gallery
         ui={ui}
         size={{ w: 600, h: 400 }}
-        cssClass="custom"
         loop
+        theme={theme}
       >
         {galleryChildren(slides)}
       </Gallery>
@@ -161,6 +171,7 @@ export const fullscreen = () => {
 
 export const responsive = () => {
   const ui = UI();
+
   return (
     <div className="responsivecontainer">
       <Gallery
