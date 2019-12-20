@@ -237,7 +237,10 @@ const Gallery = ({
    * create Gallery css classname and
    * create its inline style object
   */
-  const galleryClassName = makeCls([classes[mainCls], cssClass]);
+  const galleryClassName = makeCls([
+    classes[mainCls],
+    cssClass,
+  ]);
   const galleryStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.width),
     height: setSizeMeasureUnit(computedSizes.height),
@@ -247,7 +250,11 @@ const Gallery = ({
    * create Slider css classname and
    * create its inline style object
   */
-  const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`], cssClass ? `${cssClass}_slider` : null, isValidString(moveState.dir) && moveState.dir !== 'loop' && 'deletePointerEvents']);
+  const sliderClassName = makeCls([
+    classes[`${mainCls}${sliderCls}`],
+    cssClass ? `${cssClass}_slider` : null,
+    isValidString(moveState.dir) && moveState.dir !== 'loop' && 'deletePointerEvents',
+  ]);
   const sliderStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.sliderWidth),
     height: setSizeMeasureUnit(computedSizes.height),
@@ -265,7 +272,10 @@ const Gallery = ({
    * create Gallery slides' css classname and
    * create their inline style object
   */
-  const slideClassName = makeCls([classes[`${mainCls}${sliderCls}${slideCls}`], cssClass ? `${cssClass}_slide` : null]);
+  const slideClassName = makeCls([
+    classes[`${mainCls}${sliderCls}${slideCls}`],
+    cssClass ? `${cssClass}_slide` : null,
+  ]);
   const slideSize = makeStyle({
     width: computedSizes.slideWidth,
     height: computedSizes.height,

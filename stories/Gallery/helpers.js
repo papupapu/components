@@ -194,7 +194,7 @@ const createSingleSlide = (props) => {
    * Slide contents are supposed to be valid React components
    */
   if (isValidElement(item)) {
-    let defSliderClassName = slideClassName;
+    let customSlideClassName = slideClassName;
     /**
      * different type of contents may need different props
      * for Gallery to display them correctly
@@ -217,7 +217,7 @@ const createSingleSlide = (props) => {
         customStyleObj = { maxHeight: slideStyle.height };
         break;
       case 'ytvideo':
-        defSliderClassName = `${slideClassName} ytvideo`;
+        customSlideClassName = `${slideClassName} ytvideo`;
         /**
          * Style to apply to the video preview Image
          * Height is computed from Slide width / 1.77 to force 16:9
@@ -246,7 +246,7 @@ const createSingleSlide = (props) => {
     slide = (
       <Slide
         key={`slide_${index}`}
-        cssClass={defSliderClassName}
+        cssClass={customSlideClassName}
         styleObj={slideStyle}
         loaded={loaded}
       >
