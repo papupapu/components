@@ -10,7 +10,5 @@ export default {
     border: '0 none',
     outline: '0',
   },
-  [`${mainCls}__error`]: {
-    background: '#f7f7f0',
-  },
+  [`${mainCls}__error`]: {},
 };

@@ -20,3 +20,16 @@
     height: 600px;
   }
 }
+
+.custom_slide{
+  border-radius:10px;
+  background:#f1f1f1;
+}
+
+.custom_slide.ytvideo{
+  background:#000;
+}
+
+.custom_slide.ytvideo a{
+  color:#FFF;
+}

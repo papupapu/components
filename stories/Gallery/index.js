@@ -50,6 +50,7 @@ const propTypes = {
    * default value: {}
   */
   size: PropTypes.instanceOf(Object),
+  cssClass: PropTypes.string,
   /*
    * should Gallery show prev/next buttons?
    * optional
@@ -75,6 +76,7 @@ const propTypes = {
 
 const defaultProps = {
   size: {},
+  cssClass: null,
   startAt: 0,
   hasButtons: true,
   loop: false,
@@ -85,6 +87,7 @@ const Gallery = ({
   ui,
   children,
   size,
+  cssClass,
   startAt,
   hasButtons,
   loop,
@@ -234,7 +237,7 @@ const Gallery = ({
    * create Gallery css classname and
    * create its inline style object
   */
-  const galleryClassName = makeCls([classes[mainCls]]);
+  const galleryClassName = makeCls([classes[mainCls], cssClass]);
   const galleryStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.width),
     height: setSizeMeasureUnit(computedSizes.height),
@@ -244,7 +247,7 @@ const Gallery = ({
    * create Slider css classname and
    * create its inline style object
   */
-  const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`], isValidString(moveState.dir) && moveState.dir !== 'loop' && 'deletePointerEvents']);
+  const sliderClassName = makeCls([classes[`${mainCls}${sliderCls}`], cssClass ? `${cssClass}_slider` : null, isValidString(moveState.dir) && moveState.dir !== 'loop' && 'deletePointerEvents']);
   const sliderStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.sliderWidth),
     height: setSizeMeasureUnit(computedSizes.height),
@@ -262,7 +265,7 @@ const Gallery = ({
    * create Gallery slides' css classname and
    * create their inline style object
   */
-  const slideClassName = makeCls([classes[`${mainCls}${sliderCls}${slideCls}`]]);
+  const slideClassName = makeCls([classes[`${mainCls}${sliderCls}${slideCls}`], cssClass ? `${cssClass}_slide` : null]);
   const slideSize = makeStyle({
     width: computedSizes.slideWidth,
     height: computedSizes.height,

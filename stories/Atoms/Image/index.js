@@ -66,13 +66,14 @@ const Image = ({
   const [isBroken, setIsBroken] = useState(false);
 
   const className = makeCls([classes[mainCls], cssClass]);
-  const style = makeStyle({ opacity: !isLoaded ? 0 : 1 }, styleObj);
-  const loadingStyle = makeStyle(style, [{ position: 'absolute', width: 0, height: 0 }, true]);
+  const loadingStyle = !isLoaded ? { position: 'absolute', width: 0, height: 0 } : {};
+  const style = makeStyle(loadingStyle, styleObj);
 
   const onLoadAction = (e) => { setIsLoaded(true); isLoadedClb(e); };
   const onErrorAction = () => setIsBroken(true);
 
   let code = null;
+
   if (isBroken) {
     const brokenClassName = makeCls([classes[`${mainCls}__error`], cssClass]);
     const brokenStyle = makeStyle({
@@ -121,34 +122,14 @@ const Image = ({
         onError={onErrorAction}
       />
     );
-    if (link) {
-      code = (
-        <Link
-          href={link}
-          title={linkTitle || alt}
-        >
-          {code}
-        </Link>
-      );
-    }
+    let loadingContents = null;
     if (!isLoaded) {
-      let contents = (
+      loadingContents = (
         <>
-          <img
-            src={src}
-            alt={alt}
-            width={0}
-            height={0}
-            className={className}
-            style={loadingStyle}
-            onLoad={onLoadAction}
-            onError={onErrorAction}
-          />
           <Icon
             name={loadingIcon}
             width={40}
             height={40}
-            color="#606060"
             styleObj={{
               position: 'absolute',
               top: '50%',
@@ -160,30 +141,31 @@ const Image = ({
             width={80}
             height={80}
             strokeWidth={2}
-            color="#606060"
           />
         </>
       );
-      if (link) {
-        contents = (
-          <Link
-            href={link}
-            title={linkTitle || alt}
-          >
-            {contents}
-          </Link>
-        );
-      }
+    }
+    if (link) {
       code = (
-        <Panel
+        <Link
+          href={link}
+          title={linkTitle || alt}
           styleObj={{
             position: 'relative',
             width: setSizeMeasureUnit(width) || '100%',
             height: setSizeMeasureUnit(height) || '100%',
           }}
         >
-          {contents}
-        </Panel>
+          {code}
+          {loadingContents}
+        </Link>
+      );
+    } else {
+      code = (
+        <>
+          {code}
+          {loadingContents}
+        </>
       );
     }
   }

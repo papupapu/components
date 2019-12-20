@@ -85,10 +85,9 @@ export const main = () => {
     <>
       <dl style={{ marginTop: '450px' }}>
         <dt>TODO</dt>
-        <dd>- prevent doubling img requests</dd>
-        <dd>- dry css to the bone and experiment with external customization</dd>
-        <dd>- different slider styles (centered / 75% of gallery width)</dd>
+        <dd>- experiment with external customization</dd>
         <dd>- comment Atoms once they are done</dd>
+        <dd>- different slider styles (centered / 75% of gallery width)</dd>
         <dt>PHASE 2</dt>
         <dd>- Gallery shoud be father component including optionally:</dd>
         <dd>&nbsp;&nbsp;Slider, Buttons, Thumbnails</dd>
@@ -98,6 +97,7 @@ export const main = () => {
       <Gallery
         ui={ui}
         size={{ w: 600, h: 400 }}
+        cssClass="custom"
         loop
       >
         {galleryChildren(slides)}

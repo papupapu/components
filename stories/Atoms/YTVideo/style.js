@@ -11,7 +11,6 @@ export default {
   [`${mainCls}${linkCls}`]: {
     display: 'block',
     position: 'relative',
-    color: '#FFF',
     '& .icon': {
       position: 'absolute',
       top: '50%',
