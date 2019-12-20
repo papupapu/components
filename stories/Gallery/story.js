@@ -81,16 +81,6 @@ const galleryChildren = (data) => data.map(
 
 export const main = () => {
   const ui = UI();
-  const theme = {
-    custom: {
-      galleryBackground: '#DFDDD3',
-      galleryBorderRadius: '10px',
-      loadingImagePlaceHolderColor: '#BFBFB9',
-      videoSlideBackground: '#000',
-      videoPreviewIconColor: '#FFF',
-      videoPreviewLoadingColor: '#BFBFB9',
-    },
-  };
   return (
     <>
       <dl style={{ marginTop: '450px' }}>
@@ -104,6 +94,32 @@ export const main = () => {
         <dd>&nbsp;&nbsp;-- shared current prop?</dd>
         <dd>&nbsp;&nbsp;-- Context API?</dd>
       </dl>
+      <Gallery
+        ui={ui}
+        size={{ w: 600, h: 400 }}
+        loop
+      >
+        {galleryChildren(slides)}
+      </Gallery>
+    </>
+  );
+};
+
+
+export const themed = () => {
+  const ui = UI();
+  const theme = {
+    custom: {
+      galleryBackground: '#DFDDD3',
+      galleryBorderRadius: '10px',
+      loadingImagePlaceHolderColor: '#BFBFB9',
+      videoSlideBackground: '#000',
+      videoPreviewIconColor: '#FFF',
+      videoPreviewLoadingColor: '#BFBFB9',
+    },
+  };
+  return (
+    <>
       <Gallery
         ui={ui}
         size={{ w: 600, h: 400 }}

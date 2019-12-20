@@ -110,27 +110,23 @@ const Gallery = ({
 }) => {
   const styleTheme = useContext(GalleryTheme(theme));
   const classes = useStyles(styleTheme);
-
   /**
    * ref attached to gallery container div for
    * size computation purpouses
    */
   const galleryMainElement = useRef(null);
-
   /**
    * set up UI state to:
    * - adjust to specific device needs
    * - react to viewport changes
    */
   const [uiState, setUiState] = useState(ui);
-
   /**
    * set up currentSize state (i.e. width / height of gallery)
    * in case the size prop is not defined, currentSize will be calculated
    * once the UI prop changes (so, even after first mount)
    */
   const [currentSize, setCurrentSize] = useState(size);
-
   /**
    * set up the actual sizes that will be applied to all gallery's elements
    * sizes will be computed using: currentSize state, number of children and loop prop
@@ -138,7 +134,6 @@ const Gallery = ({
   const [computedSizes, setComputeSizes] = useState(
     helpers.getElementsSizes(currentSize, children.length, loop),
   );
-
   /**
    * set up move state to keep track of:
    * - the current slide
@@ -216,19 +211,16 @@ const Gallery = ({
             h: size.h,
           };
         }
-
         /**
          * set the new currentSize state
         */
         setCurrentSize(newSize);
-
         /**
          * set the new computedSize state
          */
         setComputeSizes(
           helpers.getElementsSizes(newSize, children.length, loop),
         );
-
         /**
          * adjust the coordinates of Slider
         */
@@ -237,7 +229,6 @@ const Gallery = ({
             ...moveState,
             ...{
               sliderCoords: helpers.sliderCoords(moveState.current, newSize.w),
-
               /**
                * set dir to 'loop' to reset the css transition while
                * moving Slider to the correct coordinates
@@ -249,7 +240,6 @@ const Gallery = ({
       }
     }, [fullscreen, size, children.length, loop, ui, uiState, moveState],
   );
-
   /**
    * create Gallery css classname and
    * create its inline style object
@@ -261,7 +251,6 @@ const Gallery = ({
     width: setSizeMeasureUnit(computedSizes.width),
     height: setSizeMeasureUnit(computedSizes.height),
   });
-
   /**
    * create Slider css classname and
    * create its inline style object
@@ -274,7 +263,6 @@ const Gallery = ({
     width: setSizeMeasureUnit(computedSizes.sliderWidth),
     height: setSizeMeasureUnit(computedSizes.height),
     transform: `translate3d(${setSizeMeasureUnit(moveState.sliderCoords)}, 0, 0)`,
-
     /**
      * if either the user is dragging Slider or Slider has to adjust it's coordinates
      * because of looping or reacting to viewport changes, the css transition is set to none
@@ -282,7 +270,6 @@ const Gallery = ({
     */
     transition: mouseDownState.down || moveState.dir === 'loop' ? 'none' : null,
   });
-
   /**
    * create Gallery slides' css classname and
    * create their inline style object
@@ -294,7 +281,6 @@ const Gallery = ({
     width: computedSizes.slideWidth,
     height: computedSizes.height,
   });
-
   /**
      * create Gallery slides
    */
@@ -306,7 +292,6 @@ const Gallery = ({
     loop,
     loadedSlides: moveState.loadedSlides,
   });
-
   /**
    * move Slider to a new slide
   */
@@ -321,7 +306,6 @@ const Gallery = ({
       },
     });
   };
-
   /**
    * move Slider to the previous slide
   */
@@ -371,7 +355,6 @@ const Gallery = ({
       }
     }
   };
-
   /**
    * move Slider to the next slide
   */
@@ -408,7 +391,6 @@ const Gallery = ({
           dir: '',
         },
       });
-
       /**
        * if Gallery is supposed to loop, the last slide is clone of the first
        * so as soon as the animation ends, jump to the first slide to create the loop effect
@@ -422,14 +404,12 @@ const Gallery = ({
       }
     }
   };
-
   const correctEvent = (e) => {
     if (uiState.touchscreen) {
       return e.touches[0];
     }
     return e;
   };
-
   /**
    * if the user fires a mouseDown event on Slider, prepare to animate it by dragging action by
    * - setting the mouseDown state to true
@@ -439,7 +419,6 @@ const Gallery = ({
     down: true,
     coords: correctEvent(e).pageX,
   });
-
   /**
    * gallery animation by dragging
   */
@@ -456,7 +435,6 @@ const Gallery = ({
       const deltaX = correctEvent(e).pageX - mouseDownState.coords;
       const dir = deltaX > 0 ? 'prev' : 'next';
       const newCoords = deltaX + helpers.sliderCoords(moveState.current, computedSizes.width);
-
       /**
        * if Gallery is not supposed to loop, do not apply any animation if the user is
        * try to go past the first or the last slide
@@ -487,7 +465,6 @@ const Gallery = ({
       }
     }
   };
-
   /**
    * if the user fires a mouseUp event after he has been dragging Slider
    * the event registered in the effect running just below
@@ -502,7 +479,6 @@ const Gallery = ({
     } else if (moveState.dir === 'next') {
       nextSlide();
     }
-
     /**
      * reset the mouseDown state
     */
@@ -512,7 +488,6 @@ const Gallery = ({
     });
     enableScroll();
   };
-
   /**
    * effect run at every render since it has to listen to user actions
    *
@@ -536,10 +511,8 @@ const Gallery = ({
       };
     },
   );
-
   const prevButtonDisabled = !loop && moveState.current === 0;
   const nextButtonDisabled = !loop && moveState.current === sliderContents.length - 1;
-
   return (
     <div
       ref={galleryMainElement}

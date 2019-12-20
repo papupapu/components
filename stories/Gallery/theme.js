@@ -2,9 +2,7 @@ import { createContext } from 'react';
 import { isValidVar, isObject, isValidString } from '../Utils/validvars';
 
 const galleryThemes = {
-  default: {
-    galleryBackground: '#f3f3f7',
-  },
+  default: {},
 };
 
 export default (custom) => {
