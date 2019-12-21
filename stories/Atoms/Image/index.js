@@ -150,7 +150,7 @@ const Image = ({
         <Link
           href={link}
           title={linkTitle || alt}
-          cssClass={!isLoaded && 'loading'}
+          cssClass={!isLoaded ? 'loading' : null}
           styleObj={{
             position: 'relative',
             width: setSizeMeasureUnit(width) || '100%',

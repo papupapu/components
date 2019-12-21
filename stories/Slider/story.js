@@ -1,19 +1,14 @@
-/* eslint-disable jsx-a11y/aria-role */
 import React from 'react';
 
-import Gallery from './index';
-
-import Slider from '../Slider';
+import UI from '../Utils/UI';
+import Slider from './index';
 import Image from '../Atoms/Image';
 import YTVideo from '../Atoms/YTVideo';
-import Panel from '../Atoms/Panel';
-import Button from '../Atoms/Button';
-import Icon from '../Atoms/Icon';
 
-import UI from '../Utils/UI';
+import './story.css';
 
 export default {
-  title: 'Gallery',
+  title: 'Slider',
 };
 
 const slides = [
@@ -86,12 +81,6 @@ const sliderContents = (data) => data.map(
 
 const customtheme = {
   custom: {
-    galleryButtonWidth: '40px',
-    galleryButtonHeight: '40px',
-    galleryButtonColor: '#000',
-    galleryButtonBackground: '#DFDDD3',
-    galleryButtonBorderRadius: '20px',
-
     sliderBackground: '#DFDDD3',
     sliderBorderRadius: '10px',
     loadingImagePlaceHolderColor: '#BFBFB9',
@@ -104,60 +93,83 @@ const customtheme = {
 export const main = () => {
   const ui = UI();
   return (
-    <Gallery
+    <Slider
       ui={ui}
       size={{ w: 600, h: 400 }}
       loop
     >
-      <h1 role="title">Gallery</h1>
-      <Slider role="slider">
-        {sliderContents(slides)}
-      </Slider>
-      <Button role="prevButton">
-        prev
-      </Button>
-      <Panel role="counter" />
-      <Button role="nextButton">
-        next
-      </Button>
-      <dl role="todolist">
-        <dt>TODO</dt>
-        <dd>- optimize youtube preview link</dd>
-        <dd>- comment Atoms</dd>
-        <dd>- keep expanding themes: possibly separate child components defs</dd>
-        <dd>- different slider styles (centered / 75% of slider width)</dd>
-      </dl>
-    </Gallery>
+      {sliderContents(slides)}
+    </Slider>
   );
 };
+
 
 export const themed = () => {
   const ui = UI();
   return (
-    <Gallery
-      ui={ui}
-      size={{ w: 600, h: 400 }}
-      loop
-      theme={customtheme}
-    >
-      <Slider role="slider">
+    <>
+      <Slider
+        ui={ui}
+        size={{ w: 600, h: 400 }}
+        loop
+        theme={customtheme}
+      >
         {sliderContents(slides)}
       </Slider>
-      <Button role="prevButton">
-        <Icon
-          name="previous"
-          width="30"
-          height="30"
-        />
-      </Button>
-      <Panel role="counter" />
-      <Button role="nextButton">
-        <Icon
-          name="next"
-          width="30"
-          height="30"
-        />
-      </Button>
-    </Gallery>
+    </>
+  );
+};
+
+export const startAt = () => {
+  const ui = UI();
+  return (
+    <Slider
+      ui={ui}
+      size={{ w: 600, h: 400 }}
+      startAt={2}
+      loop
+    >
+      {sliderContents(slides)}
+    </Slider>
+  );
+};
+
+export const notlooping = () => {
+  const ui = UI();
+  return (
+    <Slider
+      ui={ui}
+      size={{ w: 600, h: 400 }}
+    >
+      {sliderContents(slides)}
+    </Slider>
+  );
+};
+
+export const responsive = () => {
+  const ui = UI();
+  return (
+    <div className="responsivecontainer">
+      <Slider
+        ui={ui}
+        loop
+      >
+        {sliderContents(slides)}
+      </Slider>
+    </div>
+  );
+};
+
+export const fullscreen = () => {
+  const ui = UI();
+  return (
+    <Slider
+      ui={ui}
+      loop
+      fullscreen
+      theme={customtheme}
+    >
+      {sliderContents(slides)}
+    </Slider>
   );
 };

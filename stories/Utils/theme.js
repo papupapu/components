@@ -1,7 +1,7 @@
 import { createContext } from 'react';
-import { isValidVar, isObject, isValidString } from '../Utils/validvars';
+import { isValidVar, isObject, isValidString } from './validvars';
 
-const galleryThemes = {
+const Themes = {
   default: {},
 };
 
@@ -19,11 +19,11 @@ export default (custom) => {
       && isObject(customTheme)
       && isValidString(customThemeName)
     ) {
-      galleryThemes[customThemeName] = customTheme;
+      Themes[customThemeName] = customTheme;
     }
   }
-  const galleryContext = isValidString(customThemeName) && customThemeName in galleryThemes
-    ? galleryThemes[customThemeName]
-    : galleryThemes.default;
-  return createContext(galleryContext);
+  const themeContext = isValidString(customThemeName) && customThemeName in Themes
+    ? Themes[customThemeName]
+    : Themes.default;
+  return createContext(themeContext);
 };
