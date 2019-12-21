@@ -5,7 +5,7 @@ import Slider from './index';
 import Image from '../Atoms/Image';
 import YTVideo from '../Atoms/YTVideo';
 
-import './story.css';
+import '../Gallery/story.css';
 
 export default {
   title: 'Slider',
@@ -149,7 +149,7 @@ export const notlooping = () => {
 export const responsive = () => {
   const ui = UI();
   return (
-    <div className="responsivecontainer">
+    <div className="responsive">
       <Slider
         ui={ui}
         loop

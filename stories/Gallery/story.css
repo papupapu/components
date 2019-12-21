@@ -1,4 +1,4 @@
-.responsivecontainer{
+.responsive{
   position:absolute;
   top:0; left: 0;
   width: 100vw;
@@ -6,7 +6,7 @@
 }
 
 @media only screen and (min-width:768px) {
-  .responsivecontainer{
+  .responsive{
     position:relative; top: auto; left: auto;
     margin:0 auto;
     width: calc(100vw - 40px);
@@ -15,21 +15,8 @@
 }
 
 @media only screen and (min-width:1024px) {
-  .responsivecontainer{
+  .responsive{
     width: 1000px;
     height: 600px;
   }
-}
-
-.custom_slide{
-  border-radius:10px;
-  background:#f1f1f1;
-}
-
-.custom_slide.ytvideo{
-  background:#000;
-}
-
-.custom_slide.ytvideo a{
-  color:#FFF;
 }

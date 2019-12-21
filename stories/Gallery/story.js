@@ -6,11 +6,12 @@ import Gallery from './index';
 import Slider from '../Slider';
 import Image from '../Atoms/Image';
 import YTVideo from '../Atoms/YTVideo';
-import Panel from '../Atoms/Panel';
 import Button from '../Atoms/Button';
 import Icon from '../Atoms/Icon';
 
 import UI from '../Utils/UI';
+
+import './story.css';
 
 export default {
   title: 'Gallery',
@@ -86,6 +87,8 @@ const sliderContents = (data) => data.map(
 
 const customtheme = {
   custom: {
+    galleryBackground: '#BFBFB9',
+
     galleryButtonWidth: '40px',
     galleryButtonHeight: '40px',
     galleryButtonColor: '#000',
@@ -116,7 +119,7 @@ export const main = () => {
       <Button role="prevButton">
         prev
       </Button>
-      <Panel role="counter" />
+      <div role="counter" />
       <Button role="nextButton">
         next
       </Button>
@@ -136,11 +139,13 @@ export const themed = () => {
   return (
     <Gallery
       ui={ui}
-      size={{ w: 600, h: 400 }}
+      cssClass="responsive"
       loop
       theme={customtheme}
     >
-      <Slider role="slider">
+      <Slider
+        role="slider"
+      >
         {sliderContents(slides)}
       </Slider>
       <Button role="prevButton">
@@ -150,7 +155,7 @@ export const themed = () => {
           height="30"
         />
       </Button>
-      <Panel role="counter" />
+      <div role="counter" />
       <Button role="nextButton">
         <Icon
           name="next"

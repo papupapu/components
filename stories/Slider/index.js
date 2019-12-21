@@ -96,7 +96,7 @@ const defaultProps = {
   move: { prev: false, next: false },
   loop: false,
   fullscreen: false,
-  passCurrent: null,
+  passCurrent: () => null,
 };
 
 const Slider = ({
@@ -516,21 +516,18 @@ const Slider = ({
       if (mouseDownState.down) {
         document.addEventListener('mouseup', stopMovingSlider);
       } else {
+        if (move) {
+          if (move.next) {
+            nextSlide();
+          } else if (move.prev) {
+            prevSlide();
+          }
+        }
         document.removeEventListener('mouseup', stopMovingSlider);
       }
       return () => {
         document.removeEventListener('mouseup', stopMovingSlider);
       };
-    },
-  );
-
-  useEffect(
-    () => {
-      if (move.next) {
-        nextSlide();
-      } else if (move.prev) {
-        prevSlide();
-      }
     },
   );
 
