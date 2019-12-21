@@ -1,7 +1,7 @@
 import { createContext } from 'react';
-import { isValidVar, isObject, isValidString } from '../Utils/validvars';
+import { isValidVar, isObject, isValidString } from './validvars';
 
-const sliderThemes = {
+const Themes = {
   default: {},
 };
 
@@ -19,11 +19,11 @@ export default (custom) => {
       && isObject(customTheme)
       && isValidString(customThemeName)
     ) {
-      sliderThemes[customThemeName] = customTheme;
+      Themes[customThemeName] = customTheme;
     }
   }
-  const sliderContext = isValidString(customThemeName) && customThemeName in sliderThemes
-    ? sliderThemes[customThemeName]
-    : sliderThemes.default;
-  return createContext(sliderContext);
+  const themeContext = isValidString(customThemeName) && customThemeName in Themes
+    ? Themes[customThemeName]
+    : Themes.default;
+  return createContext(themeContext);
 };

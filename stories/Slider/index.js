@@ -7,7 +7,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 
-import SliderTheme from './theme';
+import SliderTheme from '../Utils/theme';
 
 import makeCls from '../Utils/makeCls';
 import makeStyle from '../Utils/makeStyle';
@@ -30,6 +30,11 @@ const useStyles = createUseStyles(styles);
 
 const propTypes = {
   /**
+   * Slider contents
+   * collection of React Components
+  */
+  children: PropTypes.instanceOf(Array).isRequired,
+  /**
    * user's device infos
    * {
    *  device: '',
@@ -39,18 +44,14 @@ const propTypes = {
    *  mobileOs: null,
    * }
   */
-  ui: PropTypes.instanceOf(Object).isRequired,
-  /**
-   * Slider contents
-   * collection of React Components
-  */
-  children: PropTypes.instanceOf(Array).isRequired,
+  ui: PropTypes.instanceOf(Object),
   /**
    * Slider slide to show
    * optional
    * default value: 0
   */
   startAt: PropTypes.number,
+  move: PropTypes.instanceOf(Object),
   /*
    * width and height of Slider
    * optional
@@ -78,24 +79,36 @@ const propTypes = {
    * default value: false
   */
   fullscreen: PropTypes.bool,
+  passCurrent: PropTypes.func,
 };
 
 const defaultProps = {
+  ui: {
+    device: '',
+    viewport: { width: null, height: null },
+    touchscreen: null,
+    orientation: null,
+    mobileOs: null,
+  },
   size: {},
   theme: { default: {} },
   startAt: 0,
+  move: { prev: false, next: false },
   loop: false,
   fullscreen: false,
+  passCurrent: null,
 };
 
 const Slider = ({
-  ui,
   children,
+  ui,
   size,
   theme,
   startAt,
+  move,
   loop,
   fullscreen,
+  passCurrent,
 }) => {
   const styleTheme = useContext(SliderTheme(theme));
   const classes = useStyles(styleTheme);
@@ -321,6 +334,7 @@ const Slider = ({
           dir: '',
         },
       });
+      passCurrent(current);
     } else if (loop) {
       setMoveState({
         ...moveState,
@@ -337,13 +351,17 @@ const Slider = ({
       */
       if (current === 0) {
         current = carouselContents.length - 2;
+        passCurrent(current);
         setTimeout(
           () => jumpToSlide(current, slidesToLoad),
           305,
         );
+      } else {
+        passCurrent(current);
       }
     }
   };
+
   /**
    * move Slider to the next slide
   */
@@ -370,6 +388,7 @@ const Slider = ({
           dir: '',
         },
       });
+      passCurrent(current);
     } else if (loop) {
       setMoveState({
         ...moveState,
@@ -386,13 +405,17 @@ const Slider = ({
       */
       if (current === carouselContents.length - 1) {
         current = 1;
+        passCurrent(current);
         setTimeout(
           () => jumpToSlide(current, slidesToLoad),
           305,
         );
+      } else {
+        passCurrent(current);
       }
     }
   };
+
   const correctEvent = (e) => {
     if (uiState.touchscreen) {
       return e.touches[0];
@@ -500,6 +523,17 @@ const Slider = ({
       };
     },
   );
+
+  useEffect(
+    () => {
+      if (move.next) {
+        nextSlide();
+      } else if (move.prev) {
+        prevSlide();
+      }
+    },
+  );
+
   return (
     <div
       ref={sliderMainElement}

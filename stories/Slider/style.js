@@ -1,7 +1,6 @@
 export const mainCls = 'slider';
 export const carouselCls = '__carousel';
 export const slideCls = '__slide';
-export const buttonCls = '__button';
 export default {
   [mainCls]: {
     position: 'absolute',
@@ -66,24 +65,6 @@ export default {
       '& .spinner > div': {
         borderColor: (props) => props.videoPreviewLoadingColor && `${props.videoPreviewLoadingColor} transparent transparent transparent`,
       },
-    },
-  },
-  [`${mainCls}${carouselCls}${buttonCls}`]: {
-    position: 'absolute',
-    top: '50%',
-    width: '40px',
-    height: '40px',
-    background: '#FFF',
-    borderRadius: '20px',
-    transform: 'translate(0, -50%)',
-    '&.prev': {
-      left: '0',
-    },
-    '&.next': {
-      right: '0',
-    },
-    '&.disabled': {
-      opacity: '.3',
     },
   },
 };
