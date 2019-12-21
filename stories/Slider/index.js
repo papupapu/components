@@ -7,9 +7,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 
-import GalleryTheme from './theme';
-
-import Button from '../Atoms/Button';
+import SliderTheme from './theme';
 
 import makeCls from '../Utils/makeCls';
 import makeStyle from '../Utils/makeStyle';
@@ -24,9 +22,8 @@ import * as helpers from './helpers';
 
 import styles, {
   mainCls,
-  sliderCls,
+  carouselCls,
   slideCls,
-  buttonCls,
 } from './style';
 
 const useStyles = createUseStyles(styles);
@@ -44,36 +41,30 @@ const propTypes = {
   */
   ui: PropTypes.instanceOf(Object).isRequired,
   /**
-   * Gallery contents
+   * Slider contents
    * collection of React Components
   */
   children: PropTypes.instanceOf(Array).isRequired,
   /**
-   * Gallery slide to show
+   * Slider slide to show
    * optional
    * default value: 0
   */
   startAt: PropTypes.number,
   /*
-   * width and height of Gallery
+   * width and height of Slider
    * optional
    * default value: {}
   */
   size: PropTypes.instanceOf(Object),
   /**
-   * Gallery theme to use
+   * Slider theme to use
    * optional
    * default value: 'default'
   */
   theme: PropTypes.instanceOf(Object),
   /*
-   * should Gallery show prev/next buttons?
-   * optional
-   * default value: true
-  */
-  hasButtons: PropTypes.bool,
-  /*
-   * should Gallery loop?
+   * should Slider loop?
    * optional
    * default value: false
    *
@@ -82,7 +73,7 @@ const propTypes = {
   */
   loop: PropTypes.bool,
   /*
-   * is Gallery fullscreen?
+   * is Slider fullscreen?
    * optional
    * default value: false
   */
@@ -93,28 +84,26 @@ const defaultProps = {
   size: {},
   theme: { default: {} },
   startAt: 0,
-  hasButtons: true,
   loop: false,
   fullscreen: false,
 };
 
-const Gallery = ({
+const Slider = ({
   ui,
   children,
   size,
   theme,
   startAt,
-  hasButtons,
   loop,
   fullscreen,
 }) => {
-  const styleTheme = useContext(GalleryTheme(theme));
+  const styleTheme = useContext(SliderTheme(theme));
   const classes = useStyles(styleTheme);
   /**
-   * ref attached to gallery container div for
+   * ref attached to Slider container div for
    * size computation purpouses
    */
-  const galleryMainElement = useRef(null);
+  const sliderMainElement = useRef(null);
   /**
    * set up UI state to:
    * - adjust to specific device needs
@@ -122,13 +111,13 @@ const Gallery = ({
    */
   const [uiState, setUiState] = useState(ui);
   /**
-   * set up currentSize state (i.e. width / height of gallery)
+   * set up currentSize state (i.e. width / height of Slider)
    * in case the size prop is not defined, currentSize will be calculated
    * once the UI prop changes (so, even after first mount)
    */
   const [currentSize, setCurrentSize] = useState(size);
   /**
-   * set up the actual sizes that will be applied to all gallery's elements
+   * set up the actual sizes that will be applied to all Slider elements
    * sizes will be computed using: currentSize state, number of children and loop prop
    */
   const [computedSizes, setComputeSizes] = useState(
@@ -143,7 +132,7 @@ const Gallery = ({
   const [moveState, setMoveState] = useState({
     current: helpers.initialSlide(startAt, loop),
     loadedSlides: [helpers.initialSlide(startAt, loop)],
-    sliderCoords: helpers.initialSliderCoords(loop, size, children),
+    carouselCoords: helpers.initialSliderCoords(loop, size, children),
     dir: '',
   });
   /**
@@ -183,7 +172,7 @@ const Gallery = ({
         let newSize;
 
         /**
-         * in case Gallery is fullscreen
+         * in case Slider is fullscreen
          * the new currentSize state is the new viewport size
          */
         if (fullscreen) {
@@ -193,13 +182,13 @@ const Gallery = ({
           };
 
           /**
-           * in case Gallery is responsive (size prop is not defined)
-           * the new currentSize state is Gallery parent node size
+           * in case Slider is responsive (size prop is not defined)
+           * the new currentSize state is Slider parent node size
            */
         } else if (Object.keys(size).length === 0) {
           newSize = {
-            w: galleryMainElement.current.parentNode.offsetWidth,
-            h: galleryMainElement.current.parentNode.offsetHeight,
+            w: sliderMainElement.current.parentNode.offsetWidth,
+            h: sliderMainElement.current.parentNode.offsetHeight,
           };
 
         /**
@@ -228,7 +217,7 @@ const Gallery = ({
           setMoveState({
             ...moveState,
             ...{
-              sliderCoords: helpers.sliderCoords(moveState.current, newSize.w),
+              carouselCoords: helpers.carouselCoords(moveState.current, newSize.w),
               /**
                * set dir to 'loop' to reset the css transition while
                * moving Slider to the correct coordinates
@@ -241,13 +230,13 @@ const Gallery = ({
     }, [fullscreen, size, children.length, loop, ui, uiState, moveState],
   );
   /**
-   * create Gallery css classname and
+   * create Slider css classname and
    * create its inline style object
   */
-  const galleryClassName = makeCls([
+  const sliderClassName = makeCls([
     classes[mainCls],
   ]);
-  const galleryStyle = makeStyle({
+  const sliderStyle = makeStyle({
     width: setSizeMeasureUnit(computedSizes.width),
     height: setSizeMeasureUnit(computedSizes.height),
   });
@@ -255,14 +244,14 @@ const Gallery = ({
    * create Slider css classname and
    * create its inline style object
   */
-  const sliderClassName = makeCls([
-    classes[`${mainCls}${sliderCls}`],
+  const carouselClassName = makeCls([
+    classes[`${mainCls}${carouselCls}`],
     isValidString(moveState.dir) && moveState.dir !== 'loop' && 'deletePointerEvents',
   ]);
-  const sliderStyle = makeStyle({
-    width: setSizeMeasureUnit(computedSizes.sliderWidth),
+  const carouselStyle = makeStyle({
+    width: setSizeMeasureUnit(computedSizes.carouselWidth),
     height: setSizeMeasureUnit(computedSizes.height),
-    transform: `translate3d(${setSizeMeasureUnit(moveState.sliderCoords)}, 0, 0)`,
+    transform: `translate3d(${setSizeMeasureUnit(moveState.carouselCoords)}, 0, 0)`,
     /**
      * if either the user is dragging Slider or Slider has to adjust it's coordinates
      * because of looping or reacting to viewport changes, the css transition is set to none
@@ -271,20 +260,20 @@ const Gallery = ({
     transition: mouseDownState.down || moveState.dir === 'loop' ? 'none' : null,
   });
   /**
-   * create Gallery slides' css classname and
+   * create Slider slides' css classname and
    * create their inline style object
   */
   const slideClassName = makeCls([
-    classes[`${mainCls}${sliderCls}${slideCls}`],
+    classes[`${mainCls}${carouselCls}${slideCls}`],
   ]);
   const slideSize = makeStyle({
     width: computedSizes.slideWidth,
     height: computedSizes.height,
   });
   /**
-     * create Gallery slides
+     * create Slider slides
    */
-  const sliderContents = helpers.createSlides({
+  const carouselContents = helpers.createSlides({
     domready: ui.device !== '',
     items: children,
     slideClassName,
@@ -301,7 +290,7 @@ const Gallery = ({
       ...{
         current,
         loadedSlides: slidesToLoad,
-        sliderCoords: helpers.sliderCoords(current, computedSizes.width),
+        carouselCoords: helpers.carouselCoords(current, computedSizes.width),
         dir: 'loop',
       },
     });
@@ -319,7 +308,7 @@ const Gallery = ({
       'prev',
     );
     /**
-     * if Gallery is not supposed to loop,
+     * if Slider is not supposed to loop,
      * stop at the first slide
      */
     if (!loop && current >= 0) {
@@ -328,7 +317,7 @@ const Gallery = ({
         ...{
           current,
           loadedSlides: slidesToLoad,
-          sliderCoords: helpers.sliderCoords(current, computedSizes.width),
+          carouselCoords: helpers.carouselCoords(current, computedSizes.width),
           dir: '',
         },
       });
@@ -338,16 +327,16 @@ const Gallery = ({
         ...{
           current,
           loadedSlides: slidesToLoad,
-          sliderCoords: helpers.sliderCoords(current, computedSizes.width),
+          carouselCoords: helpers.carouselCoords(current, computedSizes.width),
           dir: '',
         },
       });
       /**
-       * if Gallery is supposed to loop, the first slide is clone of the last
+       * if Slider is supposed to loop, the first slide is clone of the last
        * so as soon as the animation ends, jump to the last slide to create the loop effect
       */
       if (current === 0) {
-        current = sliderContents.length - 2;
+        current = carouselContents.length - 2;
         setTimeout(
           () => jumpToSlide(current, slidesToLoad),
           305,
@@ -368,16 +357,16 @@ const Gallery = ({
       'next',
     );
     /**
-     * if Gallery is not supposed to loop,
+     * if Slider is not supposed to loop,
      * stop at the last slide
      */
-    if (!loop && current <= sliderContents.length - 1) {
+    if (!loop && current <= carouselContents.length - 1) {
       setMoveState({
         ...moveState,
         ...{
           current,
           loadedSlides: slidesToLoad,
-          sliderCoords: helpers.sliderCoords(current, computedSizes.width),
+          carouselCoords: helpers.carouselCoords(current, computedSizes.width),
           dir: '',
         },
       });
@@ -387,15 +376,15 @@ const Gallery = ({
         ...{
           current,
           loadedSlides: slidesToLoad,
-          sliderCoords: helpers.sliderCoords(current, computedSizes.width),
+          carouselCoords: helpers.carouselCoords(current, computedSizes.width),
           dir: '',
         },
       });
       /**
-       * if Gallery is supposed to loop, the last slide is clone of the first
+       * if Slider is supposed to loop, the last slide is clone of the first
        * so as soon as the animation ends, jump to the first slide to create the loop effect
       */
-      if (current === sliderContents.length - 1) {
+      if (current === carouselContents.length - 1) {
         current = 1;
         setTimeout(
           () => jumpToSlide(current, slidesToLoad),
@@ -420,7 +409,7 @@ const Gallery = ({
     coords: correctEvent(e).pageX,
   });
   /**
-   * gallery animation by dragging
+   * Slider animation by dragging
   */
   const moveSlider = (e) => {
     if (mouseDownState.down) {
@@ -434,9 +423,9 @@ const Gallery = ({
       */
       const deltaX = correctEvent(e).pageX - mouseDownState.coords;
       const dir = deltaX > 0 ? 'prev' : 'next';
-      const newCoords = deltaX + helpers.sliderCoords(moveState.current, computedSizes.width);
+      const newCoords = deltaX + helpers.carouselCoords(moveState.current, computedSizes.width);
       /**
-       * if Gallery is not supposed to loop, do not apply any animation if the user is
+       * if Slider is not supposed to loop, do not apply any animation if the user is
        * try to go past the first or the last slide
       */
       if (
@@ -447,7 +436,7 @@ const Gallery = ({
         ) || (
           !loop
           && dir === 'next'
-          && moveState.current === sliderContents.length - 1
+          && moveState.current === carouselContents.length - 1
         )
       ) {
         setMoveState({
@@ -458,7 +447,7 @@ const Gallery = ({
         setMoveState({
           ...moveState,
           ...{
-            sliderCoords: newCoords,
+            carouselCoords: newCoords,
             dir,
           },
         });
@@ -511,56 +500,27 @@ const Gallery = ({
       };
     },
   );
-  const prevButtonDisabled = !loop && moveState.current === 0;
-  const nextButtonDisabled = !loop && moveState.current === sliderContents.length - 1;
   return (
     <div
-      ref={galleryMainElement}
-      style={galleryStyle}
-      className={galleryClassName}
+      ref={sliderMainElement}
+      style={sliderStyle}
+      className={sliderClassName}
     >
       <div
         role="presentation"
-        style={sliderStyle}
-        className={sliderClassName}
+        style={carouselStyle}
+        className={carouselClassName}
         onMouseMove={moveSlider}
         onMouseDown={mouseDownOnSlider}
         onTouchStart={mouseDownOnSlider}
         onTouchMove={moveSlider}
         onTouchEnd={stopMovingSlider}
       >
-        {sliderContents}
+        {carouselContents}
       </div>
-      {
-        hasButtons
-          && (
-            <>
-              <Button
-                action={prevSlide}
-                cssClass={makeCls([
-                  classes[`${mainCls}${sliderCls}${buttonCls}`],
-                  'prev',
-                  prevButtonDisabled && 'disabled',
-                ])}
-              >
-                Prev
-              </Button>
-              <Button
-                action={nextSlide}
-                cssClass={makeCls([
-                  classes[`${mainCls}${sliderCls}${buttonCls}`],
-                  'next',
-                  nextButtonDisabled && 'disabled',
-                ])}
-              >
-                Next
-              </Button>
-            </>
-          )
-      }
     </div>
   );
 };
-Gallery.propTypes = propTypes;
-Gallery.defaultProps = defaultProps;
-export default Gallery;
+Slider.propTypes = propTypes;
+Slider.defaultProps = defaultProps;
+export default Slider;

@@ -1,5 +1,5 @@
-export const mainCls = 'gallery';
-export const sliderCls = '__slider';
+export const mainCls = 'slider';
+export const carouselCls = '__carousel';
 export const slideCls = '__slide';
 export const buttonCls = '__button';
 export default {
@@ -10,11 +10,11 @@ export default {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
-    background: (props) => props.galleryBackground || null,
-    border: (props) => props.galleryBorder || null,
-    borderRadius: (props) => props.galleryBorderRadius || null,
+    background: (props) => props.sliderBackground || null,
+    border: (props) => props.sliderBorder || null,
+    borderRadius: (props) => props.sliderBorderRadius || null,
   },
-  [`${mainCls}${sliderCls}`]: {
+  [`${mainCls}${carouselCls}`]: {
     display: 'flex',
     height: '100%',
     transition: 'transform .3s cubic-bezier(0.75, 0.25, 0.22, 0.90)',
@@ -24,8 +24,9 @@ export default {
       },
     },
   },
-  [`${mainCls}${sliderCls}${slideCls}`]: {
+  [`${mainCls}${carouselCls}${slideCls}`]: {
     '&.image': {
+      background: (props) => props.imageSlideBackground || null,
       '& a': {
         display: 'flex',
         justifyContent: 'center',
@@ -67,7 +68,7 @@ export default {
       },
     },
   },
-  [`${mainCls}${sliderCls}${buttonCls}`]: {
+  [`${mainCls}${carouselCls}${buttonCls}`]: {
     position: 'absolute',
     top: '50%',
     width: '40px',

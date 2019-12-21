@@ -1,14 +1,14 @@
 import React from 'react';
 
 import UI from '../Utils/UI';
-import Gallery from './index';
+import Slider from './index';
 import Image from '../Atoms/Image';
 import YTVideo from '../Atoms/YTVideo';
 
 import './story.css';
 
 export default {
-  title: 'Gallery',
+  title: 'Slider',
 };
 
 const slides = [
@@ -52,7 +52,7 @@ const slides = [
   },
 ];
 
-const galleryChildren = (data) => data.map(
+const sliderContents = (data) => data.map(
   (el) => {
     switch (el.type) {
       case 'image':
@@ -79,28 +79,40 @@ const galleryChildren = (data) => data.map(
   },
 ).filter(Boolean);
 
+const customtheme = {
+  custom: {
+    galleryBackground: '#DFDDD3',
+    galleryBorderRadius: '10px',
+    loadingImagePlaceHolderColor: '#BFBFB9',
+    videoSlideBackground: '#000',
+    videoPreviewIconColor: '#FFF',
+    videoPreviewLoadingColor: '#BFBFB9',
+  },
+};
+
 export const main = () => {
   const ui = UI();
   return (
     <>
       <dl style={{ marginTop: '450px' }}>
         <dt>TODO</dt>
+        <dd>- optimize youtube preview link</dd>
         <dd>- comment Atoms</dd>
         <dd>- keep expanding themes</dd>
-        <dd>- different slider styles (centered / 75% of gallery width)</dd>
+        <dd>- different slider styles (centered / 75% of slider width)</dd>
         <dt>PHASE 2</dt>
-        <dd>- Gallery shoud be father component including optionally:</dd>
+        <dd>- Slider shoud be father component including optionally:</dd>
         <dd>&nbsp;&nbsp;Slider, Buttons, Thumbnails</dd>
         <dd>&nbsp;&nbsp;-- shared current prop?</dd>
         <dd>&nbsp;&nbsp;-- Context API?</dd>
       </dl>
-      <Gallery
+      <Slider
         ui={ui}
         size={{ w: 600, h: 400 }}
         loop
       >
-        {galleryChildren(slides)}
-      </Gallery>
+        {sliderContents(slides)}
+      </Slider>
     </>
   );
 };
@@ -108,26 +120,16 @@ export const main = () => {
 
 export const themed = () => {
   const ui = UI();
-  const theme = {
-    custom: {
-      galleryBackground: '#DFDDD3',
-      galleryBorderRadius: '10px',
-      loadingImagePlaceHolderColor: '#BFBFB9',
-      videoSlideBackground: '#000',
-      videoPreviewIconColor: '#FFF',
-      videoPreviewLoadingColor: '#BFBFB9',
-    },
-  };
   return (
     <>
-      <Gallery
+      <Slider
         ui={ui}
         size={{ w: 600, h: 400 }}
         loop
-        theme={theme}
+        theme={customtheme}
       >
-        {galleryChildren(slides)}
-      </Gallery>
+        {sliderContents(slides)}
+      </Slider>
     </>
   );
 };
@@ -135,67 +137,53 @@ export const themed = () => {
 export const startAt = () => {
   const ui = UI();
   return (
-    <Gallery
+    <Slider
       ui={ui}
       size={{ w: 600, h: 400 }}
       startAt={2}
       loop
     >
-      {galleryChildren(slides)}
-    </Gallery>
+      {sliderContents(slides)}
+    </Slider>
   );
 };
 
-export const looping = () => {
+export const notlooping = () => {
   const ui = UI();
   return (
-    <Gallery
+    <Slider
       ui={ui}
       size={{ w: 600, h: 400 }}
-      loop
     >
-      {galleryChildren(slides)}
-    </Gallery>
+      {sliderContents(slides)}
+    </Slider>
   );
 };
 
-export const nobuttons = () => {
+export const responsive = () => {
   const ui = UI();
   return (
-    <Gallery
-      ui={ui}
-      size={{ w: 600, h: 400 }}
-      hasButtons={false}
-    >
-      {galleryChildren(slides)}
-    </Gallery>
+    <div className="responsivecontainer">
+      <Slider
+        ui={ui}
+        loop
+      >
+        {sliderContents(slides)}
+      </Slider>
+    </div>
   );
 };
 
 export const fullscreen = () => {
   const ui = UI();
   return (
-    <Gallery
+    <Slider
       ui={ui}
       loop
       fullscreen
+      theme={customtheme}
     >
-      {galleryChildren(slides)}
-    </Gallery>
-  );
-};
-
-export const responsive = () => {
-  const ui = UI();
-
-  return (
-    <div className="responsivecontainer">
-      <Gallery
-        ui={ui}
-        loop
-      >
-        {galleryChildren(slides)}
-      </Gallery>
-    </div>
+      {sliderContents(slides)}
+    </Slider>
   );
 };

@@ -9,7 +9,7 @@ import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';
   * @desc compute Slide to be shown on mount
   *
   * @param {number} startAt Slide to be shown on mount index
-  * @param {boolean} loop should Gallery loop?
+  * @param {boolean} loop should Slider loop?
   *
   * @returns {number} Slide to be shown on mount index
 */
@@ -18,7 +18,7 @@ export const initialSlide = (startAt, loop) => {
     return startAt;
   }
   /**
-   * if Gallery is supposed to loop the first Slide is 1
+   * if Slider is supposed to loop the first Slide is 1
    * since 0 is the clone of the last Slide (see 'createSlides' method)
   */
   return loop ? 1 : 0;
@@ -27,8 +27,8 @@ export const initialSlide = (startAt, loop) => {
 /**
   * @desc compute Slider initial position
   *
-  * @param {boolean} loop should Gallery loop?
-  * @param {object} size Gallery width and height
+  * @param {boolean} loop should Slider loop?
+  * @param {object} size Slider width and height
   * @param {array} items Slides data collection
   *
   * @returns {number} Slider initial position
@@ -40,17 +40,17 @@ export const initialSlide = (startAt, loop) => {
 */
 export const initialSliderCoords = (loop, size, items) => {
   /**
-   * if Gallery is supposed to loop the first Slide is 1
+   * if Slider is supposed to loop the first Slide is 1
    * since 0 is the clone of the last Slide (see 'createSlides' method)
    *
-   * thus Slider initial position will be: Gallery width * -1
+   * thus Slider initial position will be: Slider width * -1
   */
   if (loop) {
     if (Object.keys(size).length) {
       return size.w * -1;
     }
     /**
-     * if we do not have the explicit Gallery width value yet,
+     * if we do not have the explicit Slider width value yet,
      * Slider initial position will be expressed in percentage
      *
      * add 2 to items.length since items[0] and items[items.length -1]
@@ -65,7 +65,7 @@ export const initialSliderCoords = (loop, size, items) => {
   * @desc compute Slider current position
   *
   * @param {number} current index of the currently shown Slide
-  * @param {number} size Gallery width and height
+  * @param {number} size Slider width and height
   *
   * @returns {number} Slider current position
   *
@@ -73,39 +73,39 @@ export const initialSliderCoords = (loop, size, items) => {
   * - add different logic for different Slider type
   *   (i.e. centered Slide with two showing at its sides)
 */
-export const sliderCoords = (current, width) => (current * width) * -1;
+export const carouselCoords = (current, width) => (current * width) * -1;
 
 /**
   * @desc compute the size of Slider elements
   *
-  * @param {number} size Gallery width and height
+  * @param {number} size Slider width and height
   * @param {number} itemsLength number of Slides
-  * @param {boolean} loop should Gallery loop?
+  * @param {boolean} loop should Slider loop?
   *
-  * @returns {object} Gallery width / height, Slider total width, Slide width
+  * @returns {object} Slider width / height, Slider total width, Slide width
 */
 export const getElementsSizes = (size, itemsLength, loop) => {
   /**
-   * if Gallery is supposed to loop items[0] and items[items.length -1]
+   * if Slider is supposed to loop items[0] and items[items.length -1]
    * are cloned and added to items to create the loop effect
   */
   const additionalSlidesForLoop = loop ? itemsLength + 2 : itemsLength;
   /**
-   * if we do not have the explicit Gallery width and height values yet,
+   * if we do not have the explicit Slider width and height values yet,
    * set width & height to null (size will be handled by CSS: 100% for both)
   */
   const width = size && 'w' in size && size.w ? size.w : null;
   const height = size && 'h' in size && size.h ? size.h : null;
   /**
-   * if we do not have the explicit Gallery width and height values yet,
+   * if we do not have the explicit Slider width and height values yet,
    * Slider and Slide width will be expressed in percentage
   */
-  const sliderWidth = width ? size.w * additionalSlidesForLoop : `${100 * additionalSlidesForLoop}%`;
+  const carouselWidth = width ? size.w * additionalSlidesForLoop : `${100 * additionalSlidesForLoop}%`;
   const slideWidth = width || `${100 / additionalSlidesForLoop}%`;
   return {
     width,
     height,
-    sliderWidth,
+    carouselWidth,
     slideWidth,
   };
 };
@@ -198,7 +198,7 @@ const createSingleSlide = (props) => {
     const customSlideClassName = makeCls([slideClassName, type]);
     /**
      * different type of contents may need different props
-     * for Gallery to display them correctly
+     * for Slider to display them correctly
      */
     let customStyleObj = null;
     let customWidth = null;
@@ -264,7 +264,7 @@ const createSingleSlide = (props) => {
   * @param {array} items Slides data collection
   * @param {array || string} slideClassName Slide className or array of classNames
   * @param {object} slideSize Slide width and height
-  * @param {boolean} loop should Gallery loop?
+  * @param {boolean} loop should Slider loop?
   *
   * @returns {array} Slides collection
 */
@@ -302,7 +302,7 @@ export const createSlides = (props) => {
         }),
       );
     /**
-     * if Gallery is supposed to loop items[0] and items[items.length -1]
+     * if Slider is supposed to loop items[0] and items[items.length -1]
      * are cloned and added to items to create the loop effect
     */
     if (loop) {
