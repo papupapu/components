@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .responsive{
   position:absolute;
   top:0; left: 0;

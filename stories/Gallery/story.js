@@ -88,13 +88,51 @@ const sliderContents = (data) => data.map(
 
 const customtheme = {
   custom: {
+    galleryPadding: '10px',
     galleryBackground: '#BFBFB9',
+
+    galleryControlsMargin: '10px 0 0',
+    galleryControlsPadding: '10px',
+    galleryControlsWidth: 'auto',
+    galleryControlsBackground: '#DFDDD3',
+    galleryControlsBorderRadius: '10px',
 
     galleryButtonWidth: '40px',
     galleryButtonHeight: '40px',
     galleryButtonColor: '#000',
-    galleryButtonBackground: '#DFDDD3',
+    galleryButtonBackground: '#BFBFB9',
     galleryButtonBorderRadius: '20px',
+
+    galleryCounterPadding: '0 20px',
+    galleryCounterBackground: '#BFBFB9',
+    galleryCounterBorderRadius: '10px',
+
+    sliderBackground: '#DFDDD3',
+    sliderBorderRadius: '10px',
+    loadingImagePlaceHolderColor: '#BFBFB9',
+    videoSlideBackground: '#000',
+    videoPreviewIconColor: '#FFF',
+    videoPreviewLoadingColor: '#BFBFB9',
+  },
+};
+
+const customtheme2 = {
+  custom: {
+    galleryPadding: '10px',
+    galleryBackground: '#BFBFB9',
+
+    galleryControlsMargin: '0 0 10px',
+    galleryControlsWidth: 'auto',
+
+    galleryButtonWidth: '40px',
+    galleryButtonHeight: '40px',
+    galleryButtonColor: '#000',
+    galleryButtonBackground: '#BFBFB9',
+    galleryButtonBorderRadius: '20px',
+
+    galleryCounterPadding: '0 20px',
+    galleryCounterBackground: '#BFBFB9',
+    galleryCounterBorderRadius: '10px',
 
     sliderBackground: '#DFDDD3',
     sliderBorderRadius: '10px',
@@ -126,10 +164,15 @@ export const main = () => {
       </Button>
       <dl role="todolist">
         <dt>TODO</dt>
+        <dd>- Gallery counter: extract total</dd>
+        <dd>- Gallery refine contents creation</dd>
+        <dd>- Gallery styles: experiment responsive</dd>
+        <dd>- Gallery styles: find how to conveniently compute Slider height</dd>
+        <dd>- Gallery: videos, 360 pics must have prev/next buttons</dd>
         <dd>- optimize youtube preview link</dd>
-        <dd>- comment Atoms</dd>
-        <dd>- keep expanding themes: possibly separate child components defs</dd>
-        <dd>- different slider styles (centered / 75% of slider width)</dd>
+        <dd>- comment Gallery / Atoms / Utils/theme</dd>
+        <dd>- Theming: possibly separate child components defs</dd>
+        <dd>- different Slider types (centered / 75% of slider width)</dd>
       </dl>
     </Gallery>
   );
@@ -149,21 +192,67 @@ export const themed = () => {
       >
         {sliderContents(slides)}
       </Slider>
-      <Button role="prevButton">
-        <Icon
-          name="previous"
-          width="30"
-          height="30"
-        />
-      </Button>
-      <Panel role="counter" />
-      <Button role="nextButton">
-        <Icon
-          name="next"
-          width="30"
-          height="30"
-        />
-      </Button>
+      <Panel
+        role="controls"
+      >
+        <Button role="prevButton">
+          <Icon
+            name="previous"
+            width="30"
+            height="30"
+          />
+        </Button>
+        <Panel role="counter" />
+        <Button role="nextButton">
+          <Icon
+            name="next"
+            width="30"
+            height="30"
+          />
+        </Button>
+      </Panel>
+    </Gallery>
+  );
+};
+
+export const themed2 = () => {
+  const ui = UI();
+  return (
+    <Gallery
+      ui={ui}
+      size={{ w: 600, h: 400 }}
+      loop
+      theme={customtheme2}
+    >
+      <Panel
+        role="controls"
+      >
+        <Panel role="counter" />
+        <Button
+          role="prevButton"
+          styleObj={{
+            marginLeft: 'auto',
+          }}
+        >
+          <Icon
+            name="previous"
+            width="30"
+            height="30"
+          />
+        </Button>
+        <Button role="nextButton">
+          <Icon
+            name="next"
+            width="30"
+            height="30"
+          />
+        </Button>
+      </Panel>
+      <Slider
+        role="slider"
+      >
+        {sliderContents(slides)}
+      </Slider>
     </Gallery>
   );
 };

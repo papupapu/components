@@ -2,13 +2,21 @@ export const mainCls = 'gallery';
 export const sliderCls = '__slider';
 export const buttonCls = '__button';
 export const counterCls = '__counter';
+export const controlsCls = '__controls';
 export default {
   [mainCls]: {
     position: (props) => props.galleryPosition || null,
+    padding: (props) => props.galleryPadding || null,
+    width: (props) => props.galleryWidth || null,
+    height: (props) => props.galleryHeight || null,
     background: (props) => props.galleryBackground || null,
+    border: (props) => props.galleryBorder || null,
+    borderRadius: (props) => props.galleryBorderRadius || null,
   },
   [`${mainCls}${sliderCls}`]: {
-    position: (props) => props.galleryPosition || 'relative',
+    position: (props) => props.gallerySliderPosition || 'relative',
+    width: (props) => props.gallerySliderWidth || '100%',
+    height: (props) => props.gallerySliderHeight || '100%',
   },
   [`${mainCls}${buttonCls}`]: {
     display: (props) => props.galleryButtonDisplay || null,
@@ -45,7 +53,8 @@ export default {
     right: (props) => props.galleryCounterRight || null,
     bottom: (props) => props.galleryCounterBottom || null,
     left: (props) => props.galleryCounterLeft || null,
-    width: (props) => props.galleryCounterWidth || null,
+    padding: (props) => props.galleryCounterPadding || null,
+    width: (props) => props.galleryCounterWidth || 'auto',
     height: (props) => props.galleryCounterHeight || null,
     fontSize: (props) => props.galleryCounterFontSize || null,
     lineHeight: (props) => props.galleryCounterLineHeight || null,
@@ -55,5 +64,27 @@ export default {
     background: (props) => props.galleryCounterBackground || null,
     border: (props) => props.galleryCounterBorder || null,
     borderRadius: (props) => props.galleryCounterBorderRadius || null,
+  },
+  [`${mainCls}${controlsCls}`]: {
+    display: (props) => props.galleryControlsDisplay || 'flex',
+    justifyContent: (props) => props.galleryControlsJustifyContent || 'space-between',
+    alignItems: (props) => props.galleryControlsAlignItems || 'center',
+    position: (props) => props.galleryControlsPosition || null,
+    top: (props) => props.galleryControlsTop || null,
+    right: (props) => props.galleryControlsRight || null,
+    bottom: (props) => props.galleryControlsBottom || null,
+    left: (props) => props.galleryControlsLeft || null,
+    margin: (props) => props.galleryControlsMargin || null,
+    padding: (props) => props.galleryControlsPadding || null,
+    width: (props) => props.galleryControlsWidth || null,
+    height: (props) => props.galleryControlsHeight || null,
+    fontSize: (props) => props.galleryControlsFontSize || null,
+    lineHeight: (props) => props.galleryControlsLineHeight || null,
+    fontFamily: (props) => props.galleryControlsFontFamily || null,
+    color: (props) => props.galleryControlsColor || null,
+    textAlign: (props) => props.galleryControlsTextAlign || null,
+    background: (props) => props.galleryControlsBackground || null,
+    border: (props) => props.galleryControlsBorder || null,
+    borderRadius: (props) => props.galleryControlsBorderRadius || null,
   },
 };

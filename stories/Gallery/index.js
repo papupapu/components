@@ -16,6 +16,7 @@ import styles, {
   sliderCls,
   buttonCls,
   counterCls,
+  controlsCls,
 } from './style';
 
 const useStyles = createUseStyles(styles);
@@ -103,6 +104,48 @@ const Gallery = ({
     setCurrent(x);
     setMove({ prev: false, next: false });
   };
+
+  const controls = (elements) => elements.map(
+    (el) => {
+      const {
+        props: {
+          role,
+        },
+      } = el;
+      switch (role) {
+        case 'prevButton':
+          return cloneElement(
+            el, {
+              key: role,
+              cssClass: makeCls([cssClass, classes[`${mainCls}${buttonCls}`], 'prev']),
+              action: prevSlide,
+            },
+          );
+        case 'nextButton':
+          return cloneElement(
+            el, {
+              key: role,
+              cssClass: makeCls([cssClass, classes[`${mainCls}${buttonCls}`], 'next']),
+              action: nextSlide,
+            },
+          );
+        case 'counter':
+          return cloneElement(
+            el, {
+              key: role,
+              children: <p>{`${current}/`}</p>,
+              cssClass: makeCls([cssClass, classes[`${mainCls}${counterCls}`], 'counter']),
+            },
+          );
+        default:
+          return cloneElement(
+            el, {
+              key: role,
+            },
+          );
+      }
+    },
+  );
   const contents = children.map(
     (el) => {
       const {
@@ -117,7 +160,6 @@ const Gallery = ({
               key="slider"
               className={makeCls([cssClass, classes[`${mainCls}${sliderCls}`]])}
               style={{
-                width: setSizeMeasureUnit(size.w),
                 height: setSizeMeasureUnit(size.h),
               }}
             >
@@ -126,7 +168,6 @@ const Gallery = ({
                   el, {
                     ui,
                     move,
-                    size,
                     loop,
                     theme,
                     passCurrent: sliderCurrent,
@@ -159,8 +200,14 @@ const Gallery = ({
               cssClass: makeCls([cssClass, classes[`${mainCls}${counterCls}`], 'counter']),
             },
           );
-        case 'button-counter-button':
-          return null;
+        case 'controls':
+          return cloneElement(
+            el, {
+              key: role,
+              cssClass: makeCls([cssClass, classes[`${mainCls}${controlsCls}`], 'controls']),
+              children: controls(el.props.children),
+            },
+          );
         default:
           return cloneElement(
             el, {
