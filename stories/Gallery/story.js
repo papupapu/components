@@ -8,6 +8,7 @@ import Image from '../Atoms/Image';
 import YTVideo from '../Atoms/YTVideo';
 import Button from '../Atoms/Button';
 import Icon from '../Atoms/Icon';
+import Panel from '../Atoms/Panel';
 
 import UI from '../Utils/UI';
 
@@ -119,7 +120,7 @@ export const main = () => {
       <Button role="prevButton">
         prev
       </Button>
-      <div role="counter" />
+      <Panel role="counter" />
       <Button role="nextButton">
         next
       </Button>
@@ -139,7 +140,7 @@ export const themed = () => {
   return (
     <Gallery
       ui={ui}
-      cssClass="responsive"
+      size={{ w: 600, h: 400 }}
       loop
       theme={customtheme}
     >
@@ -155,7 +156,7 @@ export const themed = () => {
           height="30"
         />
       </Button>
-      <div role="counter" />
+      <Panel role="counter" />
       <Button role="nextButton">
         <Icon
           name="next"

@@ -1,6 +1,6 @@
 import React, { cloneElement, isValidElement } from 'react';
 
-import Slide from '../Atoms/Panel';
+import Slide from '../Atoms/Panel/memoized';
 
 import makeCls from '../Utils/makeCls';
 import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';

@@ -15,6 +15,7 @@ import styles, {
   mainCls,
   sliderCls,
   buttonCls,
+  counterCls,
 } from './style';
 
 const useStyles = createUseStyles(styles);
@@ -155,8 +156,11 @@ const Gallery = ({
             el, {
               key: role,
               children: <p>{`${current}/`}</p>,
+              cssClass: makeCls([cssClass, classes[`${mainCls}${counterCls}`], 'counter']),
             },
           );
+        case 'button-counter-button':
+          return null;
         default:
           return cloneElement(
             el, {

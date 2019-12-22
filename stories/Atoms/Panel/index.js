@@ -1,8 +1,7 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 
-import isEqual from '../../Utils/isEqual';
 import makeCls from '../../Utils/makeCls';
 
 import styles, {
@@ -10,13 +9,6 @@ import styles, {
 } from './style';
 
 const useStyles = createUseStyles(styles);
-
-const panelPropsCheck = (
-  prevPanelProps,
-  nextPanelProps,
-) => prevPanelProps.cssClass === nextPanelProps.cssClass
-  && isEqual(prevPanelProps.styleObj, nextPanelProps.styleObj)
-  && prevPanelProps.loaded === nextPanelProps.loaded;
 
 const propTypes = {
   cssClass: PropTypes.string,
@@ -55,4 +47,4 @@ const Panel = ({
 };
 Panel.propTypes = propTypes;
 Panel.defaultProps = defaultProps;
-export default memo(Panel, panelPropsCheck);
+export default Panel;
