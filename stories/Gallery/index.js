@@ -1,15 +1,16 @@
 import React, {
   useState,
+  useEffect,
   useContext,
-  cloneElement,
 } from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 
 import GalleryTheme from '../Utils/theme';
 
+import createContents from './helpers';
+
 import makeCls from '../Utils/makeCls';
-import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';
 
 import styles, {
   mainCls,
@@ -94,6 +95,7 @@ const Gallery = ({
   const classes = useStyles(styleTheme);
   const [current, setCurrent] = useState(1);
   const [move, setMove] = useState({ prev: false, next: false });
+
   const prevSlide = () => {
     setMove({ prev: true, next: false });
   };
@@ -105,118 +107,25 @@ const Gallery = ({
     setMove({ prev: false, next: false });
   };
 
-  const controls = (elements) => elements.map(
-    (el) => {
-      const {
-        props: {
-          role,
-        },
-      } = el;
-      switch (role) {
-        case 'prevButton':
-          return cloneElement(
-            el, {
-              key: role,
-              cssClass: makeCls([cssClass, classes[`${mainCls}${buttonCls}`], 'prev']),
-              action: prevSlide,
-            },
-          );
-        case 'nextButton':
-          return cloneElement(
-            el, {
-              key: role,
-              cssClass: makeCls([cssClass, classes[`${mainCls}${buttonCls}`], 'next']),
-              action: nextSlide,
-            },
-          );
-        case 'counter':
-          return cloneElement(
-            el, {
-              key: role,
-              children: <p>{`${current}/`}</p>,
-              cssClass: makeCls([cssClass, classes[`${mainCls}${counterCls}`], 'counter']),
-            },
-          );
-        default:
-          return cloneElement(
-            el, {
-              key: role,
-            },
-          );
-      }
-    },
-  );
-  const contents = children.map(
-    (el) => {
-      const {
-        props: {
-          role,
-        },
-      } = el;
-      switch (role) {
-        case 'slider':
-          return (
-            <div
-              key="slider"
-              className={makeCls([cssClass, classes[`${mainCls}${sliderCls}`]])}
-              style={{
-                height: setSizeMeasureUnit(size.h),
-              }}
-            >
-              {
-                cloneElement(
-                  el, {
-                    ui,
-                    move,
-                    loop,
-                    theme,
-                    passCurrent: sliderCurrent,
-                  },
-                )
-              }
-            </div>
-          );
-        case 'prevButton':
-          return cloneElement(
-            el, {
-              key: role,
-              cssClass: makeCls([cssClass, classes[`${mainCls}${buttonCls}`], 'prev']),
-              action: prevSlide,
-            },
-          );
-        case 'nextButton':
-          return cloneElement(
-            el, {
-              key: role,
-              cssClass: makeCls([cssClass, classes[`${mainCls}${buttonCls}`], 'next']),
-              action: nextSlide,
-            },
-          );
-        case 'counter':
-          return cloneElement(
-            el, {
-              key: role,
-              children: <p>{`${current}/`}</p>,
-              cssClass: makeCls([cssClass, classes[`${mainCls}${counterCls}`], 'counter']),
-            },
-          );
-        case 'controls':
-          return cloneElement(
-            el, {
-              key: role,
-              cssClass: makeCls([cssClass, classes[`${mainCls}${controlsCls}`], 'controls']),
-              children: controls(el.props.children),
-            },
-          );
-        default:
-          return cloneElement(
-            el, {
-              key: role,
-            },
-          );
-      }
-    },
-  );
+  const contents = createContents({
+    components: children,
+    cssClass,
+    classes,
+    sliderCls,
+    buttonCls,
+    counterCls,
+    controlsCls,
+    current,
+    move,
+    ui,
+    size,
+    loop,
+    theme,
+    prevSlide,
+    nextSlide,
+    sliderCurrent,
+  });
+
   return (
     <div className={makeCls([cssClass, classes[mainCls]])}>
       {contents}

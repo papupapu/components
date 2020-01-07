@@ -151,7 +151,7 @@ export const main = () => {
       size={{ w: 600, h: 400 }}
       loop
     >
-      <h1 role="title">Gallery</h1>
+      <h1>Gallery</h1>
       <Slider role="slider">
         {sliderContents(slides)}
       </Slider>
@@ -164,8 +164,6 @@ export const main = () => {
       </Button>
       <dl role="todolist">
         <dt>TODO</dt>
-        <dd>- Gallery counter: extract total</dd>
-        <dd>- Gallery refine contents creation</dd>
         <dd>- Gallery styles: experiment responsive</dd>
         <dd>- Gallery styles: find how to conveniently compute Slider height</dd>
         <dd>- Gallery: videos, 360 pics must have prev/next buttons</dd>
@@ -184,6 +182,10 @@ export const themed = () => {
     <Gallery
       ui={ui}
       size={{ w: 600, h: 400 }}
+      sizes={{
+        gallery: { w: 600, h: 400 },
+        controls: { h: 70 },
+      }}
       loop
       theme={customtheme}
     >
@@ -192,9 +194,7 @@ export const themed = () => {
       >
         {sliderContents(slides)}
       </Slider>
-      <Panel
-        role="controls"
-      >
+      <Panel role="controls">
         <Button role="prevButton">
           <Icon
             name="previous"
@@ -224,9 +224,7 @@ export const themed2 = () => {
       loop
       theme={customtheme2}
     >
-      <Panel
-        role="controls"
-      >
+      <Panel role="controls">
         <Panel role="counter" />
         <Button
           role="prevButton"
@@ -247,6 +245,46 @@ export const themed2 = () => {
             height="30"
           />
         </Button>
+      </Panel>
+      <Slider
+        role="slider"
+      >
+        {sliderContents(slides)}
+      </Slider>
+    </Gallery>
+  );
+};
+
+export const themed3 = () => {
+  const ui = UI();
+  return (
+    <Gallery
+      ui={ui}
+      size={{ w: 600, h: 400 }}
+      loop
+      theme={customtheme2}
+    >
+      <Panel role="controls">
+        <Button role="prevButton">
+          <Icon
+            name="previous"
+            width="30"
+            height="30"
+          />
+        </Button>
+        <Button
+          role="nextButton"
+          styleObj={{
+            marginRight: 'auto',
+          }}
+        >
+          <Icon
+            name="next"
+            width="30"
+            height="30"
+          />
+        </Button>
+        <Panel role="counter" />
       </Panel>
       <Slider
         role="slider"
