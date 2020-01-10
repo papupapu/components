@@ -19,12 +19,14 @@ const propTypes = {
     PropTypes.node,
     PropTypes.func,
   ]).isRequired,
+  forwardRef: PropTypes.instanceOf(Object),
 };
 
 const defaultProps = {
   cssClass: null,
   styleObj: {},
   loaded: true,
+  forwardRef: null,
 };
 
 const Panel = ({
@@ -32,12 +34,13 @@ const Panel = ({
   styleObj,
   loaded,
   children,
+  forwardRef,
 }) => {
   const classes = useStyles();
-
   const className = makeCls([classes[mainCls], cssClass]);
   return (
     <div
+      ref={forwardRef || null}
       className={className}
       style={styleObj}
     >

@@ -6,7 +6,7 @@ import icons from './icons';
 
 import makeCls from '../../Utils/makeCls';
 import makeStyle from '../../Utils/makeStyle';
-import setSizeMeasureUnit from '../../Utils/setSizeMeasureUnit';
+import { addSizeMeasureUnit } from '../../Utils/sizeMeasureUnits';
 
 import styles, {
   mainCls,
@@ -53,8 +53,8 @@ const Icon = ({
     styleObj,
     [
       {
-        width: setSizeMeasureUnit(width),
-        height: setSizeMeasureUnit(height),
+        width: addSizeMeasureUnit(width),
+        height: addSizeMeasureUnit(height),
       },
       true,
     ],

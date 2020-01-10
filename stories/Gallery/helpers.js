@@ -1,7 +1,10 @@
 import React, { cloneElement } from 'react';
 
 import makeCls from '../Utils/makeCls';
-import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';
+import {
+  addSizeMeasureUnit,
+  removeSizeMeasureUnit,
+} from '../Utils/sizeMeasureUnits';
 import { isObject } from '../Utils/validvars';
 
 import {
@@ -11,6 +14,57 @@ import {
   counterCls,
   controlsCls,
 } from './style';
+
+const extractParsedSizesFromStyle = (styleDefinition) => {
+  const parts = styleDefinition.split(' ').map((part) => removeSizeMeasureUnit(part));
+  if (parts.length === 1) {
+    return {
+      top: parts[0],
+      right: parts[0],
+      bottom: parts[0],
+      left: parts[0],
+    };
+  }
+  if (parts.length === 2) {
+    return {
+      top: parts[0],
+      right: parts[1],
+      bottom: parts[0],
+      left: parts[1],
+    };
+  }
+  if (parts.length === 3) {
+    return {
+      top: parts[0],
+      right: parts[1],
+      bottom: parts[2],
+      left: parts[1],
+    };
+  }
+  if (parts.length === 4) {
+    return {
+      top: parts[0],
+      right: parts[1],
+      bottom: parts[2],
+      left: parts[3],
+    };
+  }
+  return {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  };
+};
+
+export const getGuttersSize = (galleryPadding, galleryControlsMargin) => {
+  const parsedGalleryPadding = extractParsedSizesFromStyle(galleryPadding);
+  const parsedGalleryControlsMargin = extractParsedSizesFromStyle(galleryControlsMargin);
+  return {
+    parsedGalleryPadding,
+    parsedGalleryControlsMargin,
+  };
+};
 
 const getArgs = (props, el, required) => {
   const args = {};
@@ -51,7 +105,7 @@ const createSlider = (props) => {
       key="slider"
       className={makeCls([cssClass, classes[`${mainCls}${sliderCls}`]])}
       style={{
-        height: setSizeMeasureUnit(size.h),
+        height: addSizeMeasureUnit(size.h),
       }}
     >
       {
@@ -135,10 +189,12 @@ const createControls = (props) => {
     prevSlide,
     nextSlide,
     conf,
+    controls,
   } = props;
   return cloneElement(
     component, {
       key: role,
+      forwardRef: controls,
       cssClass: makeCls([cssClass, classes[`${mainCls}${controlsCls}`], role]),
       children: controlsItems({
         components: component.props.children,
@@ -204,11 +260,12 @@ const createConf = {
       'totSlides',
       'prevSlide',
       'nextSlide',
+      'controls',
     ],
   },
 };
 
-const createContents = (props) => {
+export const createContents = (props) => {
   const elements = props.components.map((child) => ({ role: child.props.role, component: child }));
   const totSlides = elements.filter((el) => el.role === 'slider')[0].component.props.children.length;
   const propsForArgs = { ...props, ...{ totSlides } };
@@ -224,5 +281,3 @@ const createContents = (props) => {
   );
   return contents;
 };
-
-export default createContents;

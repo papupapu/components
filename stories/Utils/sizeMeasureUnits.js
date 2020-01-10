@@ -35,7 +35,7 @@ const endsWithMeasureUnit = (value, unit) => {
   * - if size is a string and it does not end with a measure unit
   *   check if it is a number before adding the desidered measure unit
 */
-export default (size, unit = null) => {
+export const addSizeMeasureUnit = (size, unit = null) => {
   if (isValidVar(size)) {
     /**
      * if unit is not defined, apply the default measure unit specified in configuration
@@ -61,6 +61,21 @@ export default (size, unit = null) => {
        * otherwise, add the measure unit
       */
       return `${size}${defaultUnit}`;
+    }
+  }
+  return null;
+};
+
+export const removeSizeMeasureUnit = (size) => {
+  if (isValidVar(size)) {
+    if (typeof size === 'number') {
+      return size;
+    }
+    if (typeof size === 'string') {
+      if (endsWithMeasureUnit(size, validMeasureUnits)) {
+        return parseInt(size.replace(validMeasureUnits, ''), 10);
+      }
+      return parseInt(size, 10);
     }
   }
   return null;

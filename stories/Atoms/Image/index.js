@@ -9,7 +9,7 @@ import Spinner from '../Spinner';
 
 import makeCls from '../../Utils/makeCls';
 import makeStyle from '../../Utils/makeStyle';
-import setSizeMeasureUnit from '../../Utils/setSizeMeasureUnit';
+import { addSizeMeasureUnit } from '../../Utils/sizeMeasureUnits';
 
 import styles, {
   mainCls,
@@ -77,8 +77,8 @@ const Image = ({
   if (isBroken) {
     const brokenClassName = makeCls([classes[mainCls], 'error', cssClass]);
     const brokenStyle = makeStyle({
-      width: setSizeMeasureUnit(width) || '100%',
-      height: setSizeMeasureUnit(height) || '100%',
+      width: addSizeMeasureUnit(width) || '100%',
+      height: addSizeMeasureUnit(height) || '100%',
     });
     const errorCode = link ? (
       <Link
@@ -114,8 +114,8 @@ const Image = ({
       <img
         src={src}
         alt={alt}
-        width={setSizeMeasureUnit(width)}
-        height={setSizeMeasureUnit(height)}
+        width={addSizeMeasureUnit(width)}
+        height={addSizeMeasureUnit(height)}
         className={className}
         style={style}
         onLoad={onLoadAction}
@@ -153,8 +153,8 @@ const Image = ({
           cssClass={!isLoaded ? 'loading' : null}
           styleObj={{
             position: 'relative',
-            width: setSizeMeasureUnit(width) || '100%',
-            height: setSizeMeasureUnit(height) || '100%',
+            width: addSizeMeasureUnit(width) || '100%',
+            height: addSizeMeasureUnit(height) || '100%',
           }}
         >
           {code}

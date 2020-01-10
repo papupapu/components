@@ -11,7 +11,7 @@ import SliderTheme from '../Utils/theme';
 
 import makeCls from '../Utils/makeCls';
 import makeStyle from '../Utils/makeStyle';
-import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';
+import { addSizeMeasureUnit } from '../Utils/sizeMeasureUnits';
 import { isValidString } from '../Utils/validvars';
 import {
   disableScroll,
@@ -203,7 +203,6 @@ const Slider = ({
             w: sliderMainElement.current.parentNode.offsetWidth,
             h: sliderMainElement.current.parentNode.offsetHeight,
           };
-
         /**
          * in case the size prop is defined, let's stick with that
          */
@@ -250,8 +249,8 @@ const Slider = ({
     classes[mainCls],
   ]);
   const sliderStyle = makeStyle({
-    width: setSizeMeasureUnit(computedSizes.width),
-    height: setSizeMeasureUnit(computedSizes.height),
+    width: addSizeMeasureUnit(computedSizes.width),
+    height: addSizeMeasureUnit(computedSizes.height),
   });
   /**
    * create Slider css classname and
@@ -262,9 +261,9 @@ const Slider = ({
     isValidString(moveState.dir) && moveState.dir !== 'loop' && 'deletePointerEvents',
   ]);
   const carouselStyle = makeStyle({
-    width: setSizeMeasureUnit(computedSizes.carouselWidth),
-    height: setSizeMeasureUnit(computedSizes.height),
-    transform: `translate3d(${setSizeMeasureUnit(moveState.carouselCoords)}, 0, 0)`,
+    width: addSizeMeasureUnit(computedSizes.carouselWidth),
+    height: addSizeMeasureUnit(computedSizes.height),
+    transform: `translate3d(${addSizeMeasureUnit(moveState.carouselCoords)}, 0, 0)`,
     /**
      * if either the user is dragging Slider or Slider has to adjust it's coordinates
      * because of looping or reacting to viewport changes, the css transition is set to none

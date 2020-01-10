@@ -3,7 +3,7 @@ import React, { cloneElement, isValidElement } from 'react';
 import Slide from '../Atoms/Panel/memoized';
 
 import makeCls from '../Utils/makeCls';
-import setSizeMeasureUnit from '../Utils/setSizeMeasureUnit';
+import { addSizeMeasureUnit } from '../Utils/sizeMeasureUnits';
 
 /**
   * @desc compute Slide to be shown on mount
@@ -207,8 +207,8 @@ const createSingleSlide = (props) => {
      * set up Slide style
      */
     const slideStyle = {
-      width: setSizeMeasureUnit(slideSize.width),
-      height: setSizeMeasureUnit(slideSize.height),
+      width: addSizeMeasureUnit(slideSize.width),
+      height: addSizeMeasureUnit(slideSize.height),
     };
     switch (type) {
       /**
@@ -225,7 +225,7 @@ const createSingleSlide = (props) => {
          */
         customStyleObj = {
           width: slideStyle.width,
-          height: setSizeMeasureUnit(Math.round(slideSize.width / 1.77)),
+          height: addSizeMeasureUnit(Math.round(slideSize.width / 1.77)),
           maxHeight: slideStyle.height,
         };
         /**

@@ -158,21 +158,57 @@ export const main = () => {
       <Button role="prevButton">
         prev
       </Button>
-      <Panel role="counter" />
+      <Panel role="counter"><p /></Panel>
       <Button role="nextButton">
         next
       </Button>
-      <dl role="todolist">
+      <dl>
         <dt>TODO</dt>
-        <dd>- Gallery styles: experiment responsive</dd>
-        <dd>- Gallery styles: find how to conveniently compute Slider height</dd>
+        <dd>- Gallery: responsive - synch ui change with sizes computing</dd>
+        <dd>- Gallery: responsive - could behaviour be smoother?</dd>
         <dd>- Gallery: videos, 360 pics must have prev/next buttons</dd>
-        <dd>- optimize youtube preview link</dd>
-        <dd>- comment Gallery / Atoms / Utils/theme</dd>
-        <dd>- Theming: possibly separate child components defs</dd>
-        <dd>- different Slider types (centered / 75% of slider width)</dd>
+        <dd>- YTVideo: optimize preview link</dd>
+        <dd>- Gallery / Atoms / Utils: comment code!</dd>
+        <dd>- Theme: possibly separate child components defs</dd>
+        <dd>- Slider: allow different ux types (centered / 75% of slider width)</dd>
       </dl>
     </Gallery>
+  );
+};
+
+export const responsive = () => {
+  const ui = UI();
+  return (
+    <div className="galleryResponsiveContainer">
+      <Gallery
+        ui={ui}
+        loop
+        theme={customtheme}
+      >
+        <Slider
+          role="slider"
+        >
+          {sliderContents(slides)}
+        </Slider>
+        <Panel role="controls">
+          <Button role="prevButton">
+            <Icon
+              name="previous"
+              width="30"
+              height="30"
+            />
+          </Button>
+          <Panel role="counter"><p /></Panel>
+          <Button role="nextButton">
+            <Icon
+              name="next"
+              width="30"
+              height="30"
+            />
+          </Button>
+        </Panel>
+      </Gallery>
+    </div>
   );
 };
 
@@ -182,10 +218,6 @@ export const themed = () => {
     <Gallery
       ui={ui}
       size={{ w: 600, h: 400 }}
-      sizes={{
-        gallery: { w: 600, h: 400 },
-        controls: { h: 70 },
-      }}
       loop
       theme={customtheme}
     >
@@ -202,7 +234,7 @@ export const themed = () => {
             height="30"
           />
         </Button>
-        <Panel role="counter" />
+        <Panel role="counter"><p /></Panel>
         <Button role="nextButton">
           <Icon
             name="next"
@@ -225,7 +257,7 @@ export const themed2 = () => {
       theme={customtheme2}
     >
       <Panel role="controls">
-        <Panel role="counter" />
+        <Panel role="counter"><p /></Panel>
         <Button
           role="prevButton"
           styleObj={{
@@ -284,7 +316,7 @@ export const themed3 = () => {
             height="30"
           />
         </Button>
-        <Panel role="counter" />
+        <Panel role="counter"><p /></Panel>
       </Panel>
       <Slider
         role="slider"

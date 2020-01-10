@@ -1,5 +1,6 @@
 import React, {
   useState,
+  useRef,
   useEffect,
   useContext,
 } from 'react';
@@ -8,7 +9,7 @@ import { createUseStyles } from 'react-jss';
 
 import GalleryTheme from '../Utils/theme';
 
-import createContents from './helpers';
+import * as helpers from './helpers';
 
 import makeCls from '../Utils/makeCls';
 
@@ -93,8 +94,11 @@ const Gallery = ({
 }) => {
   const styleTheme = useContext(GalleryTheme(theme));
   const classes = useStyles(styleTheme);
+  const gallery = useRef(null);
+  const controls = useRef(null);
   const [current, setCurrent] = useState(1);
   const [move, setMove] = useState({ prev: false, next: false });
+  const [sizeToUse, setSizeToUse] = useState(size);
 
   const prevSlide = () => {
     setMove({ prev: true, next: false });
@@ -107,7 +111,32 @@ const Gallery = ({
     setMove({ prev: false, next: false });
   };
 
-  const contents = createContents({
+  useEffect(
+    () => {
+      if (
+        !Object.keys(size).length
+        && children.find((child) => child.props.role === 'controls')
+      ) {
+        const guttersSize = helpers.getGuttersSize(
+          styleTheme.galleryPadding,
+          styleTheme.galleryControlsMargin,
+        );
+        setSizeToUse({
+          w: gallery.current.offsetWidth
+          - guttersSize.parsedGalleryPadding.right
+          - guttersSize.parsedGalleryPadding.left,
+          h: gallery.current.offsetHeight
+          - controls.current.offsetHeight
+          - guttersSize.parsedGalleryPadding.top
+          - guttersSize.parsedGalleryPadding.bottom
+          - guttersSize.parsedGalleryControlsMargin.top
+          - guttersSize.parsedGalleryControlsMargin.bottom,
+        });
+      }
+    }, [size, children, ui, styleTheme],
+  );
+
+  const contents = helpers.createContents({
     components: children,
     cssClass,
     classes,
@@ -118,16 +147,19 @@ const Gallery = ({
     current,
     move,
     ui,
-    size,
+    size: sizeToUse,
     loop,
     theme,
     prevSlide,
     nextSlide,
     sliderCurrent,
+    controls,
   });
-
   return (
-    <div className={makeCls([cssClass, classes[mainCls]])}>
+    <div
+      ref={gallery}
+      className={makeCls([cssClass, classes[mainCls]])}
+    >
       {contents}
     </div>
   );

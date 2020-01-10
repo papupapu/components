@@ -11,7 +11,7 @@ import Icon from '../Icon';
 import makeCls from '../../Utils/makeCls';
 import makeStyle from '../../Utils/makeStyle';
 import loadScript from '../../Utils/loadScript';
-import setSizeMeasureUnit from '../../Utils/setSizeMeasureUnit';
+import { addSizeMeasureUnit } from '../../Utils/sizeMeasureUnits';
 
 import * as constants from './constants';
 
@@ -131,8 +131,8 @@ const YTVideo = ({
       <Image
         src={`${constants.YTVideoImgUri}${ytvideoid}${constants.YTVideoImgName}`}
         alt={alt}
-        width={setSizeMeasureUnit(width)}
-        height={setSizeMeasureUnit(height)}
+        width={addSizeMeasureUnit(width)}
+        height={addSizeMeasureUnit(height)}
         cssClass={cls}
         loadingIcon="movie"
         styleObj={style}

@@ -2,7 +2,9 @@
   box-sizing: border-box;
 }
 
-.responsive{
+body{margin:0; padding:0;}
+
+.galleryResponsiveContainer{
   position:absolute;
   top:0; left: 0;
   width: 100vw;
@@ -10,7 +12,7 @@
 }
 
 @media only screen and (min-width:768px) {
-  .responsive{
+  .galleryResponsiveContainer{
     position:relative; top: auto; left: auto;
     margin:0 auto;
     width: calc(100vw - 40px);
@@ -19,7 +21,7 @@
 }
 
 @media only screen and (min-width:1024px) {
-  .responsive{
+  .galleryResponsiveContainer{
     width: 1000px;
     height: 600px;
   }
