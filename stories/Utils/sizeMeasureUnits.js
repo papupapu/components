@@ -27,7 +27,8 @@ const endsWithMeasureUnit = (value, unit) => {
   * @param {number || string} size size value to handle
   * @param {string} unit optional - the supposed measure unit to apply
   *
-  * @returns {string} size value with the desidered measure unit
+  * @returns {string || null} size value with the desidered measure unit
+  *                           || null (it's up to who invokes the method to handle null)
   *
   * TODO:
   * - if size is a string and it ends with a measure unit
@@ -66,16 +67,42 @@ export const addSizeMeasureUnit = (size, unit = null) => {
   return null;
 };
 
+/**
+  * @desc ensure a size value is a number
+  *
+  * @param {number || string} size size value to handle
+  *
+  * @returns {number|| null} size value as number
+  *                          || null (it's up to who invokes the method to handle null)
+  *
+  * TODO:
+  * - if size is a string and it does not end with a measure unit
+  *   check if it is a number before adding the desidered measure unit
+*/
 export const removeSizeMeasureUnit = (size) => {
   if (isValidVar(size)) {
+    /**
+     * if size is a number, return it
+     */
     if (typeof size === 'number') {
       return size;
     }
+    /**
+     * if size is a string
+     */
     if (typeof size === 'string') {
+      /**
+       * check if it ends with a valid measure unit and in case:
+       * - strip the measure unit
+       * - return it as number
+      */
       if (endsWithMeasureUnit(size, validMeasureUnits)) {
-        return parseInt(size.replace(validMeasureUnits, ''), 10);
+        return parseFloat(size.replace(validMeasureUnits, ''), 10);
       }
-      return parseInt(size, 10);
+      /**
+       * otherwise return it as number
+      */
+      return parseFloat(size, 10);
     }
   }
   return null;

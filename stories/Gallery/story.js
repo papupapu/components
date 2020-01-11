@@ -190,6 +190,25 @@ export const responsive = () => {
         >
           {sliderContents(slides)}
         </Slider>
+      </Gallery>
+    </div>
+  );
+};
+
+export const responsiveWC = () => {
+  const ui = UI();
+  return (
+    <div className="galleryResponsiveContainer">
+      <Gallery
+        ui={ui}
+        loop
+        theme={customtheme}
+      >
+        <Slider
+          role="slider"
+        >
+          {sliderContents(slides)}
+        </Slider>
         <Panel role="controls">
           <Button role="prevButton">
             <Icon
@@ -211,6 +230,7 @@ export const responsive = () => {
     </div>
   );
 };
+
 
 export const themed = () => {
   const ui = UI();

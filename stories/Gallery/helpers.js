@@ -2,10 +2,13 @@ import React, { cloneElement } from 'react';
 
 import makeCls from '../Utils/makeCls';
 import {
+  isArray,
+  isObject,
+} from '../Utils/validvars';
+import {
   addSizeMeasureUnit,
   removeSizeMeasureUnit,
 } from '../Utils/sizeMeasureUnits';
-import { isObject } from '../Utils/validvars';
 
 import {
   mainCls,
@@ -15,8 +18,8 @@ import {
   controlsCls,
 } from './style';
 
-const extractParsedSizesFromStyle = (styleDefinition) => {
-  const parts = styleDefinition.split(' ').map((part) => removeSizeMeasureUnit(part));
+const measuresFromMarginPaddingCssString = (cssString) => {
+  const parts = cssString.split(' ').map((part) => removeSizeMeasureUnit(part) || 0);
   if (parts.length === 1) {
     return {
       top: parts[0],
@@ -57,12 +60,12 @@ const extractParsedSizesFromStyle = (styleDefinition) => {
   };
 };
 
-export const getGuttersSize = (galleryPadding, galleryControlsMargin) => {
-  const parsedGalleryPadding = extractParsedSizesFromStyle(galleryPadding);
-  const parsedGalleryControlsMargin = extractParsedSizesFromStyle(galleryControlsMargin);
+export const getGuttersSize = (galleryPaddingCssString, controlsMarginCssString) => {
+  const galleryPaddingMeasures = measuresFromMarginPaddingCssString(galleryPaddingCssString);
+  const controlsMarginMeasures = measuresFromMarginPaddingCssString(controlsMarginCssString);
   return {
-    parsedGalleryPadding,
-    parsedGalleryControlsMargin,
+    galleryPadding: galleryPaddingMeasures,
+    controlsMargin: controlsMarginMeasures,
   };
 };
 
@@ -189,12 +192,12 @@ const createControls = (props) => {
     prevSlide,
     nextSlide,
     conf,
-    controls,
+    controlsRef,
   } = props;
   return cloneElement(
     component, {
       key: role,
-      forwardRef: controls,
+      forwardRef: controlsRef,
       cssClass: makeCls([cssClass, classes[`${mainCls}${controlsCls}`], role]),
       children: controlsItems({
         components: component.props.children,
@@ -260,23 +263,30 @@ const createConf = {
       'totSlides',
       'prevSlide',
       'nextSlide',
-      'controls',
+      'controlsRef',
     ],
   },
 };
 
+const contentElementConfiguration = (contentElement) => ({
+  role: contentElement.props.role,
+  component: contentElement,
+});
+
 export const createContents = (props) => {
-  const elements = props.components.map((child) => ({ role: child.props.role, component: child }));
-  const totSlides = elements.filter((el) => el.role === 'slider')[0].component.props.children.length;
+  const components = isArray(props.components)
+    ? props.components.map((child) => contentElementConfiguration(child))
+    : [contentElementConfiguration(props.components)];
+  const totSlides = components.filter((el) => el.role === 'slider')[0].component.props.children.length;
   const propsForArgs = { ...props, ...{ totSlides } };
-  const contents = elements.map(
-    (el) => {
-      const createMethod = el.role in createConf ? createConf[el.role].method : null;
+  const contents = components.map(
+    (uiElement) => {
+      const createMethod = uiElement.role in createConf ? createConf[uiElement.role].method : null;
       if (createMethod && typeof createMethod === 'function') {
-        const args = getArgs(propsForArgs, el, createConf[el.role].args);
+        const args = getArgs(propsForArgs, uiElement, createConf[uiElement.role].args);
         return createMethod({ ...args, ...{ conf: createConf } });
       }
-      return el.component;
+      return uiElement.component;
     },
   );
   return contents;

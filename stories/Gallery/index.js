@@ -20,6 +20,7 @@ import styles, {
   counterCls,
   controlsCls,
 } from './style';
+import { isArray } from '../Utils/validvars';
 
 const useStyles = createUseStyles(styles);
 
@@ -95,7 +96,7 @@ const Gallery = ({
   const styleTheme = useContext(GalleryTheme(theme));
   const classes = useStyles(styleTheme);
   const gallery = useRef(null);
-  const controls = useRef(null);
+  const controlsRef = useRef(null);
   const [current, setCurrent] = useState(1);
   const [move, setMove] = useState({ prev: false, next: false });
   const [sizeToUse, setSizeToUse] = useState(size);
@@ -115,22 +116,30 @@ const Gallery = ({
     () => {
       if (
         !Object.keys(size).length
-        && children.find((child) => child.props.role === 'controls')
+        && (
+          isArray(children)
+          && children.find((child) => child.props.role === 'controls')
+        )
       ) {
-        const guttersSize = helpers.getGuttersSize(
+        const {
+          galleryPadding,
+          controlsMargin,
+        } = helpers.getGuttersSize(
           styleTheme.galleryPadding,
           styleTheme.galleryControlsMargin,
         );
         setSizeToUse({
-          w: gallery.current.offsetWidth
-          - guttersSize.parsedGalleryPadding.right
-          - guttersSize.parsedGalleryPadding.left,
-          h: gallery.current.offsetHeight
-          - controls.current.offsetHeight
-          - guttersSize.parsedGalleryPadding.top
-          - guttersSize.parsedGalleryPadding.bottom
-          - guttersSize.parsedGalleryControlsMargin.top
-          - guttersSize.parsedGalleryControlsMargin.bottom,
+          w:
+            gallery.current.offsetWidth
+            - galleryPadding.right
+            - galleryPadding.left,
+          h:
+            gallery.current.offsetHeight
+            - controlsRef.current.offsetHeight
+            - galleryPadding.top
+            - galleryPadding.bottom
+            - controlsMargin.top
+            - controlsMargin.bottom,
         });
       }
     }, [size, children, ui, styleTheme],
@@ -153,7 +162,7 @@ const Gallery = ({
     prevSlide,
     nextSlide,
     sliderCurrent,
-    controls,
+    controlsRef,
   });
   return (
     <div
