@@ -119,7 +119,7 @@ const YTVideo = ({
     setShowPLayer(true);
   };
 
-  const clb = () => setIsPreviewLoaded(true);
+  const previewImageLoadedClb = () => setIsPreviewLoaded(true);
 
   return !showPlayer ? (
     <Link
@@ -136,7 +136,7 @@ const YTVideo = ({
         cssClass={cls}
         loadingIcon="movie"
         styleObj={style}
-        isLoadedClb={clb}
+        isLoadedClb={previewImageLoadedClb}
       />
       {
         isPreviewLoaded

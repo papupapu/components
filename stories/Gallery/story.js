@@ -166,6 +166,7 @@ export const main = () => {
         <dt>TODO</dt>
         <dd>- Gallery: size prop...</dd>
         <dd>- Gallery: counter undefined child prop problem</dd>
+        <dd>- Gallery: lazyload should just print startAt panel at load (find convenient logic)</dd>
         <dd>- YTVideo: prev/next buttons must be available</dd>
         <dd>- YTVideo: optimize preview link</dd>
         <dd>- Gallery: dots navigator</dd>
@@ -180,7 +181,7 @@ export const main = () => {
           - Gallery: responsive - behaviour now smooth,
           is it possible to work on UI debounce timing + some kind of trick to optimize?
         </dd>
-        <dd>- Slider: allow different ux types (centered / 75% of slider width)</dd>
+        <dd>- Slider: allow different ux types (centered / 75% of slid  er width)</dd>
       </dl>
     </Gallery>
   );
