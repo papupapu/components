@@ -125,7 +125,7 @@ export default () => {
        * listen to window resize event to update ui values
        * apply debounce to avoid capturing the event every single time it fires
       */
-      const debouncedComputeUI = debounce(() => { computeUI(); }, 300);
+      const debouncedComputeUI = debounce(() => { computeUI(); }, 35);
       window.addEventListener('resize', debouncedComputeUI);
       return () => {
         window.removeEventListener('resize', debouncedComputeUI);

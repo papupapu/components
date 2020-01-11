@@ -164,40 +164,31 @@ export const main = () => {
       </Button>
       <dl>
         <dt>TODO</dt>
-        <dd>- Gallery: responsive - could behaviour be smoother</dd>
-        <dd>- Gallery: videos, 360 pics must have image title &amp; prev/next buttons</dd>
+        <dd>- Gallery: size prop...</dd>
+        <dd>- YTVideo: prev/next buttons must be available</dd>
         <dd>- YTVideo: optimize preview link</dd>
+        <dd>- Gallery: dots navigator</dd>
+        <dd>- Gallery: controls &amp; dots navigator should have an optional position prop</dd>
         <dd>- Gallery / Slider / Atoms / Utils: comment code!</dd>
+        <dd>- 360Pics - create component</dd>
+        <dt>PHASE 2</dt>
+        <dd>- Theme: explore media queries</dd>
         <dd>- Theme: possibly separate child components defs</dd>
+        <dd>- Theme: explore importing from different project</dd>
+        <dd>
+          - Gallery: responsive - behaviour now smooth,
+          is it possible to work on UI debounce timing + some kind of trick to optimize?
+        </dd>
         <dd>- Slider: allow different ux types (centered / 75% of slider width)</dd>
       </dl>
     </Gallery>
   );
 };
 
-export const responsive = () => {
+export const themed = () => {
   const ui = UI();
   return (
-    <div className="galleryResponsiveContainer">
-      <Gallery
-        ui={ui}
-        loop
-        theme={customtheme}
-      >
-        <Slider
-          role="slider"
-        >
-          {sliderContents(slides)}
-        </Slider>
-      </Gallery>
-    </div>
-  );
-};
-
-export const responsiveWC = () => {
-  const ui = UI();
-  return (
-    <div className="galleryResponsiveContainer">
+    <div style={{ height: '100vh' }}>
       <Gallery
         ui={ui}
         loop
@@ -230,118 +221,139 @@ export const responsiveWC = () => {
   );
 };
 
-
-export const themed = () => {
-  const ui = UI();
-  return (
-    <Gallery
-      ui={ui}
-      size={{ w: 600, h: 400 }}
-      loop
-      theme={customtheme}
-    >
-      <Slider
-        role="slider"
-      >
-        {sliderContents(slides)}
-      </Slider>
-      <Panel role="controls">
-        <Button role="prevButton">
-          <Icon
-            name="previous"
-            width="30"
-            height="30"
-          />
-        </Button>
-        <Panel role="counter"><p /></Panel>
-        <Button role="nextButton">
-          <Icon
-            name="next"
-            width="30"
-            height="30"
-          />
-        </Button>
-      </Panel>
-    </Gallery>
-  );
-};
-
 export const themed2 = () => {
   const ui = UI();
   return (
-    <Gallery
-      ui={ui}
-      size={{ w: 600, h: 400 }}
-      loop
-      theme={customtheme2}
-    >
-      <Panel role="controls">
-        <Panel role="counter"><p /></Panel>
-        <Button
-          role="prevButton"
-          styleObj={{
-            marginLeft: 'auto',
-          }}
-        >
-          <Icon
-            name="previous"
-            width="30"
-            height="30"
-          />
-        </Button>
-        <Button role="nextButton">
-          <Icon
-            name="next"
-            width="30"
-            height="30"
-          />
-        </Button>
-      </Panel>
-      <Slider
-        role="slider"
+    <div style={{ height: '100vh' }}>
+      <Gallery
+        ui={ui}
+        loop
+        theme={customtheme2}
       >
-        {sliderContents(slides)}
-      </Slider>
-    </Gallery>
+        <Panel role="controls">
+          <Panel role="counter"><p /></Panel>
+          <Button
+            role="prevButton"
+            styleObj={{
+              marginLeft: 'auto',
+            }}
+          >
+            <Icon
+              name="previous"
+              width="30"
+              height="30"
+            />
+          </Button>
+          <Button role="nextButton">
+            <Icon
+              name="next"
+              width="30"
+              height="30"
+            />
+          </Button>
+        </Panel>
+        <Slider
+          role="slider"
+        >
+          {sliderContents(slides)}
+        </Slider>
+      </Gallery>
+    </div>
   );
 };
 
 export const themed3 = () => {
   const ui = UI();
   return (
-    <Gallery
-      ui={ui}
-      size={{ w: 600, h: 400 }}
-      loop
-      theme={customtheme2}
-    >
-      <Panel role="controls">
-        <Button role="prevButton">
-          <Icon
-            name="previous"
-            width="30"
-            height="30"
-          />
-        </Button>
-        <Button
-          role="nextButton"
-          styleObj={{
-            marginRight: 'auto',
-          }}
-        >
-          <Icon
-            name="next"
-            width="30"
-            height="30"
-          />
-        </Button>
-        <Panel role="counter"><p /></Panel>
-      </Panel>
-      <Slider
-        role="slider"
+    <div style={{ height: '100vh' }}>
+      <Gallery
+        ui={ui}
+        loop
+        theme={customtheme2}
       >
-        {sliderContents(slides)}
-      </Slider>
-    </Gallery>
+        <Panel role="controls">
+          <Button role="prevButton">
+            <Icon
+              name="previous"
+              width="30"
+              height="30"
+            />
+          </Button>
+          <Button
+            role="nextButton"
+            styleObj={{
+              marginRight: 'auto',
+            }}
+          >
+            <Icon
+              name="next"
+              width="30"
+              height="30"
+            />
+          </Button>
+          <Panel role="counter"><p /></Panel>
+        </Panel>
+        <Slider
+          role="slider"
+        >
+          {sliderContents(slides)}
+        </Slider>
+      </Gallery>
+    </div>
+  );
+};
+
+export const insideContainer = () => {
+  const ui = UI();
+  return (
+    <div className="galleryResponsiveContainer">
+      <Gallery
+        ui={ui}
+        loop
+        theme={customtheme}
+      >
+        <Slider
+          role="slider"
+        >
+          {sliderContents(slides)}
+        </Slider>
+      </Gallery>
+    </div>
+  );
+};
+
+export const insideContainerWithControls = () => {
+  const ui = UI();
+  return (
+    <div className="galleryResponsiveContainer">
+      <Gallery
+        ui={ui}
+        loop
+        theme={customtheme}
+      >
+        <Slider
+          role="slider"
+        >
+          {sliderContents(slides)}
+        </Slider>
+        <Panel role="controls">
+          <Button role="prevButton">
+            <Icon
+              name="previous"
+              width="30"
+              height="30"
+            />
+          </Button>
+          <Panel role="counter"><p /></Panel>
+          <Button role="nextButton">
+            <Icon
+              name="next"
+              width="30"
+              height="30"
+            />
+          </Button>
+        </Panel>
+      </Gallery>
+    </div>
   );
 };
