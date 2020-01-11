@@ -165,6 +165,7 @@ export const main = () => {
       <dl>
         <dt>TODO</dt>
         <dd>- Gallery: size prop...</dd>
+        <dd>- Gallery: counter undefined child prop problem</dd>
         <dd>- YTVideo: prev/next buttons must be available</dd>
         <dd>- YTVideo: optimize preview link</dd>
         <dd>- Gallery: dots navigator</dd>
@@ -173,7 +174,7 @@ export const main = () => {
         <dd>- 360Pics - create component</dd>
         <dt>PHASE 2</dt>
         <dd>- Theme: explore media queries</dd>
-        <dd>- Theme: possibly separate child components defs</dd>
+        <dd>- Theme: separate child components defs? in case, how?</dd>
         <dd>- Theme: explore importing from different project</dd>
         <dd>
           - Gallery: responsive - behaviour now smooth,
