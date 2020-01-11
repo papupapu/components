@@ -164,11 +164,10 @@ export const main = () => {
       </Button>
       <dl>
         <dt>TODO</dt>
-        <dd>- Gallery: responsive - synch ui change with sizes computing</dd>
-        <dd>- Gallery: responsive - could behaviour be smoother?</dd>
-        <dd>- Gallery: videos, 360 pics must have prev/next buttons</dd>
+        <dd>- Gallery: responsive - could behaviour be smoother</dd>
+        <dd>- Gallery: videos, 360 pics must have image title &amp; prev/next buttons</dd>
         <dd>- YTVideo: optimize preview link</dd>
-        <dd>- Gallery / Atoms / Utils: comment code!</dd>
+        <dd>- Gallery / Slider / Atoms / Utils: comment code!</dd>
         <dd>- Theme: possibly separate child components defs</dd>
         <dd>- Slider: allow different ux types (centered / 75% of slider width)</dd>
       </dl>

@@ -115,6 +115,7 @@ const createSlider = (props) => {
         cloneElement(
           component, {
             ui,
+            size,
             move,
             loop,
             theme,

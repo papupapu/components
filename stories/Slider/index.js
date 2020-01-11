@@ -167,10 +167,47 @@ const Slider = ({
    */
   useEffect(
     () => {
-      /**
-       * in case the viewport has changed
-       */
       if (
+        Object.keys(size).length > 0
+        && (
+          currentSize.w !== size.w
+          || currentSize.h !== size.h
+        )
+      ) {
+        const newSize = {
+          w: size.w,
+          h: size.h,
+        };
+        /**
+         * set the new currentSize state
+        */
+        setCurrentSize(newSize);
+        /**
+          * set the new computedSize state
+          */
+        setComputeSizes(
+          helpers.getElementsSizes(newSize, children.length, loop),
+        );
+        /**
+          * adjust the coordinates of Slider
+        */
+        if (moveState.current !== 1) {
+          setMoveState({
+            ...moveState,
+            ...{
+              carouselCoords: helpers.carouselCoords(moveState.current, newSize.w),
+              /**
+                * set dir to 'loop' to reset the css transition while
+                * moving Slider to the correct coordinates
+              */
+              dir: 'loop',
+            },
+          });
+        }
+        /**
+         * in case the viewport has changed
+         */
+      } else if (
         uiState.viewport.width !== ui.viewport.width
         || uiState.viewport.height !== ui.viewport.height
       ) {
@@ -239,7 +276,7 @@ const Slider = ({
           });
         }
       }
-    }, [fullscreen, size, children.length, loop, ui, uiState, moveState],
+    }, [fullscreen, size, currentSize, children.length, loop, ui, uiState, moveState],
   );
   /**
    * create Slider css classname and
